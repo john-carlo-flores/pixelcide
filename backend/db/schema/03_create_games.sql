@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS games CASCADE;
+
+-- CREATE GAME
+CREATE TABLE games (
+  id SERIAL PRIMARY KEY,
+  status VARCHAR(10) NOT NULL,
+  number_of_moves SMALLINT DEFAULT 0,
+  total_time TIMESTAMP NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
+);
