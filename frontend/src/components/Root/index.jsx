@@ -6,7 +6,8 @@ export default function Homepage(props) {
   const { user, onClick } = props;
 
   return (
-    <div className="Homepage">
+    <>
+      <div className="Homepage"></div>
       <Navbar onClick={onClick} user={user} />
       <div className="Menu">
         <h1 className="Title">Pixelcide</h1>
@@ -22,6 +23,6 @@ export default function Homepage(props) {
           {!props.user && <Button error>Sign Up</Button>}
         </div>
       </div>
-    </div>
+    </>
   );
 }
