@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import PlayerList from '../components/PlayerList';
-import DeckList from '../components/DeckList';
+import PlayerList from './PlayerList';
+import DeckList from './DeckList';
 
 const Game = () => {
   const [discard, setDiscard] = useState([]);
