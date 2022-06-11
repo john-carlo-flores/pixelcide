@@ -1,0 +1,30 @@
+.navbar {
+  width: 100vw;
+  height: 3rem;
+  background-color: #9c383d;
+  display: flex;
+  justify-content: space-between;
+}
+
+.how-to-play {
+  color: white;
+  padding-left: 1rem;
+  padding-top: 0.75rem;
+}
+
+.how-to-play:hover {
+  text-decoration: none;
+}
+
+.login {
+  color: white;
+  padding-right: 1rem;
+  padding-top: 0.75rem;
+}
+
+.user-logout {
+  color: white;
+  padding-right: 1rem;
+  padding-top: 0.75rem;
+  display: flex;
+}

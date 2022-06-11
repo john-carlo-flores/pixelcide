@@ -1,10 +1,13 @@
-import Button from '../components/Button';
-import '../styles/Homepage.scss';
+import Button from "../components/Button";
+import Navbar from "../components/Navbar";
+import "../styles/Homepage.scss";
 
 export default function Homepage() {
   return (
     <div className="Homepage">
-      <h1>This is the Homepage</h1>
+      <Navbar />
+      <div>logged in version</div>
+      <Navbar user="Mo" />
       <Button primary>Sign Up</Button>
       <Button warning>Create Lobby</Button>
       <Button success>Start Game</Button>
