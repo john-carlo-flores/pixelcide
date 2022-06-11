@@ -1,6 +1,6 @@
-import Button from "../components/Button";
-import Navbar from "../components/Navbar";
-import "../styles/Homepage.scss";
+import Button from "../Button";
+import Navbar from "../Navbar";
+import "../../styles/Homepage.scss";
 
 export default function Homepage() {
   return (
