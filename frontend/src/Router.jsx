@@ -1,9 +1,9 @@
-import './App.scss';
+import './Router.scss';
 import Homepage from './components/Root';
 
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-function App() {
+function Router() {
   return (
     <BrowserRouter>
       <Routes>
@@ -13,4 +13,4 @@ function App() {
   );
 }
 
-export default App;
+export default Router;
