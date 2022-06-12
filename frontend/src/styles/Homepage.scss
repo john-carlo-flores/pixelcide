@@ -1,7 +1,32 @@
 .Homepage {
-  background: url('../assets/homepage_background.png');
+  background: url("../assets/homepage_background.png");
   background-size: cover;
   background-repeat: no-repeat;
   width: 100vw;
   height: 100vh;
+  position: absolute;
+  z-index: -2;
+  filter: blur(1.5px);
+}
+
+.Title {
+  color: #9c383d;
+  font-size: 50px;
+}
+
+.Menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  padding-top: 5rem;
+  justify-content: flex-start;
+  gap: 5rem;
+}
+
+.Buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }

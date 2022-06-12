@@ -4,6 +4,8 @@
   background-color: #9c383d;
   display: flex;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
 }
 
 .how-to-play {
@@ -14,12 +16,25 @@
 
 .how-to-play:hover {
   text-decoration: none;
+  color: blue;
 }
 
 .login {
   color: white;
   padding-right: 1rem;
   padding-top: 0.75rem;
+}
+
+.login:hover {
+  color: blue;
+}
+
+.logout {
+  color: white;
+}
+
+.logout:hover {
+  color: blue;
 }
 
 .user-logout {

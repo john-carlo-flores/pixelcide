@@ -13,11 +13,17 @@ export default function Navbar(props) {
       </a>
 
       <div className="navbar-right">
-        {!props.user && <p className="login">Login</p>}
+        {!props.user && (
+          <p onClick={props.onClick} className="login nes-pointer">
+            Login
+          </p>
+        )}
         {props.user && (
           <div className="user-logout">
             <p>Welcome {props.user} |</p>
-            <p>&nbsp;Logout</p>
+            <p className="logout nes-pointer" onClick={props.onClick}>
+              &nbsp;Logout
+            </p>
           </div>
         )}
       </div>
