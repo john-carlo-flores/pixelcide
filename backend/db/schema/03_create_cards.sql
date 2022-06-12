@@ -7,6 +7,6 @@ CREATE TABLE cards (
   suit VARCHAR(255) NOT NULL,
   health smallint,
   damage smallint NOT NULL,
-  image_front VARCHAR(255) NOT NULL,
+  image_front TEXT NOT NULL,
   image_back VARCHAR(255) NOT NULL
 );
