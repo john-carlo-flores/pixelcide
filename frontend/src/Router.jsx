@@ -21,10 +21,10 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Homepage onClick={onClick} user={user} />} />
-        <Route path="/games" element={<Games />} />
-        <Route path="/games/:id" element={<GameRoom />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
-        <Route path="/statistics" element={<Statistics />} />
+        <Route path="games" element={<Games />} />
+        <Route path="games/:id" element={<GameRoom />} />
+        <Route path="leaderboard" element={<Leaderboard />} />
+        <Route path="statistics" element={<Statistics />} />
       </Routes>
     </BrowserRouter>
   );
