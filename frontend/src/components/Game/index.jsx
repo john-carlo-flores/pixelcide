@@ -1,13 +1,14 @@
-import PlayerList from './PlayerList';
-import DeckList from './DeckList';
-
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+
+import PlayerList from './PlayerList';
+import DeckList from './DeckList';
+import makeCastle from '../../helpers/makeCastle';
+import makeTavern from '../../helpers/makeTavern';
 
 const baseURL = 'http://localhost:8080/cards';
 
 const Game = () => {
-  const [cards, setCards] = useState([]);
   const [discard, setDiscard] = useState([]);
   const [castle, setCastle] = useState([]);
   const [tavern, setTavern] = useState([]);
@@ -17,14 +18,20 @@ const Game = () => {
 
   useEffect(() => {
     axios.get(baseURL).then((response) => {
-      setCards(response.data);
+      const cards = response.data;
+
+      const castleDeck = makeCastle(cards);
+      setCastle(castleDeck);
+
+      const tavernDeck = makeTavern(cards);
+      setTavern(tavernDeck);
     });
   }, []);
 
   return (
     <div className="Game">
-      {/* <PlayerList players={players} currentPlayer={currentPlayer} />*/}
-      <DeckList tavern={tavern} discard={discard} castle={castle} />
+      {/* <PlayerList players={players} currentPlayer={currentPlayer} /> */}
+      <DeckList tavern={tavern} discard={discard} castle={castle} setCurrentBoss={setCurrentBoss} />
     </div>
   );
 };
