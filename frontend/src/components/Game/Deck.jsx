@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Card from '../Game/Card';
 import emptyCard from '../../assets/cards/placeholder.png';
+import '../../styles/Deck.scss';
 
 const Deck = (props) => {
   const { deck, name, setCurrentBoss } = props;
@@ -16,13 +17,17 @@ const Deck = (props) => {
   return (
     <div className="Deck">
       {/* discard deck */}
-      {name === 'discard' && !deck.length ? <Card image={emptyCard} /> : <Card image={lastDiscardCard.image_front} />}
+      <div className="deckName">{name.toUpperCase()}</div>
 
-      {/* castle deck */}
-      {name === 'castle' && <Card image={lastCastleCard.image_front} />}
+      <div className="deck-main">
+        {name === 'discard' && !deck.length ? <Card image={emptyCard} /> : <Card image={lastDiscardCard.image_front} />}
 
-      {/* tavern deck */}
-      {name === 'tavern' && <Card image={lastTavernCard.image_back} />}
+        {/* castle deck */}
+        {name === 'castle' && <Card image={lastCastleCard.image_front} />}
+
+        {/* tavern deck */}
+        {name === 'tavern' && <Card image={lastTavernCard.image_back} />}
+      </div>
     </div>
   );
 };
