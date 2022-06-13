@@ -30,10 +30,5 @@ module.exports = (db) => {
         res.send(err);
       });
   });
-
-  router.get("/haha", (req, res) => {
-    console.log("we are in haha");
-  });
-
   return router;
 };
