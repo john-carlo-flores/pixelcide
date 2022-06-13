@@ -10,13 +10,7 @@ module.exports = (db) => {
   });
 
   router.post("/", (req, res) => {
-    console.log("entered post request");
-    console.log(req.body);
-    const { user } = req.body;
-
-    console.log(user);
-
-    const { username, name, email, password_digest, avatar_id } = user;
+    const { username, name, email, password_digest, avatar_id } = req.body.user;
     const command = `
     INSERT INTO users (username, name, email, password_digest, avatar_id)
     VALUES
