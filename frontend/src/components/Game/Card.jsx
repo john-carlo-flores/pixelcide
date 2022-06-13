@@ -1,7 +1,8 @@
 import '../../styles/Card.scss';
 
-const Card = ({ image_front, id, card_name }) => {
-  return <img src={image_front} alt={card_name} />;
+const Card = (props) => {
+  const { image, id, card_name } = props;
+  return <img src={image} alt={card_name} />;
 };
 
 export default Card;
