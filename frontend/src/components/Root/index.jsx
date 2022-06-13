@@ -2,6 +2,8 @@ import Button from "../Button";
 import Navbar from "../Navbar";
 import "../../styles/Homepage.scss";
 
+import { Link } from "react-router-dom";
+
 export default function Homepage(props) {
   const { user, onClick } = props;
 
@@ -14,10 +16,10 @@ export default function Homepage(props) {
         <div className="Buttons">
           {props.user && (
             <>
-              <Button error>Host Game</Button>
-              <Button error>Join Game</Button>
-              <Button error>Statistics</Button>
-              <Button error>Leaderboard</Button>
+              <Link to="games/1"><Button error>Host Game</Button></Link>
+              <Link to="games"><Button error>Join Game</Button></Link>
+              <Link to="statistics"><Button error>Statistics</Button></Link>
+              <Link to="leaderboard"><Button error>Leaderboard</Button></Link>
             </>
           )}
           {!props.user && <Button error>Sign Up</Button>}
