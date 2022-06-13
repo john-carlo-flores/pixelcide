@@ -1,22 +1,28 @@
-import Card from './Card';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect } from 'react';
+import Card from '../Game/Card';
+import emptyCard from '../../assets/cards/placeholder.png';
 
-const baseURL = 'http://localhost:8080/cards';
+const Deck = (props) => {
+  const { deck, name, setCurrentBoss } = props;
 
-const Deck = ({ deck }) => {
-  const [data, setData] = useState([]);
+  const lastDiscardCard = deck.length > 0 && name === 'discard' ? deck.at(-1) : {};
+  const lastCastleCard = deck.length > 0 && name === 'castle' ? deck.at(-1) : {};
+  const lastTavernCard = deck.length > 0 && name === 'tavern' ? deck.at(-1) : {};
+
   useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      setData(response.data);
-    });
-  }, []);
+    name === 'castle' && setCurrentBoss(lastCastleCard);
+  }, [lastCastleCard]);
 
   return (
     <div className="Deck">
-      {data.map((card) => (
-        <Card id={card.id} name={card.card_name} key={card.id} image_front={card.image_front} image_back={card.image_back} />
-      ))}
+      {/* discard deck */}
+      {name === 'discard' && !deck.length ? <Card image={emptyCard} /> : <Card image={lastDiscardCard.image_front} />}
+
+      {/* castle deck */}
+      {name === 'castle' && <Card image={lastCastleCard.image_front} />}
+
+      {/* tavern deck */}
+      {name === 'tavern' && <Card image={lastTavernCard.image_back} />}
     </div>
   );
 };
