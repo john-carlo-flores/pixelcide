@@ -1,11 +1,12 @@
 import Deck from './Deck';
 
-const DeckList = ({ tavern, discard, castle }) => {
+const DeckList = (props) => {
+  const { tavern, discard, castle, setCurrentBoss } = props;
   return (
     <div className="DeckList">
-      {<Deck deck={tavern} />}
-      {<Deck deck={discard} />}
-      {<Deck deck={castle} />}
+      {<Deck deck={tavern} name={'tavern'} />}
+      {<Deck deck={discard} name={'discard'} />}
+      {<Deck deck={castle} name={'castle'} setCurrentBoss={setCurrentBoss} />}
     </div>
   );
 };
