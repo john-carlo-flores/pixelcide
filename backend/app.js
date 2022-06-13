@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const jwt = require('jsonwebtoken');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -22,7 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter(db, jwt));
+app.use('/', indexRouter(db));
 app.use('/users', usersRouter(db));
 app.use('/games', gamesRouter(db));
 app.use('/cards', cardsRouter(db));
