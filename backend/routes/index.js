@@ -1,6 +1,6 @@
 var router = require('express').Router();
 
-const { generateAccessToken, generateRefreshToken, verify } = require('../helpers/authentication');
+const { generateAccessToken, generateRefreshToken, verify, validRefreshToken } = require('../helpers/authentication');
 let refreshTokens = [];
 
 module.exports = (db) => {
@@ -38,6 +38,30 @@ module.exports = (db) => {
     refreshTokens = refreshTokens.filter(token => token !== refreshToken);
     res.status(200).json("You logged out successfully");
   });
+
+  router.post('/refresh', (req, res) => {
+    const refreshToken = req.body.token;
+
+    if (!refreshToken) return res.status(401).json("You are not authenticated!");
+    if (!refreshTokens.includes(refreshToken)) {
+      return res.status(403).json("Refresh token is not valid!");
+    }
+
+    const user = validRefreshToken(refreshToken);
+    if (user) {
+      refreshTokens = refreshTokens.filter(token => token != refreshToken);
+      
+      const newAccessToken = generateAccessToken(user);
+      const newRefreshToken = generateRefreshToken(user);
+      refreshTokens.push(newRefreshToken);
+
+      res.status(200).json({
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken
+      });
+
+    }
+  })
 
   return router;
 };
