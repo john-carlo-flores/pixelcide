@@ -18,7 +18,7 @@ function Router() {
       <Routes>
         <Route path="/" element={<Homepage userAuth={verifyLogin} logout={logout} user={user} />} />
         <Route path="games" element={<Games />} />
-        <Route path="games/:id" element={<GameRoom />} />
+        <Route path="games/:id" element={<GameRoom userAuth={verifyLogin} logout={logout} user={user} />} />
         <Route path="leaderboard" element={<Leaderboard />} />
         <Route path="statistics" element={<Statistics />} />
         <Route path="signup" element={<Registration onSubmit={register}/>}/>
