@@ -1,0 +1,46 @@
+@keyframes slideIn {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 100;
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateY(0);
+    opacity: 100;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.form {
+  animation: slideIn 1s ease-in;
+  position: absolute;
+  top: 4rem;
+  z-index: 3;
+  left: 79%;
+  padding:1rem;
+  width: 20%;
+  background: rgb(156, 56, 61, 0.8);
+
+  .show {
+    display: block;
+    animation: slideIn 1s ease;
+  }
+}
+
+.nes-field {
+  margin: 1rem 0;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-around;
+}
