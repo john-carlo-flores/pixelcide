@@ -6,8 +6,8 @@ const DeckList = (props) => {
   return (
     <div className="DeckList">
       {<Deck deck={discard} name={'discard'} />}
-      {<Deck deck={tavern} name={'tavern'} />}
       {<Deck deck={castle} name={'castle'} setCurrentBoss={setCurrentBoss} />}
+      {<Deck deck={tavern} name={'tavern'} />}
     </div>
   );
 };
