@@ -5,7 +5,6 @@ import Player from '../Game/Player';
 import DeckList from './DeckList';
 import makeCastle from '../../helpers/makeCastle';
 import makeTavern from '../../helpers/makeTavern';
-import gameBackground from '../../assets/backgrounds/game.mp4';
 import '../../styles/Game/Game.scss';
 
 const Game = () => {
