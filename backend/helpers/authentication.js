@@ -1,5 +1,6 @@
 const { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, SALT } = process.env;
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
   generateAccessToken: (id) => {
@@ -14,7 +15,7 @@ module.exports = {
     return jwt.sign(
       { id }, 
       REFRESH_TOKEN_KEY,
-      );
+    );
   },
   
   verify: (req, res, next) => {
@@ -45,6 +46,23 @@ module.exports = {
 
       console.log(err);
       return false;
+    });
+  },
+
+  verifyPassword: function(plainTextPassword, hash) {
+    return bcrypt.compare(plainTextPassword, hash)
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => {
+        console.log(err);
+        return false;
+      })
+  },
+
+  hashPassword: (plainTextPassword) => {
+    return bcrypt.hash(plainTextPassword, parseInt(SALT), function(err, hash) {
+      return hash;
     });
   }
 };
