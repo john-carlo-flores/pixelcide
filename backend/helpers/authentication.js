@@ -6,7 +6,7 @@ module.exports = {
     return jwt.sign(
       { id }, 
       ACCESS_TOKEN_KEY,
-      { expiresIn: "6h"}
+      { expiresIn: "2h"}
       );
   },
   
@@ -35,5 +35,16 @@ module.exports = {
     }
     
     res.status(401).json("User failed authentication!");
+  },
+
+  validRefreshToken: (refreshToken, ) => {
+    jwt.verify(refreshToken, REFRESH_TOKEN_KEY, (err, user) => {
+      if (!err) {
+        return user;
+      } 
+
+      console.log(err);
+      return false;
+    });
   }
 };
