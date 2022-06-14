@@ -5,6 +5,8 @@ import Player from '../Game/Player';
 import DeckList from './DeckList';
 import makeCastle from '../../helpers/makeCastle';
 import makeTavern from '../../helpers/makeTavern';
+import gameBackground from '../../assets/backgrounds/game.mp4';
+import '../../styles/Game/Game.scss';
 
 const Game = () => {
   const [discard, setDiscard] = useState([]);
@@ -40,6 +42,9 @@ const Game = () => {
 
   return (
     <div className="Game">
+      <video playsInline autoPlay muted loop poster="">
+        <source src={gameBackground} type="video/mp4" />
+      </video>
       <DeckList tavern={tavern} discard={discard} castle={castle} setCurrentBoss={setCurrentBoss} />
       <Player hand={playerCards} playerName={user.username} avatar={user.avatar_id} />
     </div>
