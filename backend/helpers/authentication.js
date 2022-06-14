@@ -29,10 +29,11 @@ module.exports = {
         }
   
         req.user = user;
-        next();
+        return next();
       })
   
     }
-      res.status(401).json("User failed authentication!");
+    
+    res.status(401).json("User failed authentication!");
   }
 };
