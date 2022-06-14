@@ -5,6 +5,7 @@ import Player from '../Game/Player';
 import DeckList from './DeckList';
 import makeCastle from '../../helpers/makeCastle';
 import makeTavern from '../../helpers/makeTavern';
+import '../../styles/Game/Game.scss';
 
 const Game = () => {
   const [discard, setDiscard] = useState([]);
@@ -12,6 +13,7 @@ const Game = () => {
   const [tavern, setTavern] = useState([]);
   const [currentBoss, setCurrentBoss] = useState();
   const [playerCards, setPlayerCards] = useState([]);
+  const [playerField, setPlayerField] = useState([]);
 
   useEffect(() => {
     axios.get('http://localhost:8080/cards').then((response) => {
@@ -40,8 +42,16 @@ const Game = () => {
 
   return (
     <div className="Game">
+      <div className="background-gif"></div>
       <DeckList tavern={tavern} discard={discard} castle={castle} setCurrentBoss={setCurrentBoss} />
-      <Player hand={playerCards} playerName={user.username} avatar={user.avatar_id} />
+      <Player
+        playerField={playerField}
+        setPlayerField={setPlayerField}
+        playerCards={playerCards}
+        setPlayerCards={setPlayerCards}
+        playerName={user.username}
+        avatar={user.avatar_id}
+      />
     </div>
   );
 };

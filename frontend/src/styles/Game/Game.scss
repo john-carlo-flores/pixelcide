@@ -1,0 +1,16 @@
+.Game {
+  height: 100vh;
+  .background-gif {
+    background: url('../../assets/backgrounds/game-background.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    filter: blur(2px);
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+  }
+}

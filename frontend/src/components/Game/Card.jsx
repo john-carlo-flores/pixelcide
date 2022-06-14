@@ -1,4 +1,4 @@
-import '../../styles/Card.scss';
+import '../../styles/Game/Card.scss';
 
 const Card = (props) => {
   const { image, id, card_name } = props;

@@ -2,7 +2,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3rem;
+  margin-top: -48rem;
+  transform: scale(0.25);
+
+  .player-field {
+    display: flex;
+    height: 36rem;
+    margin-bottom: 3rem;
+    gap: 1rem;
+    .player-field-card {
+      background: #ecece0;
+      border-radius: 1rem;
+      padding: 2rem;
+    }
+  }
 
   .player-info {
     padding-top: 5rem;
@@ -10,16 +23,20 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    color: white;
     img {
       border-radius: 50%;
       border: 1px solid black;
       width: 13rem;
       height: 13rem;
+      image-rendering: pixelated;
     }
   }
 
   .cards-container {
+    height: 36rem;
     display: flex;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 
     .player-card {
       z-index: 1;
