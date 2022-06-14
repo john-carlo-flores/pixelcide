@@ -18,10 +18,9 @@ const Login = (props) => {
     userAuth(username, password)
       .then(response => {
         if (response) {
-          console.log("Success!");
           setError(false);
           return toggleLoginForm();
-        } 
+        }
           
         setError(true);
       });
