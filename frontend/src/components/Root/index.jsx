@@ -5,12 +5,12 @@ import "../../styles/Homepage.scss";
 import { Link } from "react-router-dom";
 
 export default function Homepage(props) {
-  const { user, onClick } = props;
+  const { user, userAuth, logout } = props;
 
   return (
     <>
       <div className="Homepage"></div>
-      <Navbar onClick={onClick} user={user} />
+      <Navbar userAuth={userAuth} user={user} logout={logout} />
       <div className="Menu">
         <h1 className="Title">Pixelcide</h1>
         <div className="Buttons">
