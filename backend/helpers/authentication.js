@@ -18,8 +18,8 @@ module.exports = {
   },
   
   verify: (req, res, next) => {
-    const authHeader = req.headers.Authorization;
-  
+    const authHeader = req.headers.authorization;
+    
     if (authHeader) {
       const token = authHeader.split(" ")[1];
   
