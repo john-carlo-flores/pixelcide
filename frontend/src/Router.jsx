@@ -3,6 +3,7 @@ import "./Router.scss";
 import Homepage from "./components/Root";
 import GameRoom from "./components/GameRoom";
 import Games from "./components/Games";
+import Registration from "./components/Authentication/Registration";
 import Leaderboard from "./components/Leaderboard";
 import Statistics from "./components/Statistics";
 import useAuth from "./hooks/useAuth";
@@ -10,7 +11,7 @@ import useAuth from "./hooks/useAuth";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function Router() {
-  const { user, verifyLogin, logout } = useAuth();
+  const { user, verifyLogin, logout, register } = useAuth();
 
   return (
     <BrowserRouter>
@@ -20,6 +21,7 @@ function Router() {
         <Route path="games/:id" element={<GameRoom />} />
         <Route path="leaderboard" element={<Leaderboard />} />
         <Route path="statistics" element={<Statistics />} />
+        <Route path="signup" element={<Registration onSubmit={register}/>}/>
       </Routes>
     </BrowserRouter>
   );

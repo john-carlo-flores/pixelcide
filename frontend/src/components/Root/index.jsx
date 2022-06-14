@@ -22,7 +22,7 @@ export default function Homepage(props) {
               <Link to="leaderboard"><Button error>Leaderboard</Button></Link>
             </>
           )}
-          {!props.user && <Button error>Sign Up</Button>}
+          {!props.user && <Link to="signup"><Button error>Sign Up</Button></Link>}
         </div>
       </div>
     </>
