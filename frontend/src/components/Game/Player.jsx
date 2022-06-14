@@ -7,21 +7,17 @@ const Player = (props) => {
   const handleClick = (card) => {
     //removing that played card from player's hand
     const newPlayerCards = [...playerCards].filter((item) => item.id !== card.id);
-    setPlayerCards((prev) => {
-      return newPlayerCards;
-    });
 
-    setPlayerField((prev) => {
-      return [...prev, card];
-    });
+    setPlayerCards(newPlayerCards);
+    setPlayerField((prev) => [...prev, card]);
   };
 
   return (
     <div className="Player">
       <div className="player-field">
         {playerField.map((card) => (
-          <div className="player-field-card">
-            <Card key={card.id} image={card.image_front} />
+          <div key={card.id} className="player-field-card">
+            <Card image={card.image_front} />
           </div>
         ))}
       </div>

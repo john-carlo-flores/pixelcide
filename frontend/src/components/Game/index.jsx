@@ -15,6 +15,7 @@ const Game = () => {
   const [currentBoss, setCurrentBoss] = useState();
   const [playerCards, setPlayerCards] = useState([]);
   const [playerField, setPlayerField] = useState([]);
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
     axios.get('http://localhost:8080/cards').then((response) => {
@@ -45,7 +46,7 @@ const Game = () => {
     <div className="Game">
       <div className="background-gif"></div>
       <DeckList tavern={tavern} discard={discard} castle={castle} setCurrentBoss={setCurrentBoss} />
-      <Status />
+      <Status status={status} playerField={playerField} setPlayerField={setPlayerField} setDiscard={setDiscard} />
       <Player
         playerField={playerField}
         setPlayerField={setPlayerField}
