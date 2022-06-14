@@ -8,7 +8,7 @@ const Login = (props) => {
   const { userAuth, toggleLoginForm } = props;
   const [ error, setError ] = useState(false);
   
-  const loginFormClasses = classNames('form nes-container is-rounded');
+  const loginFormClasses = classNames('form-login nes-container is-rounded');
 
   const login = (event) => {
     event.preventDefault();
