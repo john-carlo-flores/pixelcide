@@ -1,6 +1,6 @@
 var router = require('express').Router();
 
-const { generateAccessToken, generateRefreshToken, verify, validRefreshToken } = require('../helpers/authentication');
+const { generateAccessToken, generateRefreshToken, verify, validRefreshToken, verifyPassword, hashPassword } = require('../helpers/authentication');
 let refreshTokens = [];
 
 module.exports = (db) => {
@@ -20,15 +20,19 @@ module.exports = (db) => {
       .then(data => {
         const { id, username, name, password_digest, avatar_id } = data.rows[0];
 
-        if (password === password_digest) {
-          const accessToken = generateAccessToken(id);
-          const refreshToken = generateRefreshToken(id);
-          return res.json({ username, name, avatar_id, accessToken, refreshToken });
-        }
-        
-        res.status(400).json("Username and/or password is incorrect");
+        verifyPassword(password, password_digest)
+          .then(result => {
+            if (result) {
+              const accessToken = generateAccessToken(id);
+              const refreshToken = generateRefreshToken(id);
+              return res.json({ username, name, avatar_id, accessToken, refreshToken });
+            }
+
+            res.status(400).json("Username and/or password is incorrect");
+          });      
       })
       .catch(err => {
+        console.log(err);
         res.status(400).json("User information invalid");
       })
   });
