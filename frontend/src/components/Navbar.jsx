@@ -1,4 +1,3 @@
-import Button from "../components/Button";
 import Login from "../components/Authentication/Login";
 
 import "../styles/Navbar.scss";
@@ -7,7 +6,6 @@ import { useState } from "react";
 
 export default function Navbar(props) {
   const [login, setLogin] = useState(false);
-
   const { userAuth, logout } = props;
 
   const toggleLoginForm = () => {
@@ -27,7 +25,7 @@ export default function Navbar(props) {
 
         <div className="navbar-right">
           {!props.user && (
-            <p onClick={toggleLoginForm} className="login nes-pointer" login>
+            <p onClick={toggleLoginForm} className="login nes-pointer">
               Login
             </p>
           )}
