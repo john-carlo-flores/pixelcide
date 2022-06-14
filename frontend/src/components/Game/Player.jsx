@@ -1,14 +1,18 @@
 import Card from './Card';
+import '../../styles/Player.scss';
 
 const Player = (props) => {
   const { hand, playerName } = props;
   return (
     <div className="Player">
-      <div className="player-cards">
+      <div className="cards-container">
         {hand.map((card) => (
-          <Card key={card.id} image={card.image_front} />
+          <div key={card.id} className="player-card">
+            <Card image={card.image_front} />
+          </div>
         ))}
       </div>
+
       <div className="player-name">{playerName}</div>
     </div>
   );
