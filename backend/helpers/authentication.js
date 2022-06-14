@@ -61,8 +61,13 @@ module.exports = {
   },
 
   hashPassword: (plainTextPassword) => {
-    return bcrypt.hash(plainTextPassword, parseInt(SALT), function(err, hash) {
-      return hash;
-    });
+    return bcrypt.hash(plainTextPassword, parseInt(SALT))
+      .then((hash) => {
+        return hash;
+      })
+      .catch((err) => {
+        console.log(err);
+        return false;
+      })
   }
 };
