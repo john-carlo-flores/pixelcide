@@ -1,7 +1,7 @@
 var router = require('express').Router();
 
 const { generateAccessToken, generateRefreshToken, verify } = require('../helpers/authentication');
-const refreshTokens = [];
+let refreshTokens = [];
 
 module.exports = (db) => {
   /* GET home page. */
