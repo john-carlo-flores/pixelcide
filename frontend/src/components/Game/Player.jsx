@@ -2,7 +2,8 @@ import Card from './Card';
 import '../../styles/Player.scss';
 
 const Player = (props) => {
-  const { hand, playerName } = props;
+  const { hand, playerName, avatar } = props;
+
   return (
     <div className="Player">
       <div className="cards-container">
@@ -13,7 +14,10 @@ const Player = (props) => {
         ))}
       </div>
 
-      <div className="player-name">{playerName}</div>
+      <div className="player-info">
+        <img src={`https://raw.githubusercontent.com/tothenextcode/pixelcide/feature/frontend/Game-UI/frontend/src/assets/avatars/${avatar}.png`} alt="user avatar" />
+        {playerName}
+      </div>
     </div>
   );
 };

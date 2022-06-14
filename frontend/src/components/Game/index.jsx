@@ -41,7 +41,7 @@ const Game = () => {
   return (
     <div className="Game">
       <DeckList tavern={tavern} discard={discard} castle={castle} setCurrentBoss={setCurrentBoss} />
-      <Player hand={playerCards} playerName={user.username} />
+      <Player hand={playerCards} playerName={user.username} avatar={user.avatar_id} />
     </div>
   );
 };
