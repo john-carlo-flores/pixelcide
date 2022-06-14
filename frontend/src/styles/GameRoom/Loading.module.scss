@@ -1,0 +1,16 @@
+.loading {
+  position: absolute;
+  left: 35vw;
+  height: 10vh;
+  display: flex;
+  flex-direction: column;  
+}
+
+.img {
+  object-fit: contain;
+}
+
+.loadingText {
+  text-align: center;
+  color: whitesmoke;
+}
