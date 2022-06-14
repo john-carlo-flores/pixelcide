@@ -5,22 +5,17 @@ import GameRoom from "./components/GameRoom";
 import Games from "./components/Games";
 import Leaderboard from "./components/Leaderboard";
 import Statistics from "./components/Statistics";
+import useAuth from "./hooks/useAuth";
 
-import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function Router() {
-  const [user, setUser] = useState();
-  const onClick = () => {
-    if (!user) {
-      return setUser("Mo");
-    }
-    return setUser(null);
-  };
+  const { user, verifyLogin, logout } = useAuth();
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Homepage onClick={onClick} user={user} />} />
+        <Route path="/" element={<Homepage userAuth={verifyLogin} logout={logout} user={user} />} />
         <Route path="games" element={<Games />} />
         <Route path="games/:id" element={<GameRoom />} />
         <Route path="leaderboard" element={<Leaderboard />} />
