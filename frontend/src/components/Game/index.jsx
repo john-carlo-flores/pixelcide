@@ -42,9 +42,7 @@ const Game = () => {
 
   return (
     <div className="Game">
-      <video playsInline autoPlay muted loop poster="">
-        <source src={gameBackground} type="video/mp4" />
-      </video>
+      <div className="background-gif"></div>
       <DeckList tavern={tavern} discard={discard} castle={castle} setCurrentBoss={setCurrentBoss} />
       <Player hand={playerCards} playerName={user.username} avatar={user.avatar_id} />
     </div>

@@ -32,8 +32,8 @@ const Deck = (props) => {
       {name === 'castle' && (
         <div className="nes-container with-title is-centered">
           <p className="title">Enemy status</p>
-          <p>Attack: {lastCastleCard.damage}</p>
-          <p>Health: {lastCastleCard.health}</p>
+          <p className="boss-stats">Attack: {lastCastleCard.damage}</p>
+          <p className="boss-stats">Health: {lastCastleCard.health}</p>
         </div>
       )}
     </div>

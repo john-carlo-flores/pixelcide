@@ -9,7 +9,23 @@
 
   .deckName {
     padding: 1rem;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    letter-spacing: 0.2rem;
     font-weight: bold;
+    color: white;
+  }
+
+  .nes-container {
+    border-color: white;
+    border-radius: 5px;
+
+    p.title {
+      font-size: 1.4rem;
+    }
+
+    .boss-stats {
+      color: white;
+      font-size: 1.5rem;
+    }
   }
 }
