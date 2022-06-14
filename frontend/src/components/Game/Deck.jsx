@@ -28,6 +28,14 @@ const Deck = (props) => {
         {/* tavern deck */}
         {name === 'tavern' && <Card image={lastTavernCard.image_back} />}
       </div>
+
+      {name === 'castle' && (
+        <div className="nes-container with-title is-centered">
+          <p className="title">Enemy status</p>
+          <p>Attack: {lastCastleCard.damage}</p>
+          <p>Health: {lastCastleCard.health}</p>
+        </div>
+      )}
     </div>
   );
 };
