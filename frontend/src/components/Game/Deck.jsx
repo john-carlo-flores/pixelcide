@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Card from '../Game/Card';
 import emptyCard from '../../assets/cards/placeholder.png';
-import '../../styles/Deck.scss';
+import '../../styles/Game/Deck.scss';
 
 const Deck = (props) => {
   const { deck, name, setCurrentBoss } = props;

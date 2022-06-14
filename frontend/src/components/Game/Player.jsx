@@ -1,5 +1,5 @@
 import Card from './Card';
-import '../../styles/Player.scss';
+import '../../styles/Game/Player.scss';
 
 const Player = (props) => {
   const { hand, playerName, avatar } = props;

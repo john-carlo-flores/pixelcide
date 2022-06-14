@@ -1,5 +1,5 @@
 import Deck from './Deck';
-import '../../styles/DeckList.scss';
+import '../../styles/Game/DeckList.scss';
 
 const DeckList = (props) => {
   const { tavern, discard, castle, setCurrentBoss } = props;
