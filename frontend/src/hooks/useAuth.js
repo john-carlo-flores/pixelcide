@@ -27,6 +27,20 @@ const useAuth = (initial) => {
     return false;
   };
 
+  const register = (user) => {
+    if (user.username && user.name && user.email && user.password && user.avatar_id) {
+
+      return axios.post(`${baseURL}/users`, { user })
+        .then(response => {
+          setUser({...response.data});
+          sessionStorage.setItem('user', JSON.stringify({...response.data}))
+          return true;
+        })
+        .catch(err => {
+          return false;
+        });
+    }
+  }
 
   const logout = () => {
     axiosJWT.post(`${baseURL}/logout`, { token: user.refreshToken }, {
@@ -69,7 +83,7 @@ const useAuth = (initial) => {
     }
   );
 
-  return { user, verifyLogin, logout };
+  return { user, verifyLogin, logout, register };
 };
 
 export default useAuth;
