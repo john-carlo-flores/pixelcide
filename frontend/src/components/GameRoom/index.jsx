@@ -1,12 +1,35 @@
-import { Link } from 'react-router-dom';
 import Game from '../Game';
+import Room  from './Room';
+import Loading from './Loading';
 
-const GameRoom = () => {
+import Navbar from '../Navbar';
+
+import { useState, useEffect } from 'react';
+
+import styles from "../../styles/GameRoom/GameRoom.module.scss";
+
+const GameRoom = (props) => {
+  const [mode, setMode] = useState('Loading');
+  const { user, userAuth, logout } = props;
+
+  useEffect(() => {
+
+
+
+  }, []);
+
   return (
     <>
-      <h1>This is the in-game lobby where users can join and wait for host to start.</h1>
-      <Link to="/">Back to home page</Link>
-      <Game />
+      {(mode === 'Room' || mode === 'Loading') && (
+        <>
+          <div className={styles.Homepage}></div>
+          <Navbar userAuth={userAuth} user={user} logout={logout} />
+          <h1 className={styles.Title}>Pixelcide</h1>
+        </>
+      )}
+      {mode === 'Room' && <Room />}
+      {mode === 'Loading' && <Loading />}
+      {mode === 'Game' && <Game user={user}/>}
     </>
   );
 };
