@@ -6,6 +6,7 @@ import DeckList from './DeckList';
 import makeCastle from '../../helpers/makeCastle';
 import makeTavern from '../../helpers/makeTavern';
 import '../../styles/Game/Game.scss';
+import Status from './Status';
 
 const Game = () => {
   const [discard, setDiscard] = useState([]);
@@ -44,6 +45,7 @@ const Game = () => {
     <div className="Game">
       <div className="background-gif"></div>
       <DeckList tavern={tavern} discard={discard} castle={castle} setCurrentBoss={setCurrentBoss} />
+      <Status />
       <Player
         playerField={playerField}
         setPlayerField={setPlayerField}
