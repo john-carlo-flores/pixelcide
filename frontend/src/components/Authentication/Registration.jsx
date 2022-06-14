@@ -1,10 +1,10 @@
 import Button from "../Button";
 
 import { useState } from "react";
-import classNames from "classnames";
 import { Link, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope, faGamepad, faKey, faLock, faHeadphones } from '@fortawesome/fontawesome-free-solid'
+import { FaGithubAlt } from 'react-icons/fa';
+import { GiRetroController, GiAttachedShield, GiFragmentedSword } from 'react-icons/gi';
+import { ImPacman } from "react-icons/im";
 
 import "../../styles/Authentication/Registration.scss";
 
@@ -22,9 +22,7 @@ const Registration = (props) => {
     const password = event.target.pass.value;
     const passwordConfirmation = event.target.passconf.value;
 
-    console.log("HERE!");
     if (password !== passwordConfirmation) {
-      console.log("Uh oh!");
       return setError("Passwords must match");
     }
 
@@ -36,10 +34,7 @@ const Registration = (props) => {
       avatar_id: 1
     }
 
-    console.log(user);
-
     onSubmit(user).then((result) => {
-      console.log(result);
       navigate("/");
     });
   };
@@ -51,23 +46,23 @@ const Registration = (props) => {
       <div className={'form-register nes-container is-rounded'}>
         <form onSubmit={confirmRegistration}>
           <div className="nes-field is-inline">
-            <label><FontAwesomeIcon icon={faGamepad} size="3x"/></label>
+            <label><FaGithubAlt size={70}/></label>
             <input className="nes-input" type="text" name="uname" placeholder="Username" required />
           </div>
           <div className="nes-field is-inline">
-            <label><FontAwesomeIcon icon={faHeadphones} size="3x"/></label>
+            <label><ImPacman size={70}/></label>
             <input className="nes-input" type="text" name="name" placeholder="Name" required />
           </div>
           <div className="nes-field is-inline">
-            <label><FontAwesomeIcon icon={faEnvelope} size="3x"/></label>
+            <label><GiRetroController size={70}/></label>
             <input className="nes-input" type="email" name="email" placeholder="Email Address" required />
           </div>
           <div className="nes-field is-inline">
-            <label><FontAwesomeIcon icon={faKey} size="3x"/></label>
+            <label><GiFragmentedSword size={70}/></label>
             <input className="nes-input" type="password" name="pass" placeholder="Password" required />
           </div>
           <div className="nes-field is-inline">
-            <label><FontAwesomeIcon icon={faLock} size="3x"/></label>
+            <label><GiAttachedShield size={70}/></label>
             <input className="nes-input" type="password" name="passconf" placeholder="Password Confirmation" required />
           </div>
           {error && <p>{error}</p>}

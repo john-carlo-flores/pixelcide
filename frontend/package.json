@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome-free-solid": "^5.0.13",
-    "@fortawesome/react-fontawesome": "^0.1.18",
     "axios": "^0.27.2",
     "classnames": "^2.3.1",
     "framer-motion": "^6.3.11",
@@ -12,6 +10,7 @@
     "nes.css": "^2.3.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-icons": "^4.4.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "sass": "^1.52.3"
