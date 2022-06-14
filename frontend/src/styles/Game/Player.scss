@@ -2,8 +2,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: -16rem;
-  transform: scale(0.3);
+  margin-top: -48rem;
+  transform: scale(0.25);
+
+  .player-field {
+    display: flex;
+    height: 36rem;
+    margin-bottom: 3rem;
+    gap: 1rem;
+    .player-field-card {
+      background: #ecece0;
+      border-radius: 1rem;
+      padding: 2rem;
+    }
+  }
 
   .player-info {
     padding-top: 5rem;
@@ -22,6 +34,7 @@
   }
 
   .cards-container {
+    height: 36rem;
     display: flex;
     box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 
