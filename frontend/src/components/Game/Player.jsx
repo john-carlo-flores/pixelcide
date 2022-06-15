@@ -1,17 +1,34 @@
 import Card from './Card';
-import '../../styles/Player.scss';
+import '../../styles/Game/Player.scss';
 
 const Player = (props) => {
-  const { hand, playerName, avatar } = props;
+  const { playerCards, playerName, avatar, setPlayerField, playerField, setPlayerCards } = props;
+
+  const handleClick = (card) => {
+    //removing that played card from player's hand
+    const newPlayerCards = [...playerCards].filter((item) => item.id !== card.id);
+
+    setPlayerCards(newPlayerCards);
+    setPlayerField((prev) => [...prev, card]);
+  };
 
   return (
     <div className="Player">
-      <div className="cards-container">
-        {hand.map((card) => (
-          <div key={card.id} className="player-card">
+      <div className="player-field">
+        {playerField.map((card) => (
+          <div key={card.id} className="player-field-card">
             <Card image={card.image_front} />
           </div>
         ))}
+      </div>
+
+      <div className="cards-container">
+        {playerCards.map((card) => (
+          <div key={card.id} onClick={() => handleClick(card)} className="player-card">
+            <Card image={card.image_front} />
+          </div>
+        ))}
+        {playerCards.length === 0 && <div className="empty"></div>}
       </div>
 
       <div className="player-info">

@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import '../../styles/Game/Game.scss';
 import Player from '../Game/Player';
 import DeckList from './DeckList';
-import makeCastle from '../../helpers/makeCastle';
-import makeTavern from '../../helpers/makeTavern';
+import makeCastle from '../../helpers/game-starters/makeCastle';
+import makeTavern from '../../helpers/game-starters/makeTavern';
+import Status from './Status';
+import suitActivation from '../../helpers/suit-activation';
+import shuffle from '../../helpers/shuffle';
 
 const Game = () => {
   const [discard, setDiscard] = useState([]);
@@ -12,6 +16,8 @@ const Game = () => {
   const [tavern, setTavern] = useState([]);
   const [currentBoss, setCurrentBoss] = useState();
   const [playerCards, setPlayerCards] = useState([]);
+  const [playerField, setPlayerField] = useState([]);
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
     axios.get('http://localhost:8080/cards').then((response) => {
@@ -38,10 +44,50 @@ const Game = () => {
     avatar_id: 1,
   };
 
+  const maxHand = 8;
+
+  const clickHandler = () => {
+    //power-activation logic
+    const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(playerField, currentBoss);
+
+    //Hearts case
+    if (heartPower > 0) {
+      let discardDeck = [...discard];
+      shuffle(discardDeck);
+      let healingCards;
+
+      //not enough cards
+      if (discardDeck.length > 0 && discardDeck.length < heartPower) {
+        healingCards = discardDeck;
+        setDiscard([]);
+        setTavern((prev) => [...healingCards, ...prev]);
+      }
+
+      if (discardDeck.length > 0 && discardDeck.length > heartPower) {
+        healingCards = discardDeck.splice(-heartPower, heartPower);
+        setDiscard(discardDeck);
+
+        setTavern((prev) => [...healingCards, ...prev]);
+      }
+    }
+
+    setDiscard((prev) => [...prev, ...playerField]);
+    setPlayerField([]);
+  };
+
   return (
     <div className="Game">
+      <div className="background-gif"></div>
       <DeckList tavern={tavern} discard={discard} castle={castle} setCurrentBoss={setCurrentBoss} />
-      <Player hand={playerCards} playerName={user.username} avatar={user.avatar_id} />
+      <Status status={status} clickHandler={clickHandler} />
+      <Player
+        playerField={playerField}
+        setPlayerField={setPlayerField}
+        playerCards={playerCards}
+        setPlayerCards={setPlayerCards}
+        playerName={user.username}
+        avatar={user.avatar_id}
+      />
     </div>
   );
 };

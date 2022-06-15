@@ -1,0 +1,19 @@
+.Game {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  .background-gif {
+    background: url('../../assets/backgrounds/game-background.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    filter: blur(2px);
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -4;
+  }
+}

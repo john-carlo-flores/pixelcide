@@ -1,0 +1,40 @@
+.Deck {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20rem;
+
+  .deckName {
+    padding: 1rem;
+    font-size: 1.3rem;
+    letter-spacing: 0.2rem;
+    font-weight: bold;
+    color: white;
+    padding-bottom: 0;
+  }
+
+  .deck-main {
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+    margin-bottom: 3rem;
+    width: 8rem;
+    img {
+      width: 8rem;
+    }
+  }
+
+  .nes-container {
+    border-color: white;
+    padding: 0.8rem;
+    p.title {
+      text-transform: uppercase;
+      font-size: 1rem;
+    }
+
+    .boss-stats {
+      color: white;
+      font-size: 1rem;
+      letter-spacing: 0.1rem;
+    }
+  }
+  margin-bottom: 2rem;
+}

@@ -1,0 +1,69 @@
+.Player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .player-field {
+    display: flex;
+    height: 9.5rem;
+    margin-bottom: 2rem;
+    gap: 1rem;
+    .player-field-card {
+      background: #ecece0;
+      border-radius: 5px;
+      padding: 0.5rem;
+    }
+    img {
+      width: 6rem;
+    }
+  }
+
+  .player-info {
+    padding-top: 2rem;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    img {
+      border-radius: 50%;
+      border: 1px solid black;
+      width: 3rem;
+      height: 3rem;
+      image-rendering: pixelated;
+    }
+  }
+
+  .cards-container {
+    height: 9.5rem;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+
+    .player-card {
+      z-index: 1;
+      background: #ecece0;
+      border-radius: 5px;
+      padding: 0.5rem;
+      box-shadow: 4px 4px 12px 2px rgba(black, 0.6);
+      transition: 0.2s;
+      &:not(:first-child) {
+        margin-left: calc(10rem * -1);
+      }
+
+      img {
+        width: 6rem;
+      }
+    }
+
+    .player-card:hover,
+    .player-card:focus-within {
+      transform: translatey(-2rem);
+    }
+
+    .player-card:hover ~ .player-card,
+    .player-card:focus-within ~ .player-card {
+      transform: translatex(-3rem);
+    }
+  }
+}
