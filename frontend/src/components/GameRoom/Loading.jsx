@@ -9,7 +9,6 @@ const Loading = () => {
 
   const cycleDots = () => {
     setDots(prev => {
-      console.log('prev', prev);
       if (prev.length < 15) {
         return `${prev}.`;
       }
