@@ -26,6 +26,10 @@ const Game = () => {
       const castleDeck = makeCastle(cards);
       setCastle(castleDeck);
 
+      //setting current boss as last card
+      const lastCastleCard = castleDeck.at(-1);
+      setCurrentBoss(lastCastleCard);
+
       const tavernDeck = makeTavern(cards);
 
       //for initial player hand
@@ -48,11 +52,13 @@ const Game = () => {
 
   const clickHandler = () => {
     //power-activation logic
+    //club power = damage we deal to enemy
     const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(playerField, currentBoss);
 
     let discardCards = [...discard];
     let tavernCards = [...tavern];
     let currentPlayerHand = [...playerCards];
+    let bossCard = { ...currentBoss };
 
     //Hearts case
     if (heartPower > 0) {
@@ -92,6 +98,17 @@ const Game = () => {
       }
     }
 
+    if (spadePower > 0) {
+      bossCard.damage -= spadePower;
+
+      if (bossCard.damage <= 0) {
+        bossCard.damage = 0;
+      }
+    }
+    // after spade damage
+    setCurrentBoss(bossCard);
+
+    // after diamond and heart
     setTavern(tavernCards);
     setPlayerCards(currentPlayerHand);
     setDiscard(discardCards);
@@ -104,7 +121,7 @@ const Game = () => {
   return (
     <div className="Game">
       <div className="background-gif"></div>
-      <DeckList tavern={tavern} discard={discard} castle={castle} setCurrentBoss={setCurrentBoss} />
+      <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBoss} />
       <Status status={status} clickHandler={clickHandler} />
       <Player
         playerField={playerField}
