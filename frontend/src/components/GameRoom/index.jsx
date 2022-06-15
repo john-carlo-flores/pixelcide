@@ -34,15 +34,24 @@ const GameRoom = (props) => {
   const { user, userAuth, logout } = props;
 
   const [mode, setMode] = useState('Loading');
+  const [error, setError] = useState();
   const [players, setPlayers] = useState(); //Only gets added once they press Take Seat
   const [seats, setSeats] = useState({ ...fakePlayers }); //Updates when host presses seat
 
   const startGame = () => {
+    // Check if created seat is not filled
+    for (const seat of Object.keys(seats)) {
+      if (seats[seat].empty) {
+        return setError('All empty seats must be filled to start the game!');
+      }
+    }
+
+    setError(null);
     setMode('Loading');
 
     setTimeout(() => {
       setMode('Game');
-    }, 100);
+    }, 2000);
   };
 
   const updateSeatCount = (update, number = 0) => {
@@ -97,7 +106,7 @@ const GameRoom = (props) => {
     setTimeout(() => {
       //Switch from Loading state to created once finished
       setMode('Room');
-    }, 500);
+    }, 2000);
   }, []);
 
   return (
@@ -109,7 +118,7 @@ const GameRoom = (props) => {
           <h1 className={styles.Title}>Pixelcide</h1>
         </>
       )}
-      {mode === 'Room' && <Room user={user} handleStartGame={startGame} seats={seats} updateSeatCount={updateSeatCount} takeSeat={takeSeat} />}
+      {mode === 'Room' && <Room user={user} handleStartGame={startGame} seats={seats} updateSeatCount={updateSeatCount} takeSeat={takeSeat} error={error} />}
       {mode === 'Loading' && <Loading />}
       {mode === 'Game' && <Game user={user} players={players} />}
     </>
