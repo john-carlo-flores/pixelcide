@@ -71,6 +71,7 @@ const Game = () => {
       }
     }
 
+    //move playerfield cards to discard
     setDiscard((prev) => [...prev, ...playerField]);
     setPlayerField([]);
   };
