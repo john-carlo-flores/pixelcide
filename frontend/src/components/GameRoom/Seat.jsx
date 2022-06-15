@@ -37,7 +37,7 @@ const Seat = (props) => {
             </div>
           ) : (
           <div className={styles.footer}>
-            {!playerSeated.empty && <img src={`https://raw.githubusercontent.com/tothenextcode/pixelcide/feature/frontend/Game-UI/frontend/src/assets/avatars/${playerSeated.avatar_id}.png`} alt="Avatar"/>}
+            {!playerSeated.empty && <img className={`${styles.avatar} nes-avatar is-large is-rounded`} src={`https://raw.githubusercontent.com/tothenextcode/pixelcide/feature/frontend/Game-UI/frontend/src/assets/avatars/${playerSeated.avatar_id}.png`} alt="Avatar"/>}
           </div>)}
         </div>
       ) : (
