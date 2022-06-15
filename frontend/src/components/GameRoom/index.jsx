@@ -1,33 +1,33 @@
 import Game from '../Game';
-import Room  from './Room';
+import Room from './Room';
 import Loading from './Loading';
 
 import Navbar from '../Navbar';
 
 import { useState, useEffect } from 'react';
 
-import styles from "../../styles/GameRoom/GameRoom.module.scss";
+import styles from '../../styles/GameRoom/GameRoom.module.scss';
 
 const fakePlayers = {
   host: {
     name: 'Link',
     username: 'link',
     avatar_id: 1,
-    empty: false
+    empty: false,
   },
   player2: {
     name: 'Zelda',
     username: 'zelda',
     avatar_id: 2,
-    empty: false
+    empty: false,
   },
   player3: {
     name: 'Ganon',
     username: 'ganon',
     avatar_id: 3,
-    empty: false
+    empty: false,
   },
-  player4: null
+  player4: null,
 };
 
 const GameRoom = (props) => {
@@ -35,21 +35,21 @@ const GameRoom = (props) => {
 
   const [mode, setMode] = useState('Loading');
   const [players, setPlayers] = useState(); //Only gets added once they press Take Seat
-  const [seats, setSeats] = useState({...fakePlayers}); //Updates when host presses seat
+  const [seats, setSeats] = useState({ ...fakePlayers }); //Updates when host presses seat
 
   const startGame = () => {
     setMode('Loading');
 
     setTimeout(() => {
       setMode('Game');
-    }, 10000);
+    }, 100);
   };
 
   const updateSeatCount = (update, number = 0) => {
     switch (update) {
       case '+':
-        setSeats(prev => {
-          const newSeats = {...prev};
+        setSeats((prev) => {
+          const newSeats = { ...prev };
           newSeats[`player${number}`] = { empty: true };
 
           return newSeats;
@@ -57,8 +57,8 @@ const GameRoom = (props) => {
         break;
 
       case '-':
-        setSeats(prev => {
-          const newSeats = {...prev};
+        setSeats((prev) => {
+          const newSeats = { ...prev };
           delete newSeats[`player${number}`];
 
           return newSeats;
@@ -71,21 +71,21 @@ const GameRoom = (props) => {
   };
 
   const takeSeat = (player, seatNumber) => {
-    setSeats(prev => {
-      const newSeats = {...prev};
+    setSeats((prev) => {
+      const newSeats = { ...prev };
 
       // Check if user already took a seat and switch locations
-      const existingSeat = Object.keys(newSeats).find(seat => newSeats[seat].username === player.username);
+      const existingSeat = Object.keys(newSeats).find((seat) => newSeats[seat].username === player.username);
 
       if (existingSeat) {
-        newSeats[existingSeat] = {empty:true};
+        newSeats[existingSeat] = { empty: true };
       }
 
       newSeats[`player${seatNumber}`] = {
         name: player.name,
         username: player.username,
         avatar_id: player.avatar_id,
-        empty: false
+        empty: false,
       };
 
       return newSeats;
@@ -97,7 +97,7 @@ const GameRoom = (props) => {
     setTimeout(() => {
       //Switch from Loading state to created once finished
       setMode('Room');
-    }, 5000);
+    }, 500);
   }, []);
 
   return (
@@ -109,17 +109,9 @@ const GameRoom = (props) => {
           <h1 className={styles.Title}>Pixelcide</h1>
         </>
       )}
-      {mode === 'Room' && 
-        <Room 
-          user={user}
-          handleStartGame={startGame} 
-          seats={seats} 
-          updateSeatCount={updateSeatCount}
-          takeSeat={takeSeat}
-        />
-      }
+      {mode === 'Room' && <Room user={user} handleStartGame={startGame} seats={seats} updateSeatCount={updateSeatCount} takeSeat={takeSeat} />}
       {mode === 'Loading' && <Loading />}
-      {mode === 'Game' && <Game user={user} players={players}/>}
+      {mode === 'Game' && <Game user={user} players={players} />}
     </>
   );
 };
