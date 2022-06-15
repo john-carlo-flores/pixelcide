@@ -16,8 +16,8 @@ const Room = (props) => {
         takeSeat={takeSeat}
       />
       <div className={styles.buttonContainer}>
-        <Button onClick={handleStartGame}>Start Game</Button>
-        <Link to="/games"><Button>Leave Lobby</Button></Link>
+        <Button onClick={handleStartGame} success>Start Game</Button>
+        <Link to="/games"><Button warning>Leave Lobby</Button></Link>
       </div>
     </>
   );
