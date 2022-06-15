@@ -8,6 +8,7 @@ import makeCastle from '../../helpers/game-starters/makeCastle';
 import makeTavern from '../../helpers/game-starters/makeTavern';
 import Status from './Status';
 import suitActivation from '../../helpers/suit-activation';
+import shuffle from '../../helpers/shuffle';
 
 const Game = () => {
   const [discard, setDiscard] = useState([]);
@@ -47,9 +48,28 @@ const Game = () => {
 
   const clickHandler = () => {
     //power-activation logic
-    const activatedPowers = suitActivation(playerField, currentBoss);
+    const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(playerField, currentBoss);
 
-    console.log(activatedPowers);
+    //Hearts case
+    if (heartPower > 0) {
+      let discardDeck = [...discard];
+      shuffle(discardDeck);
+      let healingCards;
+
+      //not enough cards
+      if (discardDeck.length > 0 && discardDeck.length < heartPower) {
+        healingCards = discardDeck;
+        setDiscard([]);
+        setTavern((prev) => [...healingCards, ...prev]);
+      }
+
+      if (discardDeck.length > 0 && discardDeck.length > heartPower) {
+        healingCards = discardDeck.splice(-heartPower, heartPower);
+        setDiscard(discardDeck);
+
+        setTavern((prev) => [...healingCards, ...prev]);
+      }
+    }
 
     setDiscard((prev) => [...prev, ...playerField]);
     setPlayerField([]);
