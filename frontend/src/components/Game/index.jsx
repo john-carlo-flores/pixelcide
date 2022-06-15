@@ -19,6 +19,8 @@ const Game = () => {
   const [playerField, setPlayerField] = useState([]);
   const [status, setStatus] = useState('');
 
+  const maxHand = 8;
+
   useEffect(() => {
     axios.get('http://localhost:8080/cards').then((response) => {
       const cards = response.data;
@@ -33,7 +35,8 @@ const Game = () => {
       const tavernDeck = makeTavern(cards);
 
       //for initial player hand
-      setPlayerCards(tavernDeck.splice(0, 8));
+      setPlayerCards(tavernDeck.splice(0, maxHand));
+
       //set tavern after first card deal
       setTavern(tavernDeck);
     });
@@ -47,8 +50,6 @@ const Game = () => {
     password_digest: 'password',
     avatar_id: 1,
   };
-
-  const maxHand = 8;
 
   const clickHandler = () => {
     //power-activation logic
