@@ -9,6 +9,7 @@ import makeTavern from '../../helpers/game-starters/makeTavern';
 import Status from './Status';
 import suitActivation from '../../helpers/suit-activation';
 import shuffle from '../../helpers/shuffle';
+import PlayedCards from './PlayedCards';
 
 const Game = () => {
   const [discard, setDiscard] = useState([]);
@@ -18,6 +19,7 @@ const Game = () => {
   const [playerCards, setPlayerCards] = useState([]);
   const [playerField, setPlayerField] = useState([]);
   const [status, setStatus] = useState('');
+  const [playedCards, setPlayedCards] = useState([]);
 
   const maxHand = 8;
 
@@ -53,7 +55,6 @@ const Game = () => {
 
   const clickHandler = () => {
     //power-activation logic
-    //club power = damage we deal to enemy
     const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(playerField, currentBoss);
 
     let discardCards = [...discard];
@@ -115,7 +116,7 @@ const Game = () => {
     setDiscard(discardCards);
 
     //move playerfield cards to discard
-    setDiscard((prev) => [...prev, ...playerField]);
+    setPlayedCards((prev) => [...prev, ...playerField]);
     setPlayerField([]);
   };
 
@@ -124,6 +125,7 @@ const Game = () => {
       <div className="background-gif"></div>
       <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBoss} />
       <Status status={status} clickHandler={clickHandler} />
+      <PlayedCards playedCards={playedCards} />
       <Player
         playerField={playerField}
         setPlayerField={setPlayerField}
