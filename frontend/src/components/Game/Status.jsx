@@ -2,12 +2,7 @@ import '../../styles/Game/Status.scss';
 import Button from '../Button';
 
 const Status = (props) => {
-  const { status, playerField, setPlayerField, setDiscard } = props;
-
-  const clickHandler = () => {
-    setDiscard((prev) => [...prev, ...playerField]);
-    setPlayerField([]);
-  };
+  const { status, clickHandler } = props;
 
   return (
     <Button onClick={clickHandler} error>

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import '../../styles/Game/Game.scss';
 import Player from '../Game/Player';
 import DeckList from './DeckList';
-import makeCastle from '../../helpers/makeCastle';
-import makeTavern from '../../helpers/makeTavern';
-import '../../styles/Game/Game.scss';
+import makeCastle from '../../helpers/game-starters/makeCastle';
+import makeTavern from '../../helpers/game-starters/makeTavern';
 import Status from './Status';
+import suitActivation from '../../helpers/suit-activation';
 
 const Game = () => {
   const [discard, setDiscard] = useState([]);
@@ -42,11 +43,23 @@ const Game = () => {
     avatar_id: 1,
   };
 
+  const maxHand = 8;
+
+  const clickHandler = () => {
+    //power-activation logic
+    const activatedPowers = suitActivation(playerField, currentBoss);
+
+    console.log(activatedPowers);
+
+    setDiscard((prev) => [...prev, ...playerField]);
+    setPlayerField([]);
+  };
+
   return (
     <div className="Game">
       <div className="background-gif"></div>
       <DeckList tavern={tavern} discard={discard} castle={castle} setCurrentBoss={setCurrentBoss} />
-      <Status status={status} playerField={playerField} setPlayerField={setPlayerField} setDiscard={setDiscard} />
+      <Status status={status} clickHandler={clickHandler} />
       <Player
         playerField={playerField}
         setPlayerField={setPlayerField}
