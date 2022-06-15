@@ -6,7 +6,7 @@ import { FaGithubAlt } from 'react-icons/fa';
 import { GiRetroController, GiAttachedShield, GiFragmentedSword } from 'react-icons/gi';
 import { ImPacman } from "react-icons/im";
 
-import "../../styles/Authentication/Registration.scss";
+import styles from "../../styles/Authentication/Registration.module.scss";
 
 const Registration = (props) => {
   const { onSubmit } = props;
@@ -41,9 +41,9 @@ const Registration = (props) => {
 
   return (
     <>
-      <div className="Homepage"></div>
-      <h1 className="Title">Pixelcide</h1>
-      <div className={'form-register nes-container is-rounded'}>
+      <div className={styles.Homepage}></div>
+      <h1 className={styles.Title}>Pixelcide</h1>
+      <div className={`${styles.form} nes-container is-rounded`}>
         <form onSubmit={confirmRegistration}>
           <div className="nes-field is-inline">
             <label><FaGithubAlt size={70}/></label>

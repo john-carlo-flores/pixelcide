@@ -1,0 +1,43 @@
+.Homepage {
+  background: url('../../assets/backgrounds/homepage_background.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: -2;
+  filter: blur(1.5px);
+}
+
+.Title {
+  color: #9c383d;
+  font-size: 50px;
+  text-align: center;
+  padding-top: 3rem;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.form {
+  animation: fadeIn 1s ease-in;
+  position: absolute;
+  top: 10rem;
+  z-index: 3;
+  left: 35%;
+  padding: 2rem;
+  width: 30%;
+  background: rgb(156, 56, 61, 0.8);
+}
+
+.button-container {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-evenly;
+}

@@ -1,0 +1,17 @@
+.Homepage {
+  background: url("../../assets/homepage_background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: -2;
+  filter: blur(1.5px);
+}
+
+.Title {
+  color: #9c383d;
+  font-size: 50px;
+  text-align: center;
+  padding-top: 6rem;
+}
