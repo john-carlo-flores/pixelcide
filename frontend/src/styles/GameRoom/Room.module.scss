@@ -6,3 +6,13 @@
     margin: 1rem;
   }
 }
+
+.error {
+  display: flex;
+  justify-content: center;
+
+  > * {
+    background-color: whitesmoke;
+    margin: 0 1rem;
+  }
+}
