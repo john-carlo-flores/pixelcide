@@ -25,7 +25,7 @@ module.exports = (db) => {
             if (result) {
               const accessToken = generateAccessToken(id);
               const refreshToken = generateRefreshToken(id);
-              return res.json({ username, name, avatar_id, accessToken, refreshToken });
+              return res.status(200).json({ username, name, avatar_id, accessToken, refreshToken });
             }
 
             res.status(400).json("Username and/or password is incorrect");
@@ -40,7 +40,8 @@ module.exports = (db) => {
   router.post('/logout', verify, (req, res) => {
     const refreshToken = req.body.token;
     refreshTokens = refreshTokens.filter(token => token !== refreshToken);
-    res.status(200).json("You logged out successfully");
+
+    return res.status(200).json("You logged out successfully");
   });
 
   router.post('/refresh', (req, res) => {
@@ -65,7 +66,7 @@ module.exports = (db) => {
       });
 
     }
-  })
+  });
 
   return router;
 };
