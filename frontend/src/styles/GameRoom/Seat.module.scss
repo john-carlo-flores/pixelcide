@@ -38,12 +38,10 @@
 
 .footer {
   align-self: flex-start;
+}
 
-  img {
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
-  }
+.avatar {
+  image-rendering: pixelated;
 }
 
 .btn {
