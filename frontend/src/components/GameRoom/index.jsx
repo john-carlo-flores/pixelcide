@@ -7,24 +7,27 @@ import Navbar from '../Navbar';
 import { useState, useEffect } from 'react';
 
 import styles from "../../styles/GameRoom/GameRoom.module.scss";
-import axios from 'axios';
 
 const fakePlayers = {
   host: {
     name: 'Link',
     username: 'link',
     avatar_id: 1,
+    empty: false
   },
   player2: {
     name: 'Zelda',
     username: 'zelda',
-    avatar_id: 2
+    avatar_id: 2,
+    empty: false
   },
   player3: {
     name: 'Ganon',
     username: 'ganon',
-    avatar_id: 3
-  }
+    avatar_id: 3,
+    empty: false
+  },
+  player4: null
 };
 
 const GameRoom = (props) => {
@@ -32,10 +35,7 @@ const GameRoom = (props) => {
 
   const [mode, setMode] = useState('Loading');
   const [players, setPlayers] = useState(); //Only gets added once they press Take Seat
-  const [seats, setSeats] = useState({
-    count: 1,
-    playerSeated: {...fakePlayers}
-  }); //Updates when host presses seat
+  const [seats, setSeats] = useState({...fakePlayers}); //Updates when host presses seat
 
   const startGame = () => {
     setMode('Loading');
@@ -45,24 +45,26 @@ const GameRoom = (props) => {
     }, 10000);
   };
 
-  const updateSeatCount = (update) => {
+  const updateSeatCount = (update, number = 0) => {
     switch (update) {
       case '+':
         setSeats(prev => {
-          return {
-            ...prev,
-            count: prev.count + 1
-          }
+          const newSeats = {...prev};
+          newSeats[`player${number}`] = { empty: true };
+
+          return newSeats;
         });
         break;
+
       case '-':
         setSeats(prev => {
-          return {
-            ...prev,
-            count: prev.count - 1
-          }
+          const newSeats = {...prev};
+          delete newSeats[`player${number}`];
+
+          return newSeats;
         });
         break;
+
       default:
         break;
     }
@@ -70,20 +72,23 @@ const GameRoom = (props) => {
 
   const takeSeat = (player, seatNumber) => {
     setSeats(prev => {
-      const newPlayerSeated = {
-        ...prev.playerSeated,
-      };
+      const newSeats = {...prev};
 
-      newPlayerSeated[`player${seatNumber}`] = {
+      // Check if user already took a seat and switch locations
+      const existingSeat = Object.keys(newSeats).find(seat => newSeats[seat].username === player.username);
+
+      if (existingSeat) {
+        newSeats[existingSeat] = {empty:true};
+      }
+
+      newSeats[`player${seatNumber}`] = {
         name: player.name,
         username: player.username,
-        avatar_id: player.avatar_id
+        avatar_id: player.avatar_id,
+        empty: false
       };
 
-      return {
-        ...prev,
-        playerSeated: { ...newPlayerSeated }
-      };
+      return newSeats;
     });
   };
 
