@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styles from '../../styles/GameRoom/Room.module.scss';
 
 const Room = (props) => {
-  const { user, handleStartGame, seats, updateSeatCount, takeSeat } = props;
+  const { user, handleStartGame, seats, updateSeatCount, takeSeat, error } = props;
 
   return (
     <>
@@ -15,6 +15,11 @@ const Room = (props) => {
         updateSeatCount={updateSeatCount} 
         takeSeat={takeSeat}
       />
+      {error && (
+        <div className={styles.error}>
+          <span className={'nes-balloon from-left nes-pointer'}>{error}</span>
+        </div>
+      )}
       <div className={styles.buttonContainer}>
         <Button onClick={handleStartGame} success>Start Game</Button>
         <Link to="/games"><Button warning>Leave Lobby</Button></Link>
