@@ -20,22 +20,32 @@ module.exports = {
   
   verify: (req, res, next) => {
     const authHeader = req.headers.authorization;
+
+    // Check if user passed in access Token
+    if (!authHeader) {
+      return res.status(401).json("User failed authentication!");
+    }
+
+    // Parse for access token
+    const token = authHeader.split(" ")[1];
+    let verifyError = null;
+
+    // Validate access token
+    jwt.verify(token, ACCESS_TOKEN_KEY, (err, user) => {
+      if (err) {
+        verifyError = err;
+      }
+      
+      // Store token
+      req.user = user;
+    });
     
-    if (authHeader) {
-      const token = authHeader.split(" ")[1];
-  
-      jwt.verify(token, ACCESS_TOKEN_KEY, (err, user) => {
-        if (err) {
-          return res.status(403).json("Token is not valid!");
-        }
-  
-        req.user = user;
-        return next();
-      })
-  
+    // Exit if invalid token
+    if (verifyError) {
+      return res.status(403).json("Token is not valid!");
     }
     
-    res.status(401).json("User failed authentication!");
+    next();
   },
 
   validRefreshToken: (refreshToken, ) => {
