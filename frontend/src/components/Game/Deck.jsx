@@ -1,18 +1,15 @@
-import { useEffect } from 'react';
 import Card from '../Game/Card';
 import emptyCard from '../../assets/cards/placeholder.png';
 import '../../styles/Game/Deck.scss';
 
 const Deck = (props) => {
-  const { deck, name, setCurrentBoss } = props;
+  const { deck, name, currentBoss } = props;
+
+  //waiting on the boss
+  const theBoss = currentBoss || {};
 
   const lastDiscardCard = deck.length > 0 && name === 'discard' ? deck.at(-1) : {};
-  const lastCastleCard = deck.length > 0 && name === 'castle' ? deck.at(-1) : {};
   const lastTavernCard = deck.length > 0 && name === 'tavern' ? deck.at(-1) : {};
-
-  useEffect(() => {
-    name === 'castle' && setCurrentBoss(lastCastleCard);
-  }, [lastCastleCard]);
 
   return (
     <div className="Deck">
@@ -22,10 +19,11 @@ const Deck = (props) => {
       {/* discard deck */}
       <div className="deckName">{name.toUpperCase()}</div>
       <div className="deck-main">
-        {name === 'discard' && !deck.length ? <Card image={emptyCard} /> : <Card image={lastDiscardCard.image_front} />}
+        {/* {name === 'discard' && !deck.length ? <Card image={emptyCard} /> : <Card image={lastDiscardCard.image_front} />} */}
+        {name === 'discard' && <Card image={lastDiscardCard.image_front} />}
 
         {/* castle deck */}
-        {name === 'castle' && <Card image={lastCastleCard.image_front} />}
+        {name === 'castle' && <Card image={theBoss.image_front} />}
 
         {/* tavern deck */}
         {name === 'tavern' && <Card image={lastTavernCard.image_back} />}
@@ -35,8 +33,8 @@ const Deck = (props) => {
       {name === 'castle' && (
         <div className="nes-container with-title is-centered">
           <p className="title">Enemy status</p>
-          <p className="boss-stats">Attack: {lastCastleCard.damage}</p>
-          <p className="boss-stats">Health: {lastCastleCard.health}</p>
+          <p className="boss-stats">Attack: {theBoss.damage}</p>
+          <p className="boss-stats">Health: {theBoss.health}</p>
         </div>
       )}
     </div>

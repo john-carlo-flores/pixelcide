@@ -6,33 +6,37 @@ const suitActivation = (playerField, currentBoss) => {
   let heartPower = 0; // hearts we replenish our tavern from discard
   let clubPower = 0; // clubs we double damage
 
+  const suits = [];
   for (const card of playerField) {
     totalDamage += card.damage;
+
+    if (!suits.includes(card.suit) && card.suit !== currentBoss.suit) {
+      suits.push(card.suit);
+    }
   }
 
-  for (const card of playerField) {
-    if (card.suit === 'Spades' && card.suit !== currentBoss.suit) {
-      //active spades
-      spadePower = totalDamage;
-    }
-    if (card.suit === 'Diamonds' && card.suit !== currentBoss.suit) {
-      //activate diamonds
-      diamondPower = totalDamage;
-    }
-    if (card.suit === 'Hearts' && card.suit !== currentBoss.suit) {
-      //activate hearts
-      heartPower = totalDamage;
-    }
-
-    if (card.suit === 'Clubs' && card.suit !== currentBoss.suit) {
-      //activate clubs
-      clubChecker = true;
-    }
+  if (suits.includes('Spades')) {
+    //active spades
+    spadePower = totalDamage;
   }
+  if (suits.includes('Diamonds')) {
+    //activate diamonds
+    diamondPower = totalDamage;
+  }
+  if (suits.includes('Hearts')) {
+    //activate hearts
+    heartPower = totalDamage;
+  }
+
+  if (suits.includes('Clubs')) {
+    //activate clubs
+    clubChecker = true;
+  }
+
+  clubPower = totalDamage;
+
   if (clubChecker) {
     clubPower = totalDamage * 2;
-  } else {
-    clubPower = totalDamage;
   }
 
   return { spadePower, diamondPower, heartPower, clubPower };

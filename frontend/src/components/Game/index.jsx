@@ -19,6 +19,8 @@ const Game = () => {
   const [playerField, setPlayerField] = useState([]);
   const [status, setStatus] = useState('');
 
+  const maxHand = 8;
+
   useEffect(() => {
     axios.get('http://localhost:8080/cards').then((response) => {
       const cards = response.data;
@@ -26,10 +28,15 @@ const Game = () => {
       const castleDeck = makeCastle(cards);
       setCastle(castleDeck);
 
+      //setting current boss as last card
+      const lastCastleCard = castleDeck.at(-1);
+      setCurrentBoss(lastCastleCard);
+
       const tavernDeck = makeTavern(cards);
 
       //for initial player hand
-      setPlayerCards(tavernDeck.splice(0, 8));
+      setPlayerCards(tavernDeck.splice(0, maxHand));
+
       //set tavern after first card deal
       setTavern(tavernDeck);
     });
@@ -44,32 +51,68 @@ const Game = () => {
     avatar_id: 1,
   };
 
-  const maxHand = 8;
-
   const clickHandler = () => {
     //power-activation logic
+    //club power = damage we deal to enemy
     const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(playerField, currentBoss);
+
+    let discardCards = [...discard];
+    let tavernCards = [...tavern];
+    let currentPlayerHand = [...playerCards];
+    let bossCard = { ...currentBoss };
 
     //Hearts case
     if (heartPower > 0) {
-      let discardDeck = [...discard];
-      shuffle(discardDeck);
+      shuffle(discardCards);
       let healingCards;
 
       //not enough cards
-      if (discardDeck.length > 0 && discardDeck.length < heartPower) {
-        healingCards = discardDeck;
-        setDiscard([]);
-        setTavern((prev) => [...healingCards, ...prev]);
+      if (discardCards.length > 0 && discardCards.length <= heartPower) {
+        healingCards = discardCards;
+        discardCards = [];
+        tavernCards = [...healingCards, ...tavernCards];
       }
 
-      if (discardDeck.length > 0 && discardDeck.length > heartPower) {
-        healingCards = discardDeck.splice(-heartPower, heartPower);
-        setDiscard(discardDeck);
-
-        setTavern((prev) => [...healingCards, ...prev]);
+      if (discardCards.length > 0 && discardCards.length > heartPower) {
+        healingCards = discardCards.splice(-heartPower, heartPower);
+        tavernCards = [...healingCards, ...tavernCards];
       }
     }
+
+    if (diamondPower > 0) {
+      let drawableCards = maxHand - currentPlayerHand.length;
+      let cardsDrawn;
+
+      if (diamondPower < drawableCards) {
+        drawableCards = diamondPower;
+      }
+
+      if (tavernCards.length > 0 && drawableCards >= tavernCards.length) {
+        cardsDrawn = tavernCards;
+        tavernCards = [];
+        currentPlayerHand = [...currentPlayerHand, ...cardsDrawn];
+      }
+
+      if (tavernCards.length > 0 && drawableCards < tavernCards.length) {
+        cardsDrawn = tavernCards.splice(-drawableCards, drawableCards);
+        currentPlayerHand = [...currentPlayerHand, ...cardsDrawn];
+      }
+    }
+
+    if (spadePower > 0) {
+      bossCard.damage -= spadePower;
+
+      if (bossCard.damage <= 0) {
+        bossCard.damage = 0;
+      }
+    }
+    // after spade damage
+    setCurrentBoss(bossCard);
+
+    // after diamond and heart
+    setTavern(tavernCards);
+    setPlayerCards(currentPlayerHand);
+    setDiscard(discardCards);
 
     //move playerfield cards to discard
     setDiscard((prev) => [...prev, ...playerField]);
@@ -79,7 +122,7 @@ const Game = () => {
   return (
     <div className="Game">
       <div className="background-gif"></div>
-      <DeckList tavern={tavern} discard={discard} castle={castle} setCurrentBoss={setCurrentBoss} />
+      <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBoss} />
       <Status status={status} clickHandler={clickHandler} />
       <Player
         playerField={playerField}
