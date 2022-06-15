@@ -24,7 +24,7 @@ const Game = () => {
   const maxHand = 8;
 
   useEffect(() => {
-    axios.get('http://localhost:8080/cards').then((response) => {
+    axios.get('/cards').then((response) => {
       const cards = response.data;
 
       const castleDeck = makeCastle(cards);
@@ -61,6 +61,9 @@ const Game = () => {
     let tavernCards = [...tavern];
     let currentPlayerHand = [...playerCards];
     let bossCard = { ...currentBoss };
+    let castleCards = [...castle];
+    let commitedPlayerField = [...playerField];
+    let playedCardsCopy = [...playedCards];
 
     //Hearts case
     if (heartPower > 0) {
@@ -107,16 +110,33 @@ const Game = () => {
         bossCard.damage = 0;
       }
     }
+
+    bossCard.health -= clubPower;
+    if (bossCard.health < 0) {
+      discardCards = [...discardCards, bossCard, ...commitedPlayerField, ...playedCardsCopy];
+      castleCards.pop();
+      bossCard = castleCards.at(-1);
+      commitedPlayerField = [];
+      setPlayedCards(commitedPlayerField);
+    } else if (bossCard.health === 0) {
+      tavernCards = [...tavernCards, bossCard];
+      castleCards.pop();
+      bossCard = castleCards.at(-1);
+      discardCards = [...discardCards, ...commitedPlayerField, ...playedCardsCopy];
+      commitedPlayerField = [];
+      setPlayedCards(commitedPlayerField);
+    }
+
     // after spade damage
     setCurrentBoss(bossCard);
-
+    setCastle(castleCards);
     // after diamond and heart
     setTavern(tavernCards);
     setPlayerCards(currentPlayerHand);
     setDiscard(discardCards);
 
     //move playerfield cards to discard
-    setPlayedCards((prev) => [...prev, ...playerField]);
+    setPlayedCards((prev) => [...prev, ...commitedPlayerField]);
     setPlayerField([]);
   };
 
