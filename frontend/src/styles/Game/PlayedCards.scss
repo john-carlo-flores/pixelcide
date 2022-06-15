@@ -1,0 +1,40 @@
+.played-card-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 2rem;
+  gap: 1rem;
+  color: white;
+  .PlayedCards {
+    height: 9.5rem;
+    display: flex;
+    justify-content: center;
+
+    .player-card {
+      z-index: 1;
+      background: #ecece0;
+      border-radius: 5px;
+      padding: 0.5rem;
+      box-shadow: 4px 4px 12px 2px rgba(black, 0.6);
+      transition: 0.2s;
+      &:not(:first-child) {
+        margin-left: calc(5.4rem * -1);
+      }
+
+      img {
+        width: 6rem;
+      }
+    }
+
+    .player-card:hover,
+    .player-card:focus-within {
+      transform: translatey(-1rem);
+    }
+
+    .player-card:hover ~ .player-card,
+    .player-card:focus-within ~ .player-card {
+      transform: translatex(4.2rem);
+    }
+  }
+}
