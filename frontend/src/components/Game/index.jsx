@@ -50,26 +50,51 @@ const Game = () => {
     //power-activation logic
     const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(playerField, currentBoss);
 
+    let discardCards = [...discard];
+    let tavernCards = [...tavern];
+    let currentPlayerHand = [...playerCards];
+
     //Hearts case
     if (heartPower > 0) {
-      let discardDeck = [...discard];
-      shuffle(discardDeck);
+      shuffle(discardCards);
       let healingCards;
 
       //not enough cards
-      if (discardDeck.length > 0 && discardDeck.length < heartPower) {
-        healingCards = discardDeck;
-        setDiscard([]);
-        setTavern((prev) => [...healingCards, ...prev]);
+      if (discardCards.length > 0 && discardCards.length <= heartPower) {
+        healingCards = discardCards;
+        discardCards = [];
+        tavernCards = [...healingCards, ...tavernCards];
       }
 
-      if (discardDeck.length > 0 && discardDeck.length > heartPower) {
-        healingCards = discardDeck.splice(-heartPower, heartPower);
-        setDiscard(discardDeck);
-
-        setTavern((prev) => [...healingCards, ...prev]);
+      if (discardCards.length > 0 && discardCards.length > heartPower) {
+        healingCards = discardCards.splice(-heartPower, heartPower);
+        tavernCards = [...healingCards, ...tavernCards];
       }
     }
+
+    if (diamondPower > 0) {
+      let drawableCards = maxHand - currentPlayerHand.length;
+      let cardsDrawn;
+
+      if (diamondPower < drawableCards) {
+        drawableCards = diamondPower;
+      }
+
+      if (tavernCards.length > 0 && drawableCards >= tavernCards.length) {
+        cardsDrawn = tavernCards;
+        tavernCards = [];
+        currentPlayerHand = [...currentPlayerHand, ...cardsDrawn];
+      }
+
+      if (tavernCards.length > 0 && drawableCards < tavernCards.length) {
+        cardsDrawn = tavernCards.splice(-drawableCards, drawableCards);
+        currentPlayerHand = [...currentPlayerHand, ...cardsDrawn];
+      }
+    }
+
+    setTavern(tavernCards);
+    setPlayerCards(currentPlayerHand);
+    setDiscard(discardCards);
 
     //move playerfield cards to discard
     setDiscard((prev) => [...prev, ...playerField]);
