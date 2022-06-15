@@ -1,4 +1,4 @@
-import loading from '../../assets/card-spinner.gif';
+import loading from '../../assets/loading/card-spinner.gif';
 
 import styles from '../../styles/GameRoom/Loading.module.scss';
 
