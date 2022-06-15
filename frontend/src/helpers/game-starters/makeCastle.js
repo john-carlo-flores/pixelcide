@@ -1,4 +1,4 @@
-import shuffle from './shuffle';
+import shuffle from '../shuffle';
 import seperateCards from './card-seperator';
 
 const makeCastle = (cardsArray) => {
