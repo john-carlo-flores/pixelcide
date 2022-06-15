@@ -102,7 +102,6 @@ const GameRoom = (props) => {
 
   return (
     <>
-<<<<<<< HEAD
       {(mode === 'Room' || mode === 'Loading') && (
         <>
           <div className={styles.Homepage}></div>
@@ -121,9 +120,6 @@ const GameRoom = (props) => {
       }
       {mode === 'Loading' && <Loading />}
       {mode === 'Game' && <Game user={user} players={players}/>}
-=======
-      <Game />
->>>>>>> main
     </>
   );
 };
