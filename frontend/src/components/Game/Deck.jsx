@@ -16,9 +16,11 @@ const Deck = (props) => {
 
   return (
     <div className="Deck">
+      {/* show card count */}
+      <div className="count-badge">{deck.length}</div>
+
       {/* discard deck */}
       <div className="deckName">{name.toUpperCase()}</div>
-
       <div className="deck-main">
         {name === 'discard' && !deck.length ? <Card image={emptyCard} /> : <Card image={lastDiscardCard.image_front} />}
 
@@ -29,6 +31,7 @@ const Deck = (props) => {
         {name === 'tavern' && <Card image={lastTavernCard.image_back} />}
       </div>
 
+      {/* show boss stats */}
       {name === 'castle' && (
         <div className="nes-container with-title is-centered">
           <p className="title">Enemy status</p>
