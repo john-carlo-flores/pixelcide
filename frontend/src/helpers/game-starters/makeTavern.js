@@ -1,4 +1,4 @@
-import shuffle from './shuffle';
+import shuffle from '../shuffle';
 
 const makeTavern = (cardsArray) => {
   const finalDeck = cardsArray.filter((card) => card.tag !== 'K' && card.tag !== 'Q' && card.tag !== 'J');
