@@ -1,6 +1,6 @@
-import loading from '../../assets/loading/card-spinner.gif';
+import loading from '../assets/loading/card-spinner.gif';
 
-import styles from '../../styles/GameRoom/Loading.module.scss';
+import styles from '../styles/Loading.module.scss';
 
 import { useEffect, useState } from 'react';
 
