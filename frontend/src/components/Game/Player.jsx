@@ -1,8 +1,12 @@
 import Card from './Card';
 import '../../styles/Game/Player.scss';
+import { useState } from 'react';
+import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 
 const Player = (props) => {
   const { playerCards, playerName, avatar, setPlayerField, playerField, setPlayerCards } = props;
+
+  const [moveCard, setMoveCard] = useState(false);
 
   const handleClick = (card) => {
     //removing that played card from player's hand
@@ -10,24 +14,31 @@ const Player = (props) => {
 
     setPlayerCards(newPlayerCards);
     setPlayerField((prev) => [...prev, card]);
+
+    // setMoveCard(!moveCard);
+    console.log(playerCards);
   };
 
   return (
     <div className="Player">
       <div className="player-field">
-        {playerField.map((card) => (
-          <div key={card.id} className="player-field-card">
-            <Card image={card.image_front} />
-          </div>
-        ))}
+        <AnimatePresence>
+          {playerField.map((card) => (
+            <motion.div exit={{ x: -1300 }} layout key={card.id} className="player-field-card">
+              <Card image={card.image_front} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
 
       <div className="cards-container">
-        {playerCards.map((card) => (
-          <div key={card.id} onClick={() => handleClick(card)} className="player-card">
-            <Card image={card.image_front} />
-          </div>
-        ))}
+        <AnimatePresence>
+          {playerCards.map((card) => (
+            <motion.div exit={{ y: -300, x: 150 }} transition={{ delay: 0 }} key={card.id} onClick={() => handleClick(card)} className="player-card">
+              <Card image={card.image_front} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
         {playerCards.length === 0 && <div className="empty"></div>}
       </div>
 
