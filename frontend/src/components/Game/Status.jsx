@@ -3,7 +3,7 @@ import Button from '../Button';
 import { Link } from 'react-router-dom';
 
 const Status = (props) => {
-  const { status, handlePlayerAttack, handleBossAttack } = props;
+  const { status, handlePlayerAttack, handleBossAttack, validate } = props;
 
   return (
     <>
@@ -16,7 +16,7 @@ const Status = (props) => {
       )}
 
       {status === 'boss_attack' && (
-        <Button onClick={handleBossAttack} error>
+        <Button onClick={handleBossAttack} error disabled={!validate}>
           DISCARD
         </Button>
       )}
