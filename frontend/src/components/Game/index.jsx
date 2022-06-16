@@ -18,7 +18,7 @@ const Game = () => {
   const [currentBoss, setCurrentBoss] = useState();
   const [playerCards, setPlayerCards] = useState([]);
   const [playerField, setPlayerField] = useState([]);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState('game_over_lose');
   const [playedCards, setPlayedCards] = useState([]);
 
   const maxHand = 8;
@@ -44,6 +44,18 @@ const Game = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (status === 'player_turn') {
+      setTimeout(() => {
+        if (playerCards.length <= 0) {
+          setStatus('game_over_lose');
+        } else {
+          setStatus('player_attack');
+        }
+      }, 2000);
+    }
+  }, [status, playerCards]);
+
   const user = {
     id: 1,
     username: 'gagan420',
@@ -53,10 +65,9 @@ const Game = () => {
     avatar_id: 1,
   };
 
-  const clickHandler = () => {
+  const handlePlayerAttack = () => {
     //power-activation logic
     const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(playerField, currentBoss);
-
     let discardCards = [...discard];
     let tavernCards = [...tavern];
     let currentPlayerHand = [...playerCards];
@@ -118,6 +129,7 @@ const Game = () => {
       bossCard = castleCards.at(-1);
       commitedPlayerField = [];
       setPlayedCards(commitedPlayerField);
+      castleCards.length === 0 && setStatus('game_over_win');
     } else if (bossCard.health === 0) {
       tavernCards = [...tavernCards, bossCard];
       castleCards.pop();
@@ -125,6 +137,9 @@ const Game = () => {
       discardCards = [...discardCards, ...commitedPlayerField, ...playedCardsCopy];
       commitedPlayerField = [];
       setPlayedCards(commitedPlayerField);
+      castleCards.length === 0 && setStatus('game_over_win');
+    } else {
+      setStatus('boss_attack');
     }
 
     // after spade damage
@@ -140,11 +155,15 @@ const Game = () => {
     setPlayerField([]);
   };
 
+  const handleBossAttack = () => {
+    setStatus('player_turn');
+  };
+
   return (
     <div className="Game">
       <div className="background-gif"></div>
       <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBoss} />
-      <Status status={status} clickHandler={clickHandler} />
+      <Status status={status} handlePlayerAttack={handlePlayerAttack} handleBossAttack={handleBossAttack} />
       <PlayedCards playedCards={playedCards} />
       <Player
         playerField={playerField}
