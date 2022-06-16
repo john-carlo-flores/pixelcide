@@ -35,7 +35,6 @@ const GameRoom = (props) => {
 
   const [mode, setMode] = useState('Loading');
   const [error, setError] = useState();
-  const [players, setPlayers] = useState(); //Only gets added once they press Take Seat
   const [seats, setSeats] = useState({ ...fakePlayers }); //Updates when host presses seat
 
   const startGame = () => {
@@ -120,7 +119,7 @@ const GameRoom = (props) => {
       )}
       {mode === 'Room' && <Room user={user} handleStartGame={startGame} seats={seats} updateSeatCount={updateSeatCount} takeSeat={takeSeat} error={error} />}
       {mode === 'Loading' && <Loading />}
-      {mode === 'Game' && <Game user={user} players={players} />}
+      {mode === 'Game' && <Game user={user} />}
     </>
   );
 };
