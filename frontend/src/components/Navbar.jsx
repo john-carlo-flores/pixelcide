@@ -1,25 +1,20 @@
-import Login from "../components/Authentication/Login";
+import Login from '../components/Authentication/Login';
+import '../styles/Navbar.scss';
 
-import "../styles/Navbar.scss";
-
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function Navbar(props) {
   const [login, setLogin] = useState(false);
   const { userAuth, logout } = props;
-
   const toggleLoginForm = () => {
-    setLogin(prev => !prev);
+    console.log(login);
+    setLogin((prev) => !prev);
   };
 
   return (
     <>
       <nav className="navbar">
-        <a
-          className="how-to-play"
-          href="https://www.badgersfrommars.com/assets/RegicideRulesA4.pdf"
-          target="_blank" rel="noreferrer"
-        >
+        <a className="how-to-play" href="https://www.badgersfrommars.com/assets/RegicideRulesA4.pdf" target="_blank" rel="noreferrer">
           How to Play
         </a>
 
@@ -39,7 +34,7 @@ export default function Navbar(props) {
           )}
         </div>
       </nav>
-      {login && <Login userAuth={userAuth} toggleLoginForm={toggleLoginForm}/>}
+      {<Login userAuth={userAuth} toggleLoginForm={toggleLoginForm} visibleForm={login} />}
     </>
   );
 }
