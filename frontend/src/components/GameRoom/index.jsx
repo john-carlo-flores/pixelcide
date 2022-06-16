@@ -1,6 +1,6 @@
 import Game from '../Game';
 import Room from './Room';
-import Loading from './Loading';
+import Loading from '../Loading';
 
 import Navbar from '../Navbar';
 
