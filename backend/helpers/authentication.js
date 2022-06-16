@@ -17,6 +17,19 @@ module.exports = {
       REFRESH_TOKEN_KEY,
     );
   },
+
+  generateUniqueLink: (length) => {
+    const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+    const uppercase = lowercase.toLocaleUpperCase();
+    const characters = lowercase + uppercase;
+    let link = '';
+    
+    for (let i = 0; i < length; i++) {
+      link += characters.at(Math.floor(Math.random() * characters.length));
+    }
+
+    return link;
+  },
   
   verify: (req, res, next) => {
     const authHeader = req.headers.authorization;

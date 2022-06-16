@@ -1,8 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-
-const baseURL = 'http://localhost:8080';
+import { io } from "socket.io-client";
 
 const useAuth = (initial) => {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
@@ -12,9 +11,18 @@ const useAuth = (initial) => {
     if (username && password) {
       const user = { username, password };
 
-      return axios.post(`${baseURL}/login`, { user })
+      return axios.post(`/login`, { user })
         .then(response => {
-          setUser({...response.data});
+        
+          setUser(prev => {
+            const user = {
+              ...response.data,
+              socket: io()
+            };
+
+            return user;
+           });
+
           sessionStorage.setItem('user', JSON.stringify({...response.data}))
           return true;
         })
@@ -30,7 +38,7 @@ const useAuth = (initial) => {
   const register = (user) => {
     if (user.username && user.name && user.email && user.password && user.avatar_id) {
 
-      return axios.post(`${baseURL}/users`, { user })
+      return axios.post(`/users`, { user })
         .then(response => {
           setUser({...response.data});
           sessionStorage.setItem('user', JSON.stringify({...response.data}))
@@ -43,17 +51,20 @@ const useAuth = (initial) => {
   }
 
   const logout = () => {
-    axiosJWT.post(`${baseURL}/logout`, { token: user.refreshToken }, {
+    axiosJWT.post(`/logout`, { token: user.refreshToken }, {
       headers: { Authorization: `Bearer ${user.accessToken}` }
     })
       .then(response => {
+        console.log("Logging out...")
         sessionStorage.removeItem('user');
+        user.socket.emit("logout");
+
         setUser(null);
       });
   };
 
   const refreshToken = () => {
-    return axios.post(`${baseURL}/refresh`, { token: user.refreshToken })
+    return axios.post(`/refresh`, { token: user.refreshToken })
       .then(res => {
         const refreshUser = {
           ...user,
