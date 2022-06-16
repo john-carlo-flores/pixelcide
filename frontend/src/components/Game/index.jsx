@@ -18,7 +18,7 @@ const Game = () => {
   const [currentBoss, setCurrentBoss] = useState();
   const [playerCards, setPlayerCards] = useState([]);
   const [playerField, setPlayerField] = useState([]);
-  const [status, setStatus] = useState('game_over_lose');
+  const [status, setStatus] = useState('player_turn');
   const [playedCards, setPlayedCards] = useState([]);
 
   const maxHand = 8;
