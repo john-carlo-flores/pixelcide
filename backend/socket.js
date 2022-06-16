@@ -10,12 +10,12 @@ module.exports = (sessionMiddleware, httpServer) => {
   
   io.use(wrap(sessionMiddleware));
 
-  io.on("connection", (socket, title) => {
+  io.on("connection", (socket) => {
     console.log(`User ${socket.id} connected!`);
 
     socket.on("Create New Lobby", () => {
       console.log("Create New Lobby"); 
-      const lobby = createLobby(socket.id, title);
+      const lobby = createLobby(socket.id);
       console.log(lobby);
       socket.emit("Get Created Lobby", lobby);
     });

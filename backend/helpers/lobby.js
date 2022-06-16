@@ -5,7 +5,7 @@ const LINK_LENGTH = 8;
 
 let lobbies = [];
 
-const createLobby = (id, title) => {
+const createLobby = (id) => {
   if (lobbies.length === MAX_NUM_ROOMS) {
     return false;
   }
@@ -13,7 +13,7 @@ const createLobby = (id, title) => {
   const newLobby = {
     link: generateUniqueLink(LINK_LENGTH),
     host: id,
-    title,
+    title: '',
     game: {}
   };
 
