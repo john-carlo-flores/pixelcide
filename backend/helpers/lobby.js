@@ -3,7 +3,7 @@ const { generateUniqueLink } = require('../helpers/authentication');
 const MAX_NUM_ROOMS = 20;
 const LINK_LENGTH = 8;
 
-const lobbies = [];
+let lobbies = [];
 
 const createLobby = (id, title) => {
   if (lobbies.length === MAX_NUM_ROOMS) {
@@ -22,4 +22,22 @@ const createLobby = (id, title) => {
   return newLobby;
 };
 
-module.exports = { createLobby };
+const cancelLobby = (canceled) => {
+  lobbies = lobbies.filter(lobby => lobby.link !== canceled.link);
+};
+
+const listLobbies = () => {
+  console.log(lobbies);
+};
+
+const updateLobby = (update) => {
+  const index = lobbies.findIndex(lobby => lobby.link === update.link);
+
+  lobbies[index] = update;
+};
+
+const getLobby = (link) => {
+  return lobbies.find(lobby => lobby.link === link);
+};
+
+module.exports = { createLobby, cancelLobby, listLobbies, updateLobby, getLobby };

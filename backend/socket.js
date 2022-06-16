@@ -1,6 +1,6 @@
 const { Server } = require('socket.io');
 const { verify } = require('./helpers/authentication');
-const { createLobby } = require('./helpers/lobby');
+const { createLobby, cancelLobby, listLobbies, updateLobby, getLobby } = require('./helpers/lobby');
 
 module.exports = (sessionMiddleware, httpServer) => {
   const io = new Server(httpServer);
@@ -13,11 +13,30 @@ module.exports = (sessionMiddleware, httpServer) => {
   io.on("connection", (socket, title) => {
     console.log(`User ${socket.id} connected!`);
 
-    socket.on("Create New Lobby", (title) => {
-      console.log("Create New Lobby: ", title); 
+    socket.on("Create New Lobby", () => {
+      console.log("Create New Lobby"); 
       const lobby = createLobby(socket.id, title);
+      console.log(lobby);
+      socket.emit("Get Created Lobby", lobby);
+    });
 
-      socket.emit("Get New Lobby", lobby);
+    socket.on("Cancel Lobby", (lobby) => {
+      cancelLobby(lobby);
+    });
+
+    socket.on("Request Lobby", (link) => {
+      const lobby = getLobby(link);
+      console.log("Request Lobby:");
+      console.log(lobby);
+      socket.emit("Get Lobby", lobby);
+    });
+
+    socket.on("Update Lobby", (lobby) => {
+      console.log("Update Lobby function call");
+      console.log(lobby);
+      const updatedLobby = updateLobby(lobby);
+      console.log("Updated Lobby:");
+      listLobbies();
     });
 
     socket.on("logout", (args) => {
