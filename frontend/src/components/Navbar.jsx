@@ -3,14 +3,22 @@ import Login from "../components/Authentication/Login";
 import "../styles/Navbar.scss";
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar(props) {
   const [login, setLogin] = useState(false);
   const { userAuth, logout } = props;
+  const navigate = useNavigate();
 
   const toggleLoginForm = () => {
     setLogin(prev => !prev);
   };
+
+  const onLogout = (event) => {
+    event.preventDefault();
+    logout();
+    navigate("/");
+  }
 
   return (
     <>
@@ -32,7 +40,7 @@ export default function Navbar(props) {
           {props.user && (
             <div className="user-logout">
               <p>Welcome {props.user.username} |</p>
-              <p className="logout nes-pointer" onClick={logout}>
+              <p className="logout nes-pointer" onClick={onLogout}>
                 &nbsp;Logout
               </p>
             </div>
