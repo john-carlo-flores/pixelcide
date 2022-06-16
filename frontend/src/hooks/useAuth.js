@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { io } from "socket.io-client";
 
 const useAuth = (initial) => {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
@@ -12,7 +13,16 @@ const useAuth = (initial) => {
 
       return axios.post(`/login`, { user })
         .then(response => {
-          setUser({...response.data});
+        
+          setUser(prev => {
+            const user = {
+              ...response.data,
+              socket: io()
+            };
+
+            return user;
+           });
+
           sessionStorage.setItem('user', JSON.stringify({...response.data}))
           return true;
         })
@@ -45,7 +55,10 @@ const useAuth = (initial) => {
       headers: { Authorization: `Bearer ${user.accessToken}` }
     })
       .then(response => {
+        console.log("Logging out...")
         sessionStorage.removeItem('user');
+        user.socket.emit("logout");
+
         setUser(null);
       });
   };
