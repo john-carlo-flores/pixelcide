@@ -124,14 +124,14 @@ const Game = () => {
 
     bossCard.health -= clubPower;
     if (bossCard.health < 0) {
-      discardCards = [...discardCards, bossCard, ...commitedPlayerField, ...playedCardsCopy];
+      discardCards = [...discardCards, currentBoss, ...commitedPlayerField, ...playedCardsCopy];
       castleCards.pop();
       bossCard = castleCards.at(-1);
       commitedPlayerField = [];
       setPlayedCards(commitedPlayerField);
       castleCards.length === 0 && setStatus('game_over_win');
     } else if (bossCard.health === 0) {
-      tavernCards = [...tavernCards, bossCard];
+      tavernCards = [...tavernCards, currentBoss];
       castleCards.pop();
       bossCard = castleCards.at(-1);
       discardCards = [...discardCards, ...commitedPlayerField, ...playedCardsCopy];
