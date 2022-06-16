@@ -5,6 +5,7 @@ import Loading from '../Loading';
 import Navbar from '../Navbar';
 
 import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from "react-router-dom";
 
 import styles from '../../styles/GameRoom/GameRoom.module.scss';
 
@@ -33,9 +34,13 @@ const fakePlayers = {
 const GameRoom = (props) => {
   const { user, userAuth, logout } = props;
 
-  const [mode, setMode] = useState('Loading');
-  const [error, setError] = useState();
-  const [seats, setSeats] = useState({ ...fakePlayers }); //Updates when host presses seat
+  const [ mode, setMode ] = useState('Loading');
+  const [ error, setError ] = useState();
+  const [ seats, setSeats ] = useState({ ...fakePlayers }); //Updates when host presses seat
+  const [ lobby, setLobby ] = useState();
+
+  const { id } = useParams(); 
+  const navigate = useNavigate();
 
   const startGame = () => {
     // Check if created seat is not filled
@@ -101,11 +106,25 @@ const GameRoom = (props) => {
   };
 
   useEffect(() => {
+    console.log("Loading...");
+    console.log(user);
+    console.log("vs");
+    console.log(JSON.parse(sessionStorage.getItem('user')));
     //axios get request w/ listener to socket io to update players
-    setTimeout(() => {
-      //Switch from Loading state to created once finished
+    user.socket.emit("Request Lobby", id);
+
+    user.socket.on("Get Lobby", (lobby) => {
+      if (!lobby) {
+        console.log("Invalid URL!");
+        navigate("/");
+      }
+
+      console.log("GameRoom Lobby");
+      console.log(lobby);
+      setLobby(lobby);
       setMode('Room');
-    }, 2000);
+    });
+      //Switch from Loading state to created once finished
   }, []);
 
   return (
@@ -114,10 +133,21 @@ const GameRoom = (props) => {
         <>
           <div className={styles.Homepage}></div>
           <Navbar userAuth={userAuth} user={user} logout={logout} />
-          <h1 className={styles.Title}>Pixelcide</h1>
         </>
       )}
-      {mode === 'Room' && <Room user={user} handleStartGame={startGame} seats={seats} updateSeatCount={updateSeatCount} takeSeat={takeSeat} error={error} />}
+      {mode === 'Room' && (
+        <>
+          <h1 className={styles.Title}>{`<${lobby.title}>`}</h1>
+          <Room 
+            user={user}
+            handleStartGame={startGame}
+            seats={seats}
+            updateSeatCount={updateSeatCount}
+            takeSeat={takeSeat}
+            error={error} 
+          />
+        </>
+      )}
       {mode === 'Loading' && <Loading />}
       {mode === 'Game' && <Game user={user} />}
     </>
