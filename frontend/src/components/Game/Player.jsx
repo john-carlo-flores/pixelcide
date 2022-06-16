@@ -1,22 +1,43 @@
-import Card from './Card';
-import '../../styles/Game/Player.scss';
+import Card from "./Card";
+import "../../styles/Game/Player.scss";
 
 const Player = (props) => {
-  const { playerCards, playerName, avatar, setPlayerField, playerField, setPlayerCards } = props;
+  const {
+    playerCards,
+    playerName,
+    avatar,
+    setPlayerField,
+    playerField,
+    setPlayerCards,
+  } = props;
 
-  const handleClick = (card) => {
-    //removing that played card from player's hand
-    const newPlayerCards = [...playerCards].filter((item) => item.id !== card.id);
+  const moveCardToPlayerField = (card) => {
+    const newPlayerCards = [...playerCards].filter(
+      (item) => item.id !== card.id
+    );
 
     setPlayerCards(newPlayerCards);
     setPlayerField((prev) => [...prev, card]);
+  };
+
+  const moveCardToPlayerHand = (card) => {
+    const newPlayerField = [...playerField].filter(
+      (item) => item.id !== card.id
+    );
+
+    setPlayerCards([...playerCards, card]);
+    setPlayerField(newPlayerField);
   };
 
   return (
     <div className="Player">
       <div className="player-field">
         {playerField.map((card) => (
-          <div key={card.id} className="player-field-card">
+          <div
+            onClick={() => moveCardToPlayerHand(card)}
+            key={card.id}
+            className="player-field-card"
+          >
             <Card image={card.image_front} />
           </div>
         ))}
@@ -24,7 +45,11 @@ const Player = (props) => {
 
       <div className="cards-container">
         {playerCards.map((card) => (
-          <div key={card.id} onClick={() => handleClick(card)} className="player-card">
+          <div
+            key={card.id}
+            onClick={() => moveCardToPlayerField(card)}
+            className="player-card"
+          >
             <Card image={card.image_front} />
           </div>
         ))}
@@ -32,7 +57,10 @@ const Player = (props) => {
       </div>
 
       <div className="player-info">
-        <img src={`https://raw.githubusercontent.com/tothenextcode/pixelcide/feature/frontend/Game-UI/frontend/src/assets/avatars/${avatar}.png`} alt="user avatar" />
+        <img
+          src={`https://raw.githubusercontent.com/tothenextcode/pixelcide/feature/frontend/Game-UI/frontend/src/assets/avatars/${avatar}.png`}
+          alt="user avatar"
+        />
         {playerName}
       </div>
     </div>
