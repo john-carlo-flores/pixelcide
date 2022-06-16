@@ -18,13 +18,13 @@ const Game = () => {
   const [currentBoss, setCurrentBoss] = useState();
   const [playerCards, setPlayerCards] = useState([]);
   const [playerField, setPlayerField] = useState([]);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState('player_turn');
   const [playedCards, setPlayedCards] = useState([]);
 
   const maxHand = 8;
 
   useEffect(() => {
-    axios.get('http://localhost:8080/cards').then((response) => {
+    axios.get('/cards').then((response) => {
       const cards = response.data;
 
       const castleDeck = makeCastle(cards);
@@ -44,6 +44,18 @@ const Game = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (status === 'player_turn') {
+      setTimeout(() => {
+        if (playerCards.length <= 0) {
+          setStatus('game_over_lose');
+        } else {
+          setStatus('player_attack');
+        }
+      }, 2000);
+    }
+  }, [status, playerCards]);
+
   const user = {
     id: 1,
     username: 'gagan420',
@@ -53,14 +65,16 @@ const Game = () => {
     avatar_id: 1,
   };
 
-  const clickHandler = () => {
+  const handlePlayerAttack = () => {
     //power-activation logic
     const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(playerField, currentBoss);
-
     let discardCards = [...discard];
     let tavernCards = [...tavern];
     let currentPlayerHand = [...playerCards];
     let bossCard = { ...currentBoss };
+    let castleCards = [...castle];
+    let commitedPlayerField = [...playerField];
+    let playedCardsCopy = [...playedCards];
 
     //Hearts case
     if (heartPower > 0) {
@@ -107,24 +121,49 @@ const Game = () => {
         bossCard.damage = 0;
       }
     }
+
+    bossCard.health -= clubPower;
+    if (bossCard.health < 0) {
+      discardCards = [...discardCards, bossCard, ...commitedPlayerField, ...playedCardsCopy];
+      castleCards.pop();
+      bossCard = castleCards.at(-1);
+      commitedPlayerField = [];
+      setPlayedCards(commitedPlayerField);
+      castleCards.length === 0 && setStatus('game_over_win');
+    } else if (bossCard.health === 0) {
+      tavernCards = [...tavernCards, bossCard];
+      castleCards.pop();
+      bossCard = castleCards.at(-1);
+      discardCards = [...discardCards, ...commitedPlayerField, ...playedCardsCopy];
+      commitedPlayerField = [];
+      setPlayedCards(commitedPlayerField);
+      castleCards.length === 0 && setStatus('game_over_win');
+    } else {
+      setStatus('boss_attack');
+    }
+
     // after spade damage
     setCurrentBoss(bossCard);
-
+    setCastle(castleCards);
     // after diamond and heart
     setTavern(tavernCards);
     setPlayerCards(currentPlayerHand);
     setDiscard(discardCards);
 
     //move playerfield cards to discard
-    setPlayedCards((prev) => [...prev, ...playerField]);
+    setPlayedCards((prev) => [...prev, ...commitedPlayerField]);
     setPlayerField([]);
+  };
+
+  const handleBossAttack = () => {
+    setStatus('player_turn');
   };
 
   return (
     <div className="Game">
       <div className="background-gif"></div>
       <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBoss} />
-      <Status status={status} clickHandler={clickHandler} />
+      <Status status={status} handlePlayerAttack={handlePlayerAttack} handleBossAttack={handleBossAttack} />
       <PlayedCards playedCards={playedCards} />
       <Player
         playerField={playerField}
