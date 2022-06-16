@@ -1,11 +1,30 @@
 import { useState } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { io } from "socket.io-client";
 
-const useAuth = (initial) => {
+const useAuth = (socket) => {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const axiosJWT = axios.create();
+  
+  const setupSocketSession = (user) => {
+    socket.auth = { 
+      username: user.username,
+      userID: user.id
+    }
+
+    socket.connect();
+
+    socket.on("session", ({ sessionID }) => {
+      setUser(prev => {
+        return {
+          ...prev,
+          sessionID
+        };
+      });
+
+      socket.auth.sessionID = sessionID;
+    });
+  };
 
   const verifyLogin = (username, password) => {
     if (username && password) {
@@ -13,17 +32,10 @@ const useAuth = (initial) => {
 
       return axios.post(`/login`, { user })
         .then(response => {
-        
-          setUser(prev => {
-            const user = {
-              ...response.data,
-              socket: io()
-            };
-
-            return user;
-           });
-
-          sessionStorage.setItem('user', JSON.stringify({...response.data}))
+          
+          setUser(response.data);
+          setupSocketSession(response.data);
+          sessionStorage.setItem('user', JSON.stringify({...response.data}));
           return true;
         })
         .catch(err => {
@@ -48,16 +60,16 @@ const useAuth = (initial) => {
           return false;
         });
     }
-  }
+  };
 
   const logout = () => {
     axiosJWT.post(`/logout`, { token: user.refreshToken }, {
       headers: { Authorization: `Bearer ${user.accessToken}` }
     })
       .then(response => {
-        console.log("Logging out...")
         sessionStorage.removeItem('user');
-        user.socket.emit("logout");
+        // socket.emit("logout");
+        socket.disconnect();
 
         setUser(null);
       });
@@ -91,8 +103,7 @@ const useAuth = (initial) => {
       }
 
       return config;
-    }
-  );
+  });
 
   return { user, verifyLogin, logout, register };
 };

@@ -25,7 +25,7 @@ module.exports = (db) => {
             if (result) {
               const accessToken = generateAccessToken(id);
               const refreshToken = generateRefreshToken(id);
-              return res.status(200).json({ username, name, avatar_id, accessToken, refreshToken });
+              return res.status(200).json({ id, username, name, avatar_id, accessToken, refreshToken });
             }
 
             res.status(400).json("Username and/or password is incorrect");

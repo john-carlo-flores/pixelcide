@@ -9,10 +9,13 @@ import Statistics from "./components/Statistics";
 
 import useAuth from "./hooks/useAuth";
 
+import { useContext } from "react";
+import { SocketContext } from "./context/socket"; 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function Router() {
-  const { user, verifyLogin, logout, register } = useAuth();
+  const socket = useContext(SocketContext);
+  const { user, verifyLogin, logout, register } = useAuth(socket);
 
   return (
     <BrowserRouter>

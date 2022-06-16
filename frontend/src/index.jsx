@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'nes.css/css/nes.min.css';
 import './index.scss';
-import Router from './Router';
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

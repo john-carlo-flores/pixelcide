@@ -1,6 +1,7 @@
 const { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, SALT } = process.env;
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const uuid = require('uuid');
 
 module.exports = {
   generateAccessToken: (id) => {
@@ -29,6 +30,10 @@ module.exports = {
     }
 
     return link;
+  },
+
+  generateSessionID: () => {
+    return uuid.v4();
   },
   
   verify: (req, res, next) => {

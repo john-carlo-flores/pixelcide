@@ -4,8 +4,9 @@ import Loading from '../Loading';
 
 import Navbar from '../Navbar';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
+import { SocketContext } from '../../context/socket';
 
 import styles from '../../styles/GameRoom/GameRoom.module.scss';
 
@@ -41,6 +42,7 @@ const GameRoom = (props) => {
 
   const { id } = useParams(); 
   const navigate = useNavigate();
+  const socket = useContext(SocketContext);
 
   const startGame = () => {
     // Check if created seat is not filled
@@ -104,16 +106,22 @@ const GameRoom = (props) => {
       return newSeats;
     });
   };
-
+  
   useEffect(() => {
-    console.log("Loading...");
-    console.log(user);
-    console.log("vs");
-    console.log(JSON.parse(sessionStorage.getItem('user')));
     //axios get request w/ listener to socket io to update players
-    user.socket.emit("Request Lobby", id);
+    if (!socket.connected) {
+      socket.auth = {
+        username: user.username,
+        userID: user.id,
+        sessionID: user.sessionID
+      }
+      socket.connect();
+      console.log(socket.connected);
+    }
 
-    user.socket.on("Get Lobby", (lobby) => {
+    socket.emit("Request Lobby", id);
+
+    socket.on("Get Lobby", (lobby) => {
       if (!lobby) {
         console.log("Invalid URL!");
         navigate("/");
@@ -125,7 +133,7 @@ const GameRoom = (props) => {
       setMode('Room');
     });
       //Switch from Loading state to created once finished
-  }, []);
+  }, [socket.connected]);
 
   return (
     <>
