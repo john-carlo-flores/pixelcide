@@ -20,6 +20,8 @@ const Game = () => {
   const [playerField, setPlayerField] = useState([]);
   const [status, setStatus] = useState('player_turn');
   const [playedCards, setPlayedCards] = useState([]);
+  //check card discard validation
+  const [validate, setValidate] = useState(false);
 
   const maxHand = 8;
 
@@ -155,15 +157,46 @@ const Game = () => {
     setPlayerField([]);
   };
 
+  useEffect(() => {
+    if (status === 'boss_attack') {
+      let playerHandVal = 0;
+
+      //get playerhand value i.e sum of damage of all cards
+      const playerHand = [...playerCards];
+      for (const card of playerHand) {
+        playerHandVal += card.damage;
+      }
+      if (playerHandVal < currentBoss.damage) {
+        setStatus('game_over_lose');
+      }
+    }
+  }, [status]);
+
+  useEffect(() => {
+    if (status === 'boss_attack') {
+      let playerFieldVal = 0;
+      for (const card of playerField) {
+        playerFieldVal += card.damage;
+      }
+
+      if (playerFieldVal >= currentBoss.damage) {
+        setValidate(true);
+      }
+    }
+  }, [, status, playerField]);
+
   const handleBossAttack = () => {
+    setDiscard([...discard, ...playerField]);
+    setPlayerField([]);
     setStatus('player_turn');
+    setValidate(false);
   };
 
   return (
     <div className="Game">
       <div className="background-gif"></div>
       <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBoss} />
-      <Status status={status} handlePlayerAttack={handlePlayerAttack} handleBossAttack={handleBossAttack} />
+      <Status status={status} handlePlayerAttack={handlePlayerAttack} handleBossAttack={handleBossAttack} validate={validate} />
       <PlayedCards playedCards={playedCards} />
       <Player
         playerField={playerField}
