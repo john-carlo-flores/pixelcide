@@ -68,7 +68,6 @@ export default function Homepage(props) {
   }, [user]);
 
   useEffect(() => {
-    console.log('here');
     playActive();
   }, [user]);
 
