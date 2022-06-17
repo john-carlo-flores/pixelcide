@@ -9,15 +9,70 @@ const Player = (props) => {
     setPlayerField,
     playerField,
     setPlayerCards,
+    status,
   } = props;
 
-  const moveCardToPlayerField = (card) => {
-    const newPlayerCards = [...playerCards].filter(
-      (item) => item.id !== card.id
-    );
+  const playable = (theCard) => {
+    if (playerField.length === 0) {
+      return true;
+    }
+    if (
+      playerField.length === 1 &&
+      playerField[0].tag === "A" &&
+      theCard.tag !== "Jester"
+    ) {
+      return true;
+    }
+    if (
+      playerField.length === 1 &&
+      playerField[0].tag !== "Jester" &&
+      theCard.tag === "A"
+    ) {
+      return true;
+    }
+    if (
+      playerField.length === 1 &&
+      ((playerField[0].tag === "2" && theCard.tag === "2") ||
+        (playerField[0].tag === "3" && theCard.tag === "3") ||
+        (playerField[0].tag === "4" && theCard.tag === "4") ||
+        (playerField[0].tag === "5" && theCard.tag === "5"))
+    ) {
+      return true;
+    }
+    if (
+      playerField.length === 2 &&
+      ((playerField[0].tag === "2" &&
+        playerField[1].tag === "2" &&
+        theCard.tag === "2") ||
+        (playerField[0].tag === "3" &&
+          playerField[1].tag === "3" &&
+          theCard.tag === "3"))
+    ) {
+      return true;
+    }
+    if (
+      playerField.length === 3 &&
+      playerField[0].tag === "2" &&
+      playerField[1].tag === "2" &&
+      playerField[2].tag === "2" &&
+      theCard.tag === "2"
+    ) {
+      return true;
+    }
+  };
 
-    setPlayerCards(newPlayerCards);
-    setPlayerField((prev) => [...prev, card]);
+  const moveCardToPlayerField = (card) => {
+    if (
+      status === "boss_attack" ||
+      (status === "player_attack" && playable(card))
+    ) {
+      const newPlayerCards = [...playerCards].filter(
+        (item) => item.id !== card.id
+      );
+
+      setPlayerCards(newPlayerCards);
+      setPlayerField((prev) => [...prev, card]);
+    }
   };
 
   const moveCardToPlayerHand = (card) => {
