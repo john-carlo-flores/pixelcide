@@ -6,9 +6,9 @@ const LINK_LENGTH = 8;
 class LobbyStore {
   constructor() {
     this.lobbies = new Map();
-  }
+  };
 
-  createLobby() {
+  createLobby(host) {
     if (this.lobbies.length === MAX_NUM_ROOMS) {
       return false;
     }
@@ -18,32 +18,48 @@ class LobbyStore {
 
     // Create lobby object
     const newLobby = {
-      host: 'id',
+      host: host.username,
       title: '',
       link,
-      game: {}
+      game: {
+        players: ['none', 'none', 'none', 'none']
+      }
     };
 
-    // Add new lobby to store and return
+    // store new lobby and return
+    this.addUserToLobby(newLobby, 0, host);
     return this.lobbies.set(link, newLobby).get(link);
   };
 
   getLobby(link) {
     return this.lobbies.get(link);
-  }
+  };
 
-  cancelLobby(link) {
-    this.lobbies.delete(link);
+  cancelLobby(lobby) {
+    this.lobbies.delete(lobby.link);
   };
 
   listLobbies() {
     console.log([...this.lobbies.values()]);
     return [...this.lobbies.values()];
-  }
+  };
 
   updateLobby(lobby) {
-    this.lobbies.set(lobby.link, lobby);
-  }
+    const prevLobby = this.lobbies.get(lobby.link);
+
+    const updatedLobby = {
+      ...prevLobby,
+      ...lobby
+    };
+
+    // Store updated lobby and return
+    this.lobbies.set(lobby.link, updatedLobby);
+    return updatedLobby;
+  };
+
+  addUserToLobby(lobby, seat, user) {
+    lobby.game.players[seat] = user;
+  };
 }
 
 module.exports = { LobbyStore };
