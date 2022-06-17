@@ -157,7 +157,11 @@ const Game = () => {
       castleCards.length === 0 && setStatus('game_over_win');
       bossDefeated = true;
     } else {
-      setStatus('boss_attack');
+      if (bossCard.damage === 0) {
+        setStatus('player_turn');
+      } else {
+        setStatus('boss_attack');
+      }
     }
 
     //Set States After Attack Complete
@@ -201,6 +205,9 @@ const Game = () => {
 
       if (playerFieldVal >= currentBossStats.damage) {
         setValidateDiscard(true);
+      }
+      if (playerFieldVal < currentBossStats.damage) {
+        setValidateDiscard(false);
       }
 
       setDiscardVal(currentBossStats.damage - playerFieldVal);
