@@ -26,7 +26,12 @@ function Router() {
             <Homepage userAuth={verifyLogin} logout={logout} user={user} />
           }
         />
-        <Route path="games" element={<Games />} />
+        <Route
+          path="games"
+          element={
+            <Games userAuth={verifyLogin} logout={logout} user={user} />
+          }
+        />
         <Route
           path="games/:id"
           element={
