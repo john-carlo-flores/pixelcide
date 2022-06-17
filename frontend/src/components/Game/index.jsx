@@ -12,6 +12,7 @@ import shuffle from "../../helpers/shuffle";
 import PlayedCards from "./PlayedCards";
 
 const Game = () => {
+  //initializing Game States
   const [discard, setDiscard] = useState([]);
   const [castle, setCastle] = useState([]);
   const [tavern, setTavern] = useState([]);
@@ -21,12 +22,13 @@ const Game = () => {
   const [playerField, setPlayerField] = useState([]);
   const [status, setStatus] = useState("player_turn");
   const [playedCards, setPlayedCards] = useState([]);
-  //check card discard validation
   const [validateDiscard, setValidateDiscard] = useState(false);
   const [validateAttack, setValidateAttack] = useState(false);
 
+  //initializing maxHand (to be changed on numberoftotalplayers)
   const maxHand = 8;
 
+  // initial game set up
   useEffect(() => {
     axios.get("/cards").then((response) => {
       const cards = response.data;
@@ -49,6 +51,7 @@ const Game = () => {
     });
   }, []);
 
+  // check in player turn to see if player has cards, game over if player has no cards
   useEffect(() => {
     if (status === "player_turn") {
       setTimeout(() => {
@@ -61,6 +64,7 @@ const Game = () => {
     }
   }, [status, playerCards]);
 
+  // mockData for testing
   const user = {
     id: 1,
     username: "gagan420",
@@ -70,12 +74,9 @@ const Game = () => {
     avatar_id: 1,
   };
 
+  //onClickHander for playerAttack
   const handlePlayerAttack = () => {
-    //power-activation logic
-    const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(
-      playerField,
-      currentBoss
-    );
+    //making copies of states that potentially change multiple times
     let discardCards = [...discard];
     let tavernCards = [...tavern];
     let currentPlayerHand = [...playerCards];
@@ -84,24 +85,29 @@ const Game = () => {
     let commitedPlayerField = [...playerField];
     let playedCardsCopy = [...playedCards];
 
-    //Hearts case
+    //power-activation logic, returns activated suits
+    const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(
+      playerField,
+      currentBossStats
+    );
+
+    //Heart Power Activated
     if (heartPower > 0) {
       shuffle(discardCards);
       let healingCards;
 
-      //not enough cards
       if (discardCards.length > 0 && discardCards.length <= heartPower) {
         healingCards = discardCards;
         discardCards = [];
         tavernCards = [...healingCards, ...tavernCards];
       }
-
       if (discardCards.length > 0 && discardCards.length > heartPower) {
         healingCards = discardCards.splice(-heartPower, heartPower);
         tavernCards = [...healingCards, ...tavernCards];
       }
     }
 
+    //Diamond Power Activated
     if (diamondPower > 0) {
       let drawableCards = maxHand - currentPlayerHand.length;
       let cardsDrawn;
@@ -121,27 +127,20 @@ const Game = () => {
         currentPlayerHand = [...currentPlayerHand, ...cardsDrawn];
       }
     }
-    console.log("before damage change");
-    console.log("bossCard damage", bossCard.damage);
-    console.log("currentBoss damage", currentBoss.damage);
+
+    //Spade Power Activated
     if (spadePower > 0) {
       bossCard.damage -= spadePower;
       if (bossCard.damage <= 0) {
         bossCard.damage = 0;
       }
-      console.log("after damage change");
-      console.log("bossCard damage", bossCard.damage);
-      console.log("currentBoss damage", currentBoss.damage);
     }
-    console.log("before health change");
-    console.log("bossCard health", bossCard.health);
-    console.log("currentBoss health", currentBoss.health);
 
     bossCard.health -= clubPower;
-    console.log("after health change");
-    console.log("bossCard health", bossCard.health);
-    console.log("currentBoss health", currentBoss.health);
+    //Set Flag to change boss on defeat
     let bossDefeated = false;
+
+    // check to see if boss defeated and change state accordingly
     if (bossCard.health < 0) {
       discardCards = [
         ...discardCards,
@@ -172,23 +171,22 @@ const Game = () => {
       setStatus("boss_attack");
     }
 
+    //Set States After Attack Complete
+
     if (bossDefeated) {
       setCurrentBoss(bossCard);
     }
 
-    // after spade damage
     setCurrentBossStats(bossCard);
     setCastle(castleCards);
-    // after diamond and heart
     setTavern(tavernCards);
     setPlayerCards(currentPlayerHand);
     setDiscard(discardCards);
-
-    //move playerfield cards to discard
     setPlayedCards((prev) => [...prev, ...commitedPlayerField]);
     setPlayerField([]);
   };
 
+  // check during boss attack if player has enough cards to discard on attack
   useEffect(() => {
     if (status === "boss_attack") {
       let playerHandVal = 0;

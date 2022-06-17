@@ -12,10 +12,13 @@ const Player = (props) => {
     status,
   } = props;
 
+  // function to check if the card can be played into the playing field ie correct combos
   const playable = (theCard) => {
+    //if field empty all cards can be played
     if (playerField.length === 0) {
       return true;
     }
+    //if any one card is in player field then only an Ace can be played (except Jester)
     if (
       playerField.length === 1 &&
       playerField[0].tag === "A" &&
@@ -23,6 +26,7 @@ const Player = (props) => {
     ) {
       return true;
     }
+    //if an ace in in player field any card can be played (except Jester)
     if (
       playerField.length === 1 &&
       playerField[0].tag !== "Jester" &&
@@ -30,6 +34,7 @@ const Player = (props) => {
     ) {
       return true;
     }
+    //2 card combos (2-2, 3-3, 4-4, 5-5)
     if (
       playerField.length === 1 &&
       ((playerField[0].tag === "2" && theCard.tag === "2") ||
@@ -39,6 +44,7 @@ const Player = (props) => {
     ) {
       return true;
     }
+    //3 card combos (2-2-2, 3-3-3)
     if (
       playerField.length === 2 &&
       ((playerField[0].tag === "2" &&
@@ -50,6 +56,7 @@ const Player = (props) => {
     ) {
       return true;
     }
+    //4 card combo (2-2-2-2)
     if (
       playerField.length === 3 &&
       playerField[0].tag === "2" &&
@@ -61,6 +68,7 @@ const Player = (props) => {
     }
   };
 
+  //click handler to move cards to player field
   const moveCardToPlayerField = (card) => {
     if (
       status === "boss_attack" ||
@@ -74,7 +82,7 @@ const Player = (props) => {
       setPlayerField((prev) => [...prev, card]);
     }
   };
-
+  //click handler to move cards back to player hand
   const moveCardToPlayerHand = (card) => {
     const newPlayerField = [...playerField].filter(
       (item) => item.id !== card.id
