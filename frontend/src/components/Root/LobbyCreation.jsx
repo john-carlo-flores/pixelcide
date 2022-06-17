@@ -9,8 +9,8 @@ const LobbyCreation = (props) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-
     assignTitle(event.target.title.value);
+
     navigate(`/games/${link}`);
   };
 
