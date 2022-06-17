@@ -16,6 +16,7 @@ const Game = () => {
   const [castle, setCastle] = useState([]);
   const [tavern, setTavern] = useState([]);
   const [currentBoss, setCurrentBoss] = useState({});
+  const [currentBossStats, setCurrentBossStats] = useState({});
   const [playerCards, setPlayerCards] = useState([]);
   const [playerField, setPlayerField] = useState([]);
   const [status, setStatus] = useState("player_turn");
@@ -35,7 +36,8 @@ const Game = () => {
 
       //setting current boss as last card
       const lastCastleCard = castleDeck.at(-1);
-      setCurrentBoss(lastCastleCard);
+      setCurrentBoss({ ...lastCastleCard });
+      setCurrentBossStats({ ...lastCastleCard });
 
       const tavernDeck = makeTavern(cards);
 
@@ -77,7 +79,7 @@ const Game = () => {
     let discardCards = [...discard];
     let tavernCards = [...tavern];
     let currentPlayerHand = [...playerCards];
-    let bossCard = { ...currentBoss };
+    let bossCard = { ...currentBossStats };
     let castleCards = [...castle];
     let commitedPlayerField = [...playerField];
     let playedCardsCopy = [...playedCards];
@@ -119,16 +121,27 @@ const Game = () => {
         currentPlayerHand = [...currentPlayerHand, ...cardsDrawn];
       }
     }
-
+    console.log("before damage change");
+    console.log("bossCard damage", bossCard.damage);
+    console.log("currentBoss damage", currentBoss.damage);
     if (spadePower > 0) {
       bossCard.damage -= spadePower;
-
       if (bossCard.damage <= 0) {
         bossCard.damage = 0;
       }
+      console.log("after damage change");
+      console.log("bossCard damage", bossCard.damage);
+      console.log("currentBoss damage", currentBoss.damage);
     }
+    console.log("before health change");
+    console.log("bossCard health", bossCard.health);
+    console.log("currentBoss health", currentBoss.health);
 
     bossCard.health -= clubPower;
+    console.log("after health change");
+    console.log("bossCard health", bossCard.health);
+    console.log("currentBoss health", currentBoss.health);
+    let bossDefeated = false;
     if (bossCard.health < 0) {
       discardCards = [
         ...discardCards,
@@ -141,6 +154,7 @@ const Game = () => {
       commitedPlayerField = [];
       setPlayedCards(commitedPlayerField);
       castleCards.length === 0 && setStatus("game_over_win");
+      bossDefeated = true;
     } else if (bossCard.health === 0) {
       tavernCards = [...tavernCards, currentBoss];
       castleCards.pop();
@@ -153,12 +167,17 @@ const Game = () => {
       commitedPlayerField = [];
       setPlayedCards(commitedPlayerField);
       castleCards.length === 0 && setStatus("game_over_win");
+      bossDefeated = true;
     } else {
       setStatus("boss_attack");
     }
 
+    if (bossDefeated) {
+      setCurrentBoss(bossCard);
+    }
+
     // after spade damage
-    setCurrentBoss(bossCard);
+    setCurrentBossStats(bossCard);
     setCastle(castleCards);
     // after diamond and heart
     setTavern(tavernCards);
@@ -193,7 +212,7 @@ const Game = () => {
         playerFieldVal += card.damage;
       }
 
-      if (playerFieldVal >= currentBoss.damage) {
+      if (playerFieldVal >= currentBossStats.damage) {
         setValidateDiscard(true);
       }
     }
@@ -225,7 +244,7 @@ const Game = () => {
         tavern={tavern}
         discard={discard}
         castle={castle}
-        currentBoss={currentBoss}
+        currentBoss={currentBossStats}
       />
       <Status
         status={status}
@@ -242,6 +261,7 @@ const Game = () => {
         setPlayerCards={setPlayerCards}
         playerName={user.username}
         avatar={user.avatar_id}
+        status={status}
       />
     </div>
   );
