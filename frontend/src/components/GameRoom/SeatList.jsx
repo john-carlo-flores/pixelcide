@@ -3,39 +3,39 @@ import Seat from './Seat';
 import styles from '../../styles/GameRoom/SeatList.module.scss';
 
 const SeatList = (props) => {
-  const { user, seats, updateSeatCount, takeSeat } = props;
+  const { user, seats, updateSeats, takeSeat } = props;
 
   return (
     <div className={styles.main}>
       <div className={styles.seatRow}>
         <Seat 
           user={user}
-          number={1}
-          playerSeated={seats.host}
-          updateSeatCount={updateSeatCount}
+          number={0}
+          playerSeated={seats[0]}
+          updateSeats={updateSeats}
           takeSeat={takeSeat}
         />
         <Seat 
           user={user}
-          number={2}
-          playerSeated={seats.player2}
-          updateSeatCount={updateSeatCount}
+          number={1}
+          playerSeated={seats[1]}
+          updateSeats={updateSeats}
           takeSeat={takeSeat}
         />
       </div>
       <div className={styles.seatRow}>
         <Seat 
           user={user}
-          number={3}
-          playerSeated={seats.player3}
-          updateSeatCount={updateSeatCount}
+          number={2}
+          playerSeated={seats[2]}
+          updateSeats={updateSeats}
           takeSeat={takeSeat}
         />
         <Seat 
           user={user}
-          number={4}
-          playerSeated={seats.player4}
-          updateSeatCount={updateSeatCount}
+          number={3}
+          playerSeated={seats[3]}
+          updateSeats={updateSeats}
           takeSeat={takeSeat}
         />
       </div>
