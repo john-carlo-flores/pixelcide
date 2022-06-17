@@ -14,7 +14,14 @@ export default function Homepage(props) {
   const socket = useContext(SocketContext);
 
   const hostGame = () => {
-    socket.emit("Create New Lobby");
+    const host = {
+      id: user.id,
+      username: user.username,
+      name: user.name,
+      avatar_id: user.avatar_id
+    };
+
+    socket.emit("Create New Lobby", host);
   };
 
   const onCancel = () => {
@@ -23,14 +30,14 @@ export default function Homepage(props) {
   };
 
   const assignLobbyTitle = (title) => {
-    setLobby(prev => {
+    setLobby(prev => { 
       const updatedLobby = {
         ...prev,
         title
       };
-        
+      
+      // Send lobby title update to server
       socket.emit("Update Lobby", updatedLobby);
-  
       return updatedLobby;
     });
   };
@@ -44,7 +51,9 @@ export default function Homepage(props) {
             error: "Reached maximum amount of rooms alloted. Please join existing games or try again later."
           });
         }
-  
+        
+        socket.emit("Join Room", createLobby.link);
+
         // Allow lobby creation and store lobby values
         setCreateLobby(prev => {
           setLobby(createdLobby);
