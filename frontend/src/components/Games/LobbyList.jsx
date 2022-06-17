@@ -1,13 +1,12 @@
 import Lobby from "./Lobby";
-import FilterLobby from "./FilterLobby";
 
 const LobbyList = (props) => {  
-
+  const { lobbies } = props;
+  
   const lobbyList = [];
 
   return (
     <div>
-      <FilterLobby />
       {lobbyList}
     </div>
   );
