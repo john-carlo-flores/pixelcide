@@ -23,6 +23,9 @@ const Game = () => {
   //check card discard validation
   const [validate, setValidate] = useState(false);
 
+  //track card discard value
+  const [discardVal, setDiscardVal] = useState([]);
+
   const maxHand = 8;
 
   useEffect(() => {
@@ -182,6 +185,8 @@ const Game = () => {
       if (playerFieldVal >= currentBoss.damage) {
         setValidate(true);
       }
+
+      setDiscardVal(currentBoss.damage - playerFieldVal);
     }
   }, [, status, playerField]);
 
@@ -196,7 +201,7 @@ const Game = () => {
     <div className="Game">
       <div className="background-gif"></div>
       <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBoss} />
-      <Status status={status} handlePlayerAttack={handlePlayerAttack} handleBossAttack={handleBossAttack} validate={validate} currentBoss={currentBoss} />
+      <Status status={status} handlePlayerAttack={handlePlayerAttack} handleBossAttack={handleBossAttack} validate={validate} discardVal={discardVal} />
       <PlayedCards playedCards={playedCards} />
       <Player
         playerField={playerField}
