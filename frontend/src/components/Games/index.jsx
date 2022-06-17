@@ -1,9 +1,18 @@
+import LobbyList from "./LobbyList";
+import Navbar from "../Navbar";
+
 import { Link } from "react-router-dom";
 
-const Games = () => {
+import styles from "../../styles/Games/Games.module.scss";
+
+const Games = (props) => {
+  const { userAuth, user, logout } = props;
+
   return(
     <>
-      <h1>This is the lobby selection list where users game select which game lobby to join or spectate.</h1>
+      <div className={styles.Homepage}></div>
+      <Navbar userAuth={userAuth} user={user} logout={logout} />
+      <LobbyList />
       <Link to="/">Back to home page</Link>
     </>
   );
