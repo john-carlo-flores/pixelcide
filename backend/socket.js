@@ -70,6 +70,14 @@ module.exports = (sessionMiddleware, httpServer) => {
     });
 
     /* ------------- LOBBIES ------------- */
+    socket.on("Request Lobbies", () => {
+      console.log(`${socket.username} Request Lobbies`)
+      const lobbies = ls.listLobbies();
+      
+      socket.emit("Get Lobbies", lobbies);
+    });
+
+    /* ------------- LOBBY ------------- */
     socket.on("Create New Lobby", (host) => {
       console.log("New Lobby Created");
       const newLobby = ls.createLobby(host);
