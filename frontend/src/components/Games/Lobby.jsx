@@ -1,5 +1,5 @@
 import Button from "../Button";
-import Avatar from "./Avatar";
+import AvatarList from "./AvatarList";
 
 import styles from "../../styles/Games/Lobby.module.scss";
 
@@ -9,7 +9,7 @@ const Lobby = (props) => {
   const seatCount = "1/4";
   const full = false;
 
-  const avatarList = [];
+  const avatars = [];
 
   return (
     <div>
@@ -26,9 +26,7 @@ const Lobby = (props) => {
         ) : (
           <span className={styles.empty}></span>
         )}
-        <span className={styles.avatars}>
-          {avatarList}
-        </span>
+        <AvatarList avatars={avatars}/>
         {full ? (
           <Button error>Spectate</Button>
         ) : (
