@@ -196,7 +196,7 @@ const Game = () => {
     <div className="Game">
       <div className="background-gif"></div>
       <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBoss} />
-      <Status status={status} handlePlayerAttack={handlePlayerAttack} handleBossAttack={handleBossAttack} validate={validate} />
+      <Status status={status} handlePlayerAttack={handlePlayerAttack} handleBossAttack={handleBossAttack} validate={validate} currentBoss={currentBoss} />
       <PlayedCards playedCards={playedCards} />
       <Player
         playerField={playerField}
