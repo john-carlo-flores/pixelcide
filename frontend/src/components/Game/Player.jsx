@@ -1,10 +1,13 @@
+import useSound from 'use-sound';
 import Card from './Card';
 import '../../styles/Game/Player.scss';
 import { motion, AnimatePresence } from 'framer-motion';
+import cardFlipSound from '../../assets/sounds/card-flip-.mp3';
 
 const Player = (props) => {
   const { playerCards, playerName, avatar, setPlayerField, playerField, setPlayerCards, status } = props;
-
+  const [playOn] = useSound(cardFlipSound);
+  // const [test, setTest] = useState('df');
   // function to check if the card can be played into the playing field ie correct combos
   const playable = (theCard) => {
     //if field empty all cards can be played
@@ -46,6 +49,7 @@ const Player = (props) => {
   const moveCardToPlayerField = (card) => {
     if (status === 'boss_attack' || (status === 'player_attack' && playable(card))) {
       const newPlayerCards = [...playerCards].filter((item) => item.id !== card.id);
+      playOn();
 
       setPlayerCards(newPlayerCards);
 
@@ -66,13 +70,13 @@ const Player = (props) => {
     <div className="Player">
       <motion.div initial={false} className="player-field">
         {playerField.map((card) => (
-          <motion.div layout onClick={() => moveCardToPlayerHand(card)} key={card.id} className="player-field-card">
+          <motion.div layout transition={{ ease: 'easeIn', duration: 0.4, opacity: 0 }} onClick={() => moveCardToPlayerHand(card)} key={card.id} className="player-field-card">
             <Card image={card.image_front} />
           </motion.div>
         ))}
       </motion.div>
 
-      <motion.div className="cards-container">
+      <motion.div layout className="cards-container">
         <AnimatePresence>
           {playerCards.map((card) => (
             <motion.div exit={{ y: -250, x: 0 }} transition={{ ease: 'easeIn', duration: 0.4 }} key={card.id} onClick={() => moveCardToPlayerField(card)} className="player-card">
