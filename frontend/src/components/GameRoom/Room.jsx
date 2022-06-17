@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 import styles from '../../styles/GameRoom/Room.module.scss';
 
 const Room = (props) => {
-  const { user, handleStartGame, seats, updateSeatCount, takeSeat, error } = props;
+  const { user, handleStartGame, seats, updateSeats, takeSeat, error } = props;
 
   return (
     <>
       <SeatList 
         user={user} 
         seats={seats}
-        updateSeatCount={updateSeatCount} 
+        updateSeats={updateSeats} 
         takeSeat={takeSeat}
       />
       {error && (

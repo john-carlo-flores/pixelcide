@@ -23,6 +23,7 @@ module.exports = (db) => {
     db.query(command, [username, name, email, password_digest, avatar_id])
       .then((data) => {
         const user = {
+          id: data.rows[0].id,
           username: data.rows[0].username,
           name: data.rows[0].name,
           avatar_id: data.rows[0].avatar_id,

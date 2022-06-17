@@ -1,6 +1,7 @@
 const { Server } = require('socket.io');
-const { verify } = require('./helpers/authentication');
-const { createLobby, cancelLobby, listLobbies, updateLobby, getLobby } = require('./helpers/lobby');
+const { generateSessionID } = require('./helpers/authentication');
+const { LobbyStore } = require('./stores/lobbyStores');
+const { SessionStore } = require('./stores/sessionStores');
 
 module.exports = (sessionMiddleware, httpServer) => {
   const io = new Server(httpServer);
@@ -8,39 +9,103 @@ module.exports = (sessionMiddleware, httpServer) => {
   // convert a connect middleware to a Socket.IO middleware
   const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
   
+  // Use sessionMiddleware to listen to socket requests
   io.use(wrap(sessionMiddleware));
 
-  io.on("connection", (socket, title) => {
-    console.log(`User ${socket.id} connected!`);
+  // Instantiate stores as in memory storages
+  const ls = new LobbyStore();
+  const sessionStore = new SessionStore();
 
-    socket.on("Create New Lobby", () => {
-      console.log("Create New Lobby"); 
-      const lobby = createLobby(socket.id, title);
-      console.log(lobby);
-      socket.emit("Get Created Lobby", lobby);
+  // Map to correct user session before request
+  io.use((socket, next) => {
+    const sessionID = socket.handshake.auth.sessionID;
+
+    // Assign session to socket based on sessionID
+    if (sessionID) {
+      // find existing session
+      const session = sessionStore.findSession(sessionID);
+
+      if (session) {
+        console.log(`Reconnecting! ${session.username}`);
+        socket.sessionID = sessionID;
+        socket.userID = session.userID;
+        socket.username = session.username;
+        return next();
+      }
+    }
+
+    // Check that username is provided
+    const username = socket.handshake.auth.username;
+    if (!username) {
+      return next(new Error("invalid username"));
+    }
+
+    // Check that userID is provided
+    const userID = socket.handshake.auth.userID;
+    if (!userID) {
+      return next(new Error("invalid userID"));
+    }
+
+    // Create new session
+    socket.sessionID = generateSessionID();
+    socket.userID = userID;
+    socket.username = username;
+    sessionStore.saveSession(sessionID, { userID, username });
+    next();
+  });
+
+  // Handle socket connection and requests
+  io.on("connection", (socket) => {
+    console.log(`User ${socket.username} connected!`);
+    
+    // Send session id on connect
+    socket.emit("session", {
+      sessionID: socket.sessionID,
+    });
+
+    // Delete session and disconnect user
+    socket.on("logout", () => {
+      sessionStore.deleteSession(socket.sessionID);
+      socket.disconnect();
+    });
+
+    /* ------------- LOBBIES ------------- */
+    socket.on("Create New Lobby", (host) => {
+      console.log("New Lobby Created");
+      const newLobby = ls.createLobby(host);
+
+      socket.emit("Get Created Lobby", newLobby);
     });
 
     socket.on("Cancel Lobby", (lobby) => {
-      cancelLobby(lobby);
+      console.log("Cancel Lobby");
+      ls.cancelLobby(lobby);
+
+      ls.listLobbies();
     });
 
     socket.on("Request Lobby", (link) => {
-      const lobby = getLobby(link);
-      console.log("Request Lobby:");
-      console.log(lobby);
-      socket.emit("Get Lobby", lobby);
+      console.log("Request Lobby:", link);
+      const requestedLobby = ls.getLobby(link);
+
+      socket.emit("Get Lobby", requestedLobby);
+      ls.listLobbies();
     });
 
     socket.on("Update Lobby", (lobby) => {
-      console.log("Update Lobby function call");
-      console.log(lobby);
-      const updatedLobby = updateLobby(lobby);
-      console.log("Updated Lobby:");
-      listLobbies();
+      console.log('UpdateLobby');
+      const updatedLobby = ls.updateLobby(lobby);
+
+      socket.broadcast.to(updatedLobby.link).emit("Update Lobby", updatedLobby);
     });
 
-    socket.on("logout", (args) => {
-      socket.disconnect();
+    /* ------------- ROOMS ------------- */
+    socket.on("Join Room", link => {
+      socket.join(link);
+    });
+
+    socket.on("Leave Room", link => {
+      socket.leave(link);
     });
 
   });
