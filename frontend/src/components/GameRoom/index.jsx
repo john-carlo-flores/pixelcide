@@ -4,111 +4,34 @@ import Loading from '../Loading';
 
 import Navbar from '../Navbar';
 
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
+import useLobby from "../../hooks/useLobby";
 import { useParams, useNavigate } from "react-router-dom";
 import { SocketContext } from '../../context/socket';
 
 import styles from '../../styles/GameRoom/GameRoom.module.scss';
 
-const fakePlayers = {
-  host: {
-    name: 'Link',
-    username: 'link',
-    avatar_id: 1,
-    empty: false,
-  },
-  player2: {
-    name: 'Zelda',
-    username: 'zelda',
-    avatar_id: 2,
-    empty: false,
-  },
-  player3: {
-    name: 'Ganon',
-    username: 'ganon',
-    avatar_id: 3,
-    empty: false,
-  },
-  player4: null,
-};
-
 const GameRoom = (props) => {
   const { user, userAuth, logout } = props;
-
-  const [ mode, setMode ] = useState('Loading');
-  const [ error, setError ] = useState();
-  const [ seats, setSeats ] = useState({ ...fakePlayers }); //Updates when host presses seat
-  const [ lobby, setLobby ] = useState();
 
   const { id } = useParams(); 
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
 
-  const startGame = () => {
-    // Check if created seat is not filled
-    for (const seat of Object.keys(seats)) {
-      if (seats[seat].empty) {
-        return setError('All empty seats must be filled to start the game!');
-      }
-    }
+  const { 
+    lobby, 
+    takeSeat, 
+    updateSeats, 
+    startGame,
+    updateLobby,
+    mode,
+    seats,
+    game,
+    error
+  } = useLobby(socket);
 
-    setError(null);
-    setMode('Loading');
-
-    setTimeout(() => {
-      setMode('Game');
-    }, 2000);
-  };
-
-  const updateSeatCount = (update, number = 0) => {
-    switch (update) {
-      case '+':
-        setSeats((prev) => {
-          const newSeats = { ...prev };
-          newSeats[`player${number}`] = { empty: true };
-
-          return newSeats;
-        });
-        break;
-
-      case '-':
-        setSeats((prev) => {
-          const newSeats = { ...prev };
-          delete newSeats[`player${number}`];
-
-          return newSeats;
-        });
-        break;
-
-      default:
-        break;
-    }
-  };
-
-  const takeSeat = (player, seatNumber) => {
-    setSeats((prev) => {
-      const newSeats = { ...prev };
-
-      // Check if user already took a seat and switch locations
-      const existingSeat = Object.keys(newSeats).find((seat) => newSeats[seat].username === player.username);
-
-      if (existingSeat) {
-        newSeats[existingSeat] = { empty: true };
-      }
-
-      newSeats[`player${seatNumber}`] = {
-        name: player.name,
-        username: player.username,
-        avatar_id: player.avatar_id,
-        empty: false,
-      };
-
-      return newSeats;
-    });
-  };
-  
   useEffect(() => {
-    //axios get request w/ listener to socket io to update players
+    // Reconnect socket if disconneceted
     if (!socket.connected) {
       socket.auth = {
         username: user.username,
@@ -116,24 +39,37 @@ const GameRoom = (props) => {
         sessionID: user.sessionID
       }
       socket.connect();
-      console.log(socket.connected);
     }
 
+    // Request lobby object based on url parameter
     socket.emit("Request Lobby", id);
 
+    // Listener for reply from lrequest lobby
     socket.on("Get Lobby", (lobby) => {
+      // If none found, invalid room
       if (!lobby) {
-        console.log("Invalid URL!");
-        navigate("/");
+        navigate("/"); // Return to home page
+      }
+      
+      // Check and assign if user is host
+      if (lobby?.host === user.username) {
+        user.host = true;
       }
 
-      console.log("GameRoom Lobby");
-      console.log(lobby);
-      setLobby(lobby);
-      setMode('Room');
+      // Set lobby based on recieved lobby from listener and update mode
+      updateLobby(lobby, 'Room');
     });
-      //Switch from Loading state to created once finished
+
+    // Listens for all update lobby broadcasts
+    socket.on("Update Lobby", (lobby) => {
+      updateLobby(lobby);
+    });
   }, [socket.connected]);
+
+  useEffect(() => {
+    // Join room once link is established
+    socket.emit("Join Room", id);
+  }, []);
 
   return (
     <>
@@ -150,14 +86,14 @@ const GameRoom = (props) => {
             user={user}
             handleStartGame={startGame}
             seats={seats}
-            updateSeatCount={updateSeatCount}
+            updateSeats={updateSeats}
             takeSeat={takeSeat}
             error={error} 
           />
         </>
       )}
       {mode === 'Loading' && <Loading />}
-      {mode === 'Game' && <Game user={user} />}
+      {mode === 'Game' && <Game user={user} game={game}/>}
     </>
   );
 };

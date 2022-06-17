@@ -3,21 +3,22 @@ import Button from '../Button';
 import { Link } from 'react-router-dom';
 
 const Status = (props) => {
-  const { status, handlePlayerAttack, handleBossAttack, validate } = props;
+  const { status, handlePlayerAttack, handleBossAttack, validateDiscard, validateAttack, discardVal } = props;
 
   return (
     <>
       {status === 'player_turn' && <div className="player-turn">YOUR TURN</div>}
 
       {status === 'player_attack' && (
-        <Button onClick={handlePlayerAttack} error>
+        <Button onClick={handlePlayerAttack} error disabled={!validateAttack}>
           ATTACK
         </Button>
       )}
 
       {status === 'boss_attack' && (
-        <Button onClick={handleBossAttack} error disabled={!validate}>
+        <Button onClick={handleBossAttack} error disabled={!validateDiscard}>
           DISCARD
+          <span className="count"> {discardVal > 0 ? discardVal : ''}</span>
         </Button>
       )}
 

@@ -1,35 +1,90 @@
+import useSound from 'use-sound';
 import Card from './Card';
 import '../../styles/Game/Player.scss';
+import { motion, AnimatePresence } from 'framer-motion';
+import cardFlipSound from '../../assets/sounds/card-flip-.mp3';
 
 const Player = (props) => {
-  const { playerCards, playerName, avatar, setPlayerField, playerField, setPlayerCards } = props;
+  const { playerCards, playerName, avatar, setPlayerField, playerField, setPlayerCards, status } = props;
+  const [playOn] = useSound(cardFlipSound);
+  // const [test, setTest] = useState('df');
+  // function to check if the card can be played into the playing field ie correct combos
+  const playable = (theCard) => {
+    //if field empty all cards can be played
+    if (playerField.length === 0) {
+      return true;
+    }
+    //if any one card is in player field then only an Ace can be played (except Jester)
+    if (playerField.length === 1 && playerField[0].tag === 'A' && theCard.tag !== 'Jester') {
+      return true;
+    }
+    //if an ace in in player field any card can be played (except Jester)
+    if (playerField.length === 1 && playerField[0].tag !== 'Jester' && theCard.tag === 'A') {
+      return true;
+    }
+    //2 card combos (2-2, 3-3, 4-4, 5-5)
+    if (
+      playerField.length === 1 &&
+      ((playerField[0].tag === '2' && theCard.tag === '2') ||
+        (playerField[0].tag === '3' && theCard.tag === '3') ||
+        (playerField[0].tag === '4' && theCard.tag === '4') ||
+        (playerField[0].tag === '5' && theCard.tag === '5'))
+    ) {
+      return true;
+    }
+    //3 card combos (2-2-2, 3-3-3)
+    if (
+      playerField.length === 2 &&
+      ((playerField[0].tag === '2' && playerField[1].tag === '2' && theCard.tag === '2') || (playerField[0].tag === '3' && playerField[1].tag === '3' && theCard.tag === '3'))
+    ) {
+      return true;
+    }
+    //4 card combo (2-2-2-2)
+    if (playerField.length === 3 && playerField[0].tag === '2' && playerField[1].tag === '2' && playerField[2].tag === '2' && theCard.tag === '2') {
+      return true;
+    }
+  };
 
-  const handleClick = (card) => {
-    //removing that played card from player's hand
-    const newPlayerCards = [...playerCards].filter((item) => item.id !== card.id);
+  //click handler to move cards to player field
+  const moveCardToPlayerField = (card) => {
+    if (status === 'boss_attack' || (status === 'player_attack' && playable(card))) {
+      const newPlayerCards = [...playerCards].filter((item) => item.id !== card.id);
+      playOn();
 
-    setPlayerCards(newPlayerCards);
-    setPlayerField((prev) => [...prev, card]);
+      setPlayerCards(newPlayerCards);
+
+      setTimeout(() => {
+        setPlayerField((prev) => [...prev, card]);
+      }, 400);
+    }
+  };
+  //click handler to move cards back to player hand
+  const moveCardToPlayerHand = (card) => {
+    const newPlayerField = [...playerField].filter((item) => item.id !== card.id);
+
+    setPlayerCards([...playerCards, card]);
+    setPlayerField(newPlayerField);
   };
 
   return (
     <div className="Player">
-      <div className="player-field">
+      <motion.div initial={false} className="player-field">
         {playerField.map((card) => (
-          <div key={card.id} className="player-field-card">
+          <motion.div layout transition={{ ease: 'easeIn', duration: 0.4, opacity: 0 }} onClick={() => moveCardToPlayerHand(card)} key={card.id} className="player-field-card">
             <Card image={card.image_front} />
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
-      <div className="cards-container">
-        {playerCards.map((card) => (
-          <div key={card.id} onClick={() => handleClick(card)} className="player-card">
-            <Card image={card.image_front} />
-          </div>
-        ))}
-        {playerCards.length === 0 && <div className="empty"></div>}
-      </div>
+      <motion.div layout className="cards-container">
+        <AnimatePresence>
+          {playerCards.map((card) => (
+            <motion.div exit={{ y: -250, x: 0 }} transition={{ ease: 'easeIn', duration: 0.4 }} key={card.id} onClick={() => moveCardToPlayerField(card)} className="player-card">
+              <Card image={card.image_front} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
 
       <div className="player-info">
         <img src={`https://raw.githubusercontent.com/tothenextcode/pixelcide/feature/frontend/Game-UI/frontend/src/assets/avatars/${avatar}.png`} alt="user avatar" />

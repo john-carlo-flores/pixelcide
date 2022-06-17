@@ -14,7 +14,8 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "sass": "^1.52.3",
-    "socket.io-client": "^4.5.1"
+    "socket.io-client": "^4.5.1",
+    "use-sound": "^4.0.1"
   },
   "proxy": "http://localhost:8080",
   "scripts": {
