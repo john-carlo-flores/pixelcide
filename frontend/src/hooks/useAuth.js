@@ -1,16 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
 const useAuth = (socket) => {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const axiosJWT = axios.create();
+
+  useEffect(() => {
+    // Reconnect socket if disconneceted
+    if (!socket.connected && socket.setup) {
+      socket.auth = {
+        username: user.username,
+        userID: user.id,
+        sessionID: user.sessionID
+      }
+      socket.connect();
+    }
+  }, [socket.connected]);
   
   const setupSocketSession = (user) => {
     socket.auth = { 
       username: user.username,
       userID: user.id
     }
+
+    socket.setup = true;
 
     socket.connect();
 

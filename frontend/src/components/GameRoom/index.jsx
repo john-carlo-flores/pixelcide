@@ -31,18 +31,13 @@ const GameRoom = (props) => {
   } = useLobby(socket);
 
   useEffect(() => {
-    // Reconnect socket if disconneceted
-    if (!socket.connected) {
-      socket.auth = {
-        username: user.username,
-        userID: user.id,
-        sessionID: user.sessionID
-      }
-      socket.connect();
-    }
+    if (socket.connected) {
+      // Request lobby object based on url parameter
+      socket.emit("Request Lobby", id);
 
-    // Request lobby object based on url parameter
-    socket.emit("Request Lobby", id);
+      // Join room once link is established
+      socket.emit("Join Room", id);
+    }
 
     // Listener for reply from lrequest lobby
     socket.on("Get Lobby", (lobby) => {
@@ -64,11 +59,8 @@ const GameRoom = (props) => {
     socket.on("Update Lobby", (lobby) => {
       updateLobby(lobby);
     });
-  }, [socket.connected]);
 
-  useEffect(() => {
-    // Join room once link is established
-    socket.emit("Join Room", id);
+    // eslint-disable-next-line
   }, []);
 
   return (
