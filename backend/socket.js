@@ -70,32 +70,42 @@ module.exports = (sessionMiddleware, httpServer) => {
     });
 
     /* ------------- LOBBIES ------------- */
-    socket.on("Create New Lobby", () => {
-      const newLobby = ls.createLobby();
+    socket.on("Create New Lobby", (host) => {
       console.log("New Lobby Created");
-      console.log(newLobby);
+      const newLobby = ls.createLobby(host);
+
       socket.emit("Get Created Lobby", newLobby);
     });
 
     socket.on("Cancel Lobby", (lobby) => {
       console.log("Cancel Lobby");
-      console.log(lobby);
       ls.cancelLobby(lobby);
+
+      ls.listLobbies();
     });
 
     socket.on("Request Lobby", (link) => {
-      const requestedLobby = ls.getLobby(link);
       console.log("Request Lobby:", link);
-      ls.listLobbies();
+      const requestedLobby = ls.getLobby(link);
+
       socket.emit("Get Lobby", requestedLobby);
+      ls.listLobbies();
     });
 
     socket.on("Update Lobby", (lobby) => {
-      console.log("Update Lobby");
-      console.log(lobby);
+      console.log('UpdateLobby');
       const updatedLobby = ls.updateLobby(lobby);
-      console.log("Updated Lobby:");
-      ls.listLobbies();
+
+      socket.broadcast.to(updatedLobby.link).emit("Update Lobby", updatedLobby);
+    });
+
+    /* ------------- ROOMS ------------- */
+    socket.on("Join Room", link => {
+      socket.join(link);
+    });
+
+    socket.on("Leave Room", link => {
+      socket.leave(link);
     });
 
   });
