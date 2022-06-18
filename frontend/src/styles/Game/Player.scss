@@ -56,15 +56,17 @@
         width: 6rem;
       }
     }
-
-    .player-card:hover,
-    .player-card:focus-within {
-      transform: translatey(-1rem);
+    .dull {
+      background: #c1c1b9;
+      img {
+        filter: invert(20%);
+      }
     }
-
-    .player-card:hover ~ .player-card,
-    .player-card:focus-within ~ .player-card {
-      transform: translatex(4.2rem);
+  }
+  .highlight {
+    background: #c1c1b9;
+    img {
+      filter: none !important;
     }
   }
 }

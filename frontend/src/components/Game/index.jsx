@@ -12,6 +12,8 @@ import shuffle from '../../helpers/shuffle';
 import PlayedCards from './PlayedCards';
 import PlayerAid from './PlayerAid';
 
+import { AnimateSharedLayout } from 'framer-motion';
+
 const Game = () => {
   //initializing Game States
   const [discard, setDiscard] = useState([]);
@@ -28,6 +30,7 @@ const Game = () => {
   const [jester, setJester] = useState(false);
   //track card discard value
   const [discardVal, setDiscardVal] = useState([]);
+  const [fetchComplete, setFetchComplete] = useState(false);
 
   const maxHand = 8;
 
@@ -51,6 +54,8 @@ const Game = () => {
 
       //set tavern after first card deal
       setTavern(tavernDeck);
+
+      setFetchComplete(true);
     });
   }, []);
 
@@ -58,7 +63,7 @@ const Game = () => {
   useEffect(() => {
     if (status === 'player_turn') {
       setTimeout(() => {
-        if (playerCards.length <= 0) {
+        if (playerCards.length <= 0 && fetchComplete) {
           setStatus('game_over_lose');
         } else {
           setStatus('player_attack');
@@ -252,14 +257,19 @@ const Game = () => {
       <div className="background-gif"></div>
       <PlayerAid playerField={playerField} status={status} jester={jester} setJester={setJester} currentBossStats={currentBossStats} />
       <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBossStats} />
-      <Status
-        status={status}
-        handlePlayerAttack={handlePlayerAttack}
-        handleBossAttack={handleBossAttack}
-        validateDiscard={validateDiscard}
-        validateAttack={validateAttack}
-        discardVal={discardVal}
-      />
+
+      <AnimateSharedLayout>
+        {/* <motion.div> */}
+        <Status
+          status={status}
+          handlePlayerAttack={handlePlayerAttack}
+          handleBossAttack={handleBossAttack}
+          validateDiscard={validateDiscard}
+          validateAttack={validateAttack}
+          discardVal={discardVal}
+        />
+        {/* </motion.div> */}
+      </AnimateSharedLayout>
       <PlayedCards playedCards={playedCards} />
       <Player
         playerField={playerField}
@@ -276,5 +286,3 @@ const Game = () => {
 };
 
 export default Game;
-
-//set player
