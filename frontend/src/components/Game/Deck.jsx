@@ -18,7 +18,7 @@ const Deck = (props) => {
 
       {/* discard deck */}
       <div className="deckName">{name.toUpperCase()}</div>
-      <div className="deck-main">
+      <div className={deck.length && 'deck-main'}>
         {/* {name === 'discard' && !deck.length ? <Card image={emptyCard} /> : <Card image={lastDiscardCard.image_front} />} */}
         {name === 'discard' && <Card image={lastDiscardCard.image_front} />}
 

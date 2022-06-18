@@ -1,0 +1,35 @@
+.PlayerAid {
+  position: absolute;
+  top: 2rem;
+  left: 0rem;
+  display: flex;
+  gap: 2rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  color: #ecece0;
+
+  .PlayerAid-row {
+    width: 4.5rem;
+    overflow: hidden;
+    transition: width 0.5s ease;
+    background-color: #ecece0;
+    white-space: nowrap;
+    border-radius: 0 10px 10px 0;
+    padding-left: 1rem;
+    display: flex;
+    align-items: center;
+    display: flex;
+    height: 3.2rem;
+    gap: 2rem;
+
+    letter-spacing: 0.7px;
+    &:hover {
+      width: 25rem;
+    }
+  }
+
+  .open-row {
+    width: 25rem;
+  }
+}
