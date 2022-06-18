@@ -2,6 +2,8 @@ import '../../styles/Game/PlayerAid.scss';
 
 import { useState, useEffect } from 'react';
 
+import _ from 'lodash';
+
 import { BsFillSuitClubFill } from 'react-icons/bs';
 import { BsFillSuitSpadeFill } from 'react-icons/bs';
 import { BsFillSuitHeartFill } from 'react-icons/bs';
@@ -38,15 +40,14 @@ const PlayerAid = ({ playerField, status, jester, setJester, currentBossStats })
       if (currentCards.at(-1) === 'Hearts') {
         triggerRow('Hearts');
       }
-      if (playerField.length < toggleRow.length) {
-        const test = [...toggleRow];
-        test.pop();
-        setToggleRow(test);
+      if (!_.isEqual(toggleRow, currentCards)) {
+        setToggleRow(currentCards);
       }
     } else if (status === 'boss_attack') {
       setToggleRow([]);
     }
   }, [playerField, status]);
+
   return (
     <div className="PlayerAid">
       <div className={toggleRow.includes('Clubs') ? 'PlayerAid-row open-row ' : 'PlayerAid-row'}>

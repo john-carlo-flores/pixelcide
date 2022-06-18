@@ -86,7 +86,7 @@ const Player = (props) => {
               whileHover={{
                 y: playable(card) && -20,
                 transition: { duration: 0 },
-                x: playable(card) && -76,
+                x: playable(card) && -70,
               }}
               key={card.id}
               onClick={() => moveCardToPlayerField(card)}
