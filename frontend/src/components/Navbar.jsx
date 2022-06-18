@@ -4,11 +4,9 @@ import '../styles/Navbar.scss';
 
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { useState } from 'react';
-import useSound from 'use-sound';
 import introMusic from '../assets/sounds/intro-music.mp3';
-import { motion, AnimatePresence } from 'framer-motion';
 
+import useSound from 'use-sound';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
