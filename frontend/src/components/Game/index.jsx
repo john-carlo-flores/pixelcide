@@ -236,8 +236,8 @@ const Game = () => {
 
   return (
     <div className="Game">
-      <PlayerAid />
       <div className="background-gif"></div>
+      <PlayerAid playerField={playerField} status={status} />
       <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBossStats} />
       <Status
         status={status}
@@ -262,3 +262,5 @@ const Game = () => {
 };
 
 export default Game;
+
+//set player
