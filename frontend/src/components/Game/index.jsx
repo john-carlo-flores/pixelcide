@@ -12,6 +12,8 @@ import shuffle from '../../helpers/shuffle';
 import PlayedCards from './PlayedCards';
 import PlayerAid from './PlayerAid';
 
+import { motion, AnimateSharedLayout } from 'framer-motion';
+
 const Game = () => {
   //initializing Game States
   const [discard, setDiscard] = useState([]);
@@ -252,14 +254,19 @@ const Game = () => {
       <div className="background-gif"></div>
       <PlayerAid playerField={playerField} status={status} jester={jester} setJester={setJester} currentBossStats={currentBossStats} />
       <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBossStats} />
-      <Status
-        status={status}
-        handlePlayerAttack={handlePlayerAttack}
-        handleBossAttack={handleBossAttack}
-        validateDiscard={validateDiscard}
-        validateAttack={validateAttack}
-        discardVal={discardVal}
-      />
+
+      <AnimateSharedLayout>
+        {/* <motion.div> */}
+        <Status
+          status={status}
+          handlePlayerAttack={handlePlayerAttack}
+          handleBossAttack={handleBossAttack}
+          validateDiscard={validateDiscard}
+          validateAttack={validateAttack}
+          discardVal={discardVal}
+        />
+        {/* </motion.div> */}
+      </AnimateSharedLayout>
       <PlayedCards playedCards={playedCards} />
       <Player
         playerField={playerField}
@@ -276,5 +283,3 @@ const Game = () => {
 };
 
 export default Game;
-
-//set player
