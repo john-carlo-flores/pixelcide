@@ -11,11 +11,13 @@ import useAuth from "./hooks/useAuth";
 
 import { useContext } from "react";
 import { SocketContext } from "./context/socket"; 
+import useLobby from "./hooks/useLobby";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function Router() {
   const socket = useContext(SocketContext);
   const { user, verifyLogin, logout, register } = useAuth(socket);
+  const state = useLobby(socket);
 
   return (
     <BrowserRouter>
@@ -23,7 +25,12 @@ function Router() {
         <Route
           path="/"
           element={
-            <Homepage userAuth={verifyLogin} logout={logout} user={user} />
+            <Homepage 
+              userAuth={verifyLogin}
+              logout={logout}
+              user={user}
+              state={state}
+            />
           }
         />
         <Route
