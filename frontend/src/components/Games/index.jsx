@@ -12,7 +12,7 @@ import styles from "../../styles/Games/Games.module.scss";
 const Games = (props) => {
   const { userAuth, user, logout } = props;
   const [lobbies, setLobbies] = useState();
-
+  const [filteredLobbies, setFilteredLobbies] = useState();
   const socket = useContext(SocketContext);
 
   useEffect(() => {
@@ -22,6 +22,7 @@ const Games = (props) => {
     // Render list of lobbies
     socket.on("Get Lobbies", (lobbies) => {
       setLobbies(lobbies);
+      setFilteredLobbies(lobbies);
     });
 
     // eslint-disable-next-line
@@ -32,8 +33,11 @@ const Games = (props) => {
       <div className={styles.Homepage}></div>
       <Navbar userAuth={userAuth} user={user} logout={logout} />
       <div className={styles.container}>
-        <FilterLobby lobbies={lobbies} setLobbies={lobbies} />
-        {lobbies && <LobbyList lobbies={lobbies} />}
+        <FilterLobby
+          lobbies={lobbies}
+          setFilteredLobbies={setFilteredLobbies}
+        />
+        {filteredLobbies && <LobbyList lobbies={filteredLobbies} />}
       </div>
       <Link to="/" className={styles.back}>
         <IoArrowBackCircle size={80} />
