@@ -12,7 +12,6 @@ const PlayerAid = ({ playerField, status, jester, currentBossStats }) => {
   const [toggleRow, setToggleRow] = useState([]);
 
   useEffect(() => {
-    console.log(currentBossStats);
     if (status === 'player_attack') {
       const currentCards = [];
       for (const card of playerField) {

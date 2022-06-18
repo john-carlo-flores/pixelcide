@@ -269,6 +269,7 @@ const Game = () => {
         playerName={user.username}
         avatar={user.avatar_id}
         status={status}
+        currentBoss={currentBossStats}
       />
     </div>
   );
