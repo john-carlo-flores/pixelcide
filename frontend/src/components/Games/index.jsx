@@ -1,10 +1,47 @@
+import LobbyList from "./LobbyList";
+import Navbar from "../Navbar";
+import FilterLobby from "./FilterLobby";
+
+import { SocketContext } from "../../context/socket";
+import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const Games = () => {
-  return(
+import { IoArrowBackCircle } from "react-icons/io5";
+import styles from "../../styles/Games/Games.module.scss";
+
+const Games = (props) => {
+  const { userAuth, user, logout } = props;
+  const [lobbies, setLobbies] = useState();
+  const [filteredLobbies, setFilteredLobbies] = useState();
+  const socket = useContext(SocketContext);
+
+  useEffect(() => {
+    // Request list of lobbies to render
+    socket.emit("Request Lobbies");
+
+    // Render list of lobbies
+    socket.on("Get Lobbies", (lobbies) => {
+      setLobbies(lobbies);
+      setFilteredLobbies(lobbies);
+    });
+
+    // eslint-disable-next-line
+  }, []);
+
+  return (
     <>
-      <h1>This is the lobby selection list where users game select which game lobby to join or spectate.</h1>
-      <Link to="/">Back to home page</Link>
+      <div className={styles.Homepage}></div>
+      <Navbar userAuth={userAuth} user={user} logout={logout} />
+      <div className={styles.container}>
+        <FilterLobby
+          lobbies={lobbies}
+          setFilteredLobbies={setFilteredLobbies}
+        />
+        {filteredLobbies && <LobbyList lobbies={filteredLobbies} />}
+      </div>
+      <Link to="/" className={styles.back}>
+        <IoArrowBackCircle size={80} />
+      </Link>
     </>
   );
 };

@@ -1,0 +1,27 @@
+.Homepage {
+  background: url("../../assets/backgrounds/homepage_background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: -2;
+  filter: blur(1.5px);
+}
+
+.container {
+  padding-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 30;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.back {
+  position: absolute;
+  top: 5rem;
+  left: 25rem;
+  color: #9c383d;
+}

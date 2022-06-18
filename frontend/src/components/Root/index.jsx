@@ -1,76 +1,54 @@
-import Button from '../Button';
-import Navbar from '../Navbar';
-import LobbyCreation from './LobbyCreation';
-import '../../styles/Root/Homepage.scss';
+import Button from "../Button";
+import Navbar from "../Navbar";
+import LobbyCreation from "./LobbyCreation";
+import "../../styles/Root/Homepage.scss";
 
-import useSound from 'use-sound';
-import introMusic from '../../assets/sounds/intro-music.mp3';
-
-import { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { SocketContext } from '../../context/socket';
+import { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { SocketContext } from "../../context/socket";
 
 export default function Homepage(props) {
   const { user, userAuth, logout } = props;
+  const { hostGame, lobby, assignLobbyTitle, cancelLobby, updateLobby } =
+    props.state;
   const [createLobby, setCreateLobby] = useState({ create: false });
-  const [lobby, setLobby] = useState();
+  const navigate = useNavigate();
   const socket = useContext(SocketContext);
-  const [playActive] = useSound(introMusic, { volume: 0.25 });
 
-  const hostGame = () => {
-    const host = {
-      id: user.id,
-      username: user.username,
-      name: user.name,
-      avatar_id: user.avatar_id,
-    };
-
-    socket.emit('Create New Lobby', host);
+  // Send Create Lobby Request to server
+  const onHost = () => {
+    hostGame(user);
   };
 
+  // Update lobby title to server
+  const onCreate = (title) => {
+    assignLobbyTitle(title);
+    navigate(`/games/${lobby.link}`);
+  };
+
+  // Delete lobby on server
   const onCancel = () => {
-    socket.emit('Cancel Lobby', lobby);
+    cancelLobby();
     setCreateLobby(false);
   };
 
-  const assignLobbyTitle = (title) => {
-    setLobby((prev) => {
-      const updatedLobby = {
-        ...prev,
-        title,
-      };
-
-      // Send lobby title update to server
-      socket.emit('Update Lobby', updatedLobby);
-      return updatedLobby;
-    });
-  };
-
   useEffect(() => {
-    // Add listener when new lobby is created if user is logged in
-    if (user) {
-      socket.on('Get Created Lobby', (createdLobby) => {
-        if (!createdLobby) {
-          return setCreateLobby({
-            error: 'Reached maximum amount of rooms alloted. Please join existing games or try again later.',
-          });
-        }
-
-        socket.emit('Join Room', createLobby.link);
-
-        // Allow lobby creation and store lobby values
-        setCreateLobby((prev) => {
-          setLobby(createdLobby);
-          return { create: true };
+    // Add listener when new lobby is created
+    socket.on("Get Created Lobby", (createdLobby) => {
+      if (!createdLobby) {
+        return setCreateLobby({
+          error:
+            "Reached maximum amount of rooms alloted. Please join existing games or try again later.",
         });
-      });
-    }
-  }, [user]);
+      }
 
-  useEffect(() => {
-    console.log('here');
-    playActive();
-  }, [user]);
+      socket.emit("Join Room", createLobby.link);
+
+      // Allow lobby creation
+      setCreateLobby({ create: true });
+      updateLobby(createdLobby);
+    });
+  }, []);
 
   return (
     <>
@@ -81,7 +59,7 @@ export default function Homepage(props) {
         <div className="Buttons">
           {props.user && (
             <>
-              <Button onClick={hostGame} error>
+              <Button onClick={onHost} error>
                 Host Game
               </Button>
               <Link to="games">
@@ -102,7 +80,9 @@ export default function Homepage(props) {
           )}
         </div>
       </div>
-      {createLobby.create && <LobbyCreation onCancel={onCancel} assignTitle={assignLobbyTitle} link={lobby.link} />}
+      {createLobby.create && (
+        <LobbyCreation onCancel={onCancel} onCreate={onCreate} />
+      )}
       {createLobby.error && <p>{createLobby.error}</p>}
     </>
   );
