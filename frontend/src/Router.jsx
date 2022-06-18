@@ -10,7 +10,7 @@ import Game from "./components/Game";
 import useAuth from "./hooks/useAuth";
 
 import { useContext } from "react";
-import { SocketContext } from "./context/socket"; 
+import { SocketContext } from "./context/socket";
 import useLobby from "./hooks/useLobby";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -25,7 +25,7 @@ function Router() {
         <Route
           path="/"
           element={
-            <Homepage 
+            <Homepage
               userAuth={verifyLogin}
               logout={logout}
               user={user}
@@ -35,14 +35,17 @@ function Router() {
         />
         <Route
           path="games"
-          element={
-            <Games userAuth={verifyLogin} logout={logout} user={user} />
-          }
+          element={<Games userAuth={verifyLogin} logout={logout} user={user} />}
         />
         <Route
           path="games/:id"
           element={
-            <GameRoom userAuth={verifyLogin} logout={logout} user={user} />
+            <GameRoom
+              userAuth={verifyLogin}
+              logout={logout}
+              user={user}
+              state={state}
+            />
           }
         />
         <Route path="leaderboard" element={<Leaderboard />} />
