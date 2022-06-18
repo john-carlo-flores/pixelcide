@@ -49,39 +49,55 @@ const PlayerAid = ({ playerField, status, jester, setJester, currentBossStats })
   }, [playerField, status]);
   return (
     <div className="PlayerAid">
-      <div className={toggleRow.includes('Clubs') ? 'PlayerAid-row open-row' : 'PlayerAid-row'}>
-        <div>
+      <div className={toggleRow.includes('Clubs') ? 'PlayerAid-row open-row ' : 'PlayerAid-row'}>
+        <div className={toggleRow.includes('Clubs') && 'animated tada'}>
           <BsFillSuitClubFill size={35} color={'#309c63'} />
         </div>
-        <div style={{ color: '#309c63' }}>Deal Double Damage</div>
+        <div className="green">Deal Double Damage</div>
       </div>
 
       <div className={toggleRow.includes('Spades') ? 'PlayerAid-row open-row' : 'PlayerAid-row'}>
-        <div>
+        <div className={toggleRow.includes('Spades') && 'animated tada'}>
           <BsFillSuitSpadeFill size={35} color={'#8e478c'} />
         </div>
-        <div style={{ color: '#8e478c' }}> Reduce Boss Attack</div>
+        <div className="purple"> Reduce Boss Attack</div>
       </div>
 
       <div className={toggleRow.includes('Hearts') ? 'PlayerAid-row open-row' : 'PlayerAid-row'}>
-        <div>
+        <div className={toggleRow.includes('Hearts') && 'animated tada'}>
           <BsFillSuitHeartFill size={35} color={'#c93038'} />
         </div>
-        <div style={{ color: '#c93038' }}>Heal Tavern Deck</div>
+        <div className="red">Heal Tavern Deck</div>
       </div>
 
       <div className={toggleRow.includes('Diamonds') ? 'PlayerAid-row open-row' : 'PlayerAid-row'}>
-        <div>
+        <div className={toggleRow.includes('Diamonds') && 'animated tada'}>
           <BsFillDiamondFill size={35} color={'#3978a8'} />
         </div>
-        <div style={{ color: '#3978a8' }}>Draw Tavern Card</div>
+        <div className="blue">Draw Tavern Card</div>
       </div>
 
       <div className={jester ? 'PlayerAid-row open-row' : 'PlayerAid-row'}>
-        <div>
+        <div className={jester && 'animated tada'}>
           <GiJesterHat size={35} color={'#c93038'} />
         </div>
-        <div style={{ color: '#c93038' }}>Jester Activated</div>
+        <div className="red">
+          <span className="green">J</span>
+          <span className="purple">e</span>
+          <span className="red">s</span>
+          <span className="blue">t</span>
+          <span className="green">e</span>
+          <span className="purple">r</span>
+          <span className="red gap">A</span>
+          <span className="blue">c</span>
+          <span className="green">t</span>
+          <span className="purple">i</span>
+          <span className="red">v</span>
+          <span className="blue">a</span>
+          <span className="green">t</span>
+          <span className="purple">e</span>
+          <span className="red">d</span>
+        </div>
       </div>
     </div>
   );
