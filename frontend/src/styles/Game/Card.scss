@@ -2,10 +2,12 @@
   position: relative;
   .warning {
     position: absolute;
-    top: -1rem;
-    right: -0.7rem;
-    color: red;
+    top: -0.4rem;
+    right: -0.5rem;
+    color: #c93038;
     width: 2rem;
     z-index: 77;
+    background-color: white;
+    border-radius: 50%;
   }
 }
