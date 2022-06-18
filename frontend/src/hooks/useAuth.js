@@ -8,7 +8,7 @@ const useAuth = (socket) => {
 
   useEffect(() => {
     // Reconnect socket if disconneceted
-    if (!socket.connected && socket.setup) {
+    if (!socket.connected && user.sessionID) {
       socket.auth = {
         username: user.username,
         userID: user.id,
@@ -16,7 +16,8 @@ const useAuth = (socket) => {
       }
       socket.connect();
     }
-  }, [socket.connected]);
+    //eslint-disable-next-line
+  }, [socket]);
   
   const setupSocketSession = (user) => {
     socket.auth = { 
@@ -24,12 +25,15 @@ const useAuth = (socket) => {
       userID: user.id
     }
 
-    socket.setup = true;
-
     socket.connect();
 
     socket.on("session", ({ sessionID }) => {
       setUser(prev => {
+        sessionStorage.setItem('user', JSON.stringify({
+          ...prev,
+          sessionID
+        }));
+
         return {
           ...prev,
           sessionID
@@ -67,7 +71,7 @@ const useAuth = (socket) => {
       return axios.post(`/users`, { user })
         .then(response => {
           setUser({...response.data});
-          sessionStorage.setItem('user', JSON.stringify({...response.data}))
+          sessionStorage.setItem('user', JSON.stringify({...response.data}));
           return true;
         })
         .catch(err => {
