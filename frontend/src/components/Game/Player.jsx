@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import cardFlipSound from '../../assets/sounds/card-flip-.mp3';
 
 const Player = (props) => {
-  const { playerCards, playerName, avatar, setPlayerField, playerField, setPlayerCards, status } = props;
+  const { playerCards, playerName, avatar, setPlayerField, playerField, setPlayerCards, status, currentBoss } = props;
   const [playOn] = useSound(cardFlipSound);
   // const [test, setTest] = useState('df');
   // function to check if the card can be played into the playing field ie correct combos
@@ -57,6 +57,10 @@ const Player = (props) => {
         setPlayerField((prev) => [...prev, card]);
       }, 400);
     }
+
+    if (card.suit === currentBoss.suit) {
+      console.log('same');
+    }
   };
   //click handler to move cards back to player hand
   const moveCardToPlayerHand = (card) => {
@@ -71,7 +75,7 @@ const Player = (props) => {
       <motion.div initial={false} className="player-field">
         {playerField.map((card) => (
           <motion.div layout transition={{ ease: 'easeIn', duration: 0.4, opacity: 0 }} onClick={() => moveCardToPlayerHand(card)} key={card.id} className="player-field-card">
-            <Card image={card.image_front} />
+            <Card image={card.image_front} warning={card.suit === currentBoss.suit && status !== 'boss_attack' ? 'warning' : ''} />
           </motion.div>
         ))}
       </motion.div>

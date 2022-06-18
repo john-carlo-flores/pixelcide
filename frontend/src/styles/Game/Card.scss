@@ -1,3 +1,11 @@
-// .Card {
-//   border: 1px solid black;
-// }
+.Card {
+  position: relative;
+  .warning {
+    position: absolute;
+    top: -1rem;
+    right: -0.7rem;
+    color: red;
+    width: 2rem;
+    z-index: 77;
+  }
+}
