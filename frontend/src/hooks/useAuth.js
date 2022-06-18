@@ -8,7 +8,7 @@ const useAuth = (socket) => {
 
   useEffect(() => {
     // Reconnect socket if disconneceted
-    if (!socket.connected && user.sessionID) {
+    if (!socket.connected && user?.sessionID) {
       socket.auth = {
         username: user.username,
         userID: user.id,
