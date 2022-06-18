@@ -8,10 +8,11 @@ import { BsFillSuitHeartFill } from 'react-icons/bs';
 import { BsFillDiamondFill } from 'react-icons/bs';
 import { GiJesterHat } from 'react-icons/gi';
 
-const PlayerAid = ({ playerField, status, jester }) => {
+const PlayerAid = ({ playerField, status, jester, currentBossStats }) => {
   const [toggleRow, setToggleRow] = useState([]);
 
   useEffect(() => {
+    console.log(currentBossStats);
     if (status === 'player_attack') {
       const currentCards = [];
       for (const card of playerField) {
@@ -22,16 +23,16 @@ const PlayerAid = ({ playerField, status, jester }) => {
         setToggleRow([...toggleRow, suit]);
       };
 
-      if (currentCards.at(-1) === 'Clubs') {
+      if (currentCards.at(-1) === 'Clubs' && currentBossStats.suit !== 'Clubs') {
         triggerRow('Clubs');
       }
-      if (currentCards.at(-1) === 'Spades') {
+      if (currentCards.at(-1) === 'Spades' && currentBossStats.suit !== 'Spades') {
         triggerRow('Spades');
       }
-      if (currentCards.at(-1) === 'Diamonds') {
+      if (currentCards.at(-1) === 'Diamonds' && currentBossStats.suit !== 'Diamonds') {
         triggerRow('Diamonds');
       }
-      if (currentCards.at(-1) === 'Hearts') {
+      if (currentCards.at(-1) === 'Hearts' && currentBossStats.suit !== 'Hearts') {
         triggerRow('Hearts');
       }
       if (playerField.length < toggleRow.length) {
