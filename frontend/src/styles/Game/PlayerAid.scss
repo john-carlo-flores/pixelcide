@@ -26,10 +26,127 @@
     letter-spacing: 0.7px;
     &:hover {
       width: 25rem;
+      text-decoration: none;
     }
+  }
+  .strike {
+    text-decoration: line-through;
+    text-decoration-color: #c93038;
+    text-decoration-thickness: 0.3rem;
   }
 
   .open-row {
     width: 25rem;
+  }
+
+  .green {
+    color: #309c63;
+    transition: all 0.3s ease;
+    &:hover {
+      text-decoration-color: transparent;
+    }
+  }
+  .purple {
+    color: #8e478c;
+    transition: all 0.3s ease;
+    &:hover {
+      text-decoration-color: transparent;
+    }
+  }
+  .red {
+    color: #c93038;
+    transition: all 0.3s ease;
+    &:hover {
+      text-decoration-color: transparent;
+    }
+  }
+  .blue {
+    color: #3978a8;
+    transition: all 0.3s ease;
+    &:hover {
+      text-decoration-color: transparent;
+    }
+  }
+
+  .gap {
+    padding-left: 1rem;
+  }
+
+  @-webkit-keyframes tada {
+    from {
+      -webkit-transform: scale3d(1, 1, 1);
+      transform: scale3d(1, 1, 1);
+    }
+
+    10%,
+    20% {
+      -webkit-transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+      transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+    }
+
+    30%,
+    50%,
+    70%,
+    90% {
+      -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+      transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+    }
+
+    40%,
+    60%,
+    80% {
+      -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+      transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+    }
+
+    to {
+      -webkit-transform: scale3d(1, 1, 1);
+      transform: scale3d(1, 1, 1);
+    }
+  }
+
+  @keyframes tada {
+    from {
+      -webkit-transform: scale3d(1, 1, 1);
+      transform: scale3d(1, 1, 1);
+    }
+
+    10%,
+    20% {
+      -webkit-transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+      transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+    }
+
+    30%,
+    50%,
+    70%,
+    90% {
+      -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+      transform: scale3d(1.5, 1.5, 1.5) rotate3d(0, 0, 1, 3deg);
+    }
+
+    40%,
+    60%,
+    80% {
+      -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+      transform: scale3d(1.5, 1.5, 1.5) rotate3d(0, 0, 1, -3deg);
+    }
+
+    to {
+      -webkit-transform: scale3d(1, 1, 1);
+      transform: scale3d(1, 1, 1);
+    }
+  }
+
+  .tada {
+    -webkit-animation-name: tada;
+    animation-name: tada;
+  }
+
+  .animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
   }
 }

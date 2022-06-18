@@ -2,6 +2,8 @@ import '../../styles/Game/PlayerAid.scss';
 
 import { useState, useEffect } from 'react';
 
+import _ from 'lodash';
+
 import { BsFillSuitClubFill } from 'react-icons/bs';
 import { BsFillSuitSpadeFill } from 'react-icons/bs';
 import { BsFillSuitHeartFill } from 'react-icons/bs';
@@ -26,62 +28,77 @@ const PlayerAid = ({ playerField, status, jester, setJester, currentBossStats })
         setToggleRow([...toggleRow, suit]);
       };
 
-      if (currentCards.at(-1) === 'Clubs' && currentBossStats.suit !== 'Clubs') {
+      if (currentCards.at(-1) === 'Clubs') {
         triggerRow('Clubs');
       }
-      if (currentCards.at(-1) === 'Spades' && currentBossStats.suit !== 'Spades') {
+      if (currentCards.at(-1) === 'Spades') {
         triggerRow('Spades');
       }
-      if (currentCards.at(-1) === 'Diamonds' && currentBossStats.suit !== 'Diamonds') {
+      if (currentCards.at(-1) === 'Diamonds') {
         triggerRow('Diamonds');
       }
-      if (currentCards.at(-1) === 'Hearts' && currentBossStats.suit !== 'Hearts') {
+      if (currentCards.at(-1) === 'Hearts') {
         triggerRow('Hearts');
       }
-      if (playerField.length < toggleRow.length) {
-        const test = [...toggleRow];
-        test.pop();
-        setToggleRow(test);
+      if (!_.isEqual(toggleRow, currentCards)) {
+        setToggleRow(currentCards);
       }
     } else if (status === 'boss_attack') {
       setToggleRow([]);
     }
   }, [playerField, status]);
+
   return (
     <div className="PlayerAid">
-      <div className={toggleRow.includes('Clubs') ? 'PlayerAid-row open-row' : 'PlayerAid-row'}>
-        <div>
+      <div className={toggleRow.includes('Clubs') ? 'PlayerAid-row open-row ' : 'PlayerAid-row'}>
+        <div className={toggleRow.includes('Clubs') ? 'animated tada' : ''}>
           <BsFillSuitClubFill size={35} color={'#309c63'} />
         </div>
-        <div style={{ color: '#309c63' }}>Deal Double Damage</div>
+        <div className={currentBossStats.suit === 'Clubs' ? 'strike green' : 'green'}>Deal Double Damage</div>
       </div>
 
       <div className={toggleRow.includes('Spades') ? 'PlayerAid-row open-row' : 'PlayerAid-row'}>
-        <div>
+        <div className={toggleRow.includes('Spades') ? 'animated tada' : ''}>
           <BsFillSuitSpadeFill size={35} color={'#8e478c'} />
         </div>
-        <div style={{ color: '#8e478c' }}> Reduce Boss Attack</div>
+        <div className={currentBossStats.suit === 'Spades' ? 'strike purple' : 'purple'}> Reduce Boss Attack</div>
       </div>
 
       <div className={toggleRow.includes('Hearts') ? 'PlayerAid-row open-row' : 'PlayerAid-row'}>
-        <div>
+        <div className={toggleRow.includes('Hearts') ? 'animated tada' : ''}>
           <BsFillSuitHeartFill size={35} color={'#c93038'} />
         </div>
-        <div style={{ color: '#c93038' }}>Heal Tavern Deck</div>
+        <div className={currentBossStats.suit === 'Hearts' ? 'strike red' : 'red'}>Heal Tavern Deck</div>
       </div>
 
       <div className={toggleRow.includes('Diamonds') ? 'PlayerAid-row open-row' : 'PlayerAid-row'}>
-        <div>
+        <div className={toggleRow.includes('Diamonds') ? 'animated tada' : ''}>
           <BsFillDiamondFill size={35} color={'#3978a8'} />
         </div>
-        <div style={{ color: '#3978a8' }}>Draw Tavern Card</div>
+        <div className={currentBossStats.suit === 'Diamonds' ? 'strike blue' : 'blue'}>Draw Tavern Card</div>
       </div>
 
       <div className={jester ? 'PlayerAid-row open-row' : 'PlayerAid-row'}>
-        <div>
+        <div className={jester ? 'animated tada' : ''}>
           <GiJesterHat size={35} color={'#c93038'} />
         </div>
-        <div style={{ color: '#c93038' }}>Jester Activated</div>
+        <div className="red">
+          <span className="green">J</span>
+          <span className="purple">e</span>
+          <span className="red">s</span>
+          <span className="blue">t</span>
+          <span className="green">e</span>
+          <span className="purple">r</span>
+          <span className="red gap">A</span>
+          <span className="blue">c</span>
+          <span className="green">t</span>
+          <span className="purple">i</span>
+          <span className="red">v</span>
+          <span className="blue">a</span>
+          <span className="green">t</span>
+          <span className="purple">e</span>
+          <span className="red">d</span>
+        </div>
       </div>
     </div>
   );
