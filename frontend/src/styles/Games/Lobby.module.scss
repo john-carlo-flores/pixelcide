@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-color: black;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.empty {
+  width: 11rem;
+}
+
+.rightFooter {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
