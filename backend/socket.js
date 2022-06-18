@@ -102,8 +102,10 @@ module.exports = (sessionMiddleware, httpServer) => {
     });
 
     socket.on("Update Lobby", (lobby) => {
-      console.log("Update Lobby");
+      console.log("Update Lobby", lobby.link);
       const updatedLobby = ls.updateLobby(lobby);
+      console.log("Updated Lobby");
+      console.log(updatedLobby);
 
       socket.broadcast.to(updatedLobby.link).emit("Update Lobby", updatedLobby);
     });
