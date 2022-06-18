@@ -10,6 +10,7 @@ import Status from './Status';
 import suitActivation from '../../helpers/suit-activation';
 import shuffle from '../../helpers/shuffle';
 import PlayedCards from './PlayedCards';
+import PlayerAid from './PlayerAid';
 
 const Game = () => {
   //initializing Game States
@@ -235,6 +236,7 @@ const Game = () => {
 
   return (
     <div className="Game">
+      <PlayerAid />
       <div className="background-gif"></div>
       <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBossStats} />
       <Status
