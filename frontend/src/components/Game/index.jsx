@@ -87,15 +87,11 @@ const Game = () => {
     let commitedPlayerField = [...playerField];
     let playedCardsCopy = [...playedCards];
 
-    //Check if jester played, if so make bossCard.suit = "none"
-    //jester,setJester inital false, set to true if jester played, revert to false on boss defeat
-    //pass this jesterState to component to render a jester sign
-
+    //Activate Jester and short circuit loop to attack stage
     if (
       commitedPlayerField.length === 1 &&
       commitedPlayerField[0].tag === "Jester"
     ) {
-      console.log("here");
       bossCard.suit = "none";
       setJester(true);
       setStatus("player_turn");
@@ -281,6 +277,7 @@ const Game = () => {
         validateDiscard={validateDiscard}
         validateAttack={validateAttack}
         discardVal={discardVal}
+        jester={jester}
       />
       <PlayedCards playedCards={playedCards} />
       <Player
