@@ -76,7 +76,7 @@ const Player = (props) => {
         ))}
       </motion.div>
 
-      <motion.div layout className="cards-container">
+      <motion.div className="cards-container">
         <AnimatePresence>
           {playerCards.map((card) => (
             <motion.div exit={{ y: -250, x: 0 }} transition={{ ease: 'easeIn', duration: 0.4 }} key={card.id} onClick={() => moveCardToPlayerField(card)} className="player-card">

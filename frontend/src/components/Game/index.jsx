@@ -10,6 +10,7 @@ import Status from './Status';
 import suitActivation from '../../helpers/suit-activation';
 import shuffle from '../../helpers/shuffle';
 import PlayedCards from './PlayedCards';
+import PlayerAid from './PlayerAid';
 
 const Game = () => {
   //initializing Game States
@@ -24,6 +25,7 @@ const Game = () => {
   const [playedCards, setPlayedCards] = useState([]);
   const [validateDiscard, setValidateDiscard] = useState(false);
   const [validateAttack, setValidateAttack] = useState(false);
+  const [jester, setJester] = useState(false);
   //track card discard value
   const [discardVal, setDiscardVal] = useState([]);
 
@@ -86,8 +88,19 @@ const Game = () => {
     let commitedPlayerField = [...playerField];
     let playedCardsCopy = [...playedCards];
 
+    //Activate Jester and short circuit loop to attack stage
+    if (commitedPlayerField.length === 1 && commitedPlayerField[0].tag === 'Jester') {
+      bossCard.suit = 'none';
+      setJester(true);
+      setStatus('player_turn');
+      setPlayerField([]);
+      setPlayedCards((prev) => [...prev, ...commitedPlayerField]);
+      setCurrentBossStats({ ...bossCard });
+      return;
+    }
+
     //power-activation logic, returns activated suits
-    const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(playerField, currentBossStats);
+    const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(playerField, bossCard);
 
     //Heart Power Activated
     if (heartPower > 0) {
@@ -168,6 +181,7 @@ const Game = () => {
 
     if (bossDefeated) {
       setCurrentBoss(bossCard);
+      setJester(false);
     }
 
     setCurrentBossStats(bossCard);
@@ -236,6 +250,7 @@ const Game = () => {
   return (
     <div className="Game">
       <div className="background-gif"></div>
+      <PlayerAid playerField={playerField} status={status} jester={jester} />
       <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBossStats} />
       <Status
         status={status}
@@ -260,3 +275,5 @@ const Game = () => {
 };
 
 export default Game;
+
+//set player
