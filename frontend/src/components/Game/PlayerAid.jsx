@@ -8,10 +8,14 @@ import { BsFillSuitHeartFill } from 'react-icons/bs';
 import { BsFillDiamondFill } from 'react-icons/bs';
 import { GiJesterHat } from 'react-icons/gi';
 
-const PlayerAid = ({ playerField, status, jester, currentBossStats }) => {
+const PlayerAid = ({ playerField, status, jester, setJester, currentBossStats }) => {
   const [toggleRow, setToggleRow] = useState([]);
 
   useEffect(() => {
+    if (status === 'game_over_lose' || status === 'game_over_win') {
+      setJester(false);
+    }
+
     if (status === 'player_attack') {
       const currentCards = [];
       for (const card of playerField) {

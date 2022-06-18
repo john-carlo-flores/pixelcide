@@ -75,7 +75,7 @@ const Player = (props) => {
       <motion.div initial={false} className="player-field">
         {playerField.map((card) => (
           <motion.div layout transition={{ ease: 'easeIn', duration: 0.4, opacity: 0 }} onClick={() => moveCardToPlayerHand(card)} key={card.id} className="player-field-card">
-            <Card image={card.image_front} warning={card.suit === currentBoss.suit ? 'warning' : ''} />
+            <Card image={card.image_front} warning={card.suit === currentBoss.suit && status !== 'boss_attack' ? 'warning' : ''} />
           </motion.div>
         ))}
       </motion.div>

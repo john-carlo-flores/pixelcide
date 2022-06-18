@@ -250,7 +250,7 @@ const Game = () => {
   return (
     <div className="Game">
       <div className="background-gif"></div>
-      <PlayerAid playerField={playerField} status={status} jester={jester} currentBossStats={currentBossStats} />
+      <PlayerAid playerField={playerField} status={status} jester={jester} setJester={setJester} currentBossStats={currentBossStats} />
       <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBossStats} />
       <Status
         status={status}
