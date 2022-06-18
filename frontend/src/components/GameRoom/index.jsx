@@ -5,7 +5,7 @@ import Loading from "../Loading";
 import Navbar from "../Navbar";
 
 import { useEffect, useContext } from "react";
-// import useLobby from "../../hooks/useLobby";
+
 import { useParams, useNavigate } from "react-router-dom";
 import { SocketContext } from "../../context/socket";
 
@@ -36,25 +36,37 @@ const GameRoom = (props) => {
     if (user.username !== lobby?.host && !lobby?.title) {
       // Request lobby object based on url parameter
       socket.emit("Request Lobby", id);
+    } else {
+      // Update state to Room
+      updateLobby(lobby, "Room");
+    }
+
+    // Check and assign if user is host
+    if (lobby?.host === user.username) {
+      user.host = true;
     }
 
     // Join room once link is established
     socket.emit("Join Room", id);
 
     // Listener for reply from request lobby
-    socket.on("Get Lobby", (lobby) => {
+    socket.on("Get Lobby", (newLobby) => {
       // If none found, invalid room
-      if (!lobby) {
+      if (!newLobby) {
         navigate("/"); // Return to home page
       }
 
       // Check and assign if user is host
-      if (lobby?.host === user.username) {
+      if (newLobby?.host === user.username) {
         user.host = true;
       }
 
+      if (user.host && newLobby.title === "") {
+        newLobby.mode = lobby.mode;
+      }
+
       // Set lobby based on recieved lobby from listener and update mode
-      updateLobby(lobby, "Room");
+      updateLobby(newLobby, "Room");
     });
 
     // Listens for all update lobby broadcasts
