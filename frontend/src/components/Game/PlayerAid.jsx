@@ -6,8 +6,9 @@ import { BsFillSuitClubFill } from 'react-icons/bs';
 import { BsFillSuitSpadeFill } from 'react-icons/bs';
 import { BsFillSuitHeartFill } from 'react-icons/bs';
 import { BsFillDiamondFill } from 'react-icons/bs';
+import { GiJesterHat } from 'react-icons/gi';
 
-const PlayerAid = ({ playerField, status }) => {
+const PlayerAid = ({ playerField, status, jester }) => {
   const [toggleRow, setToggleRow] = useState([]);
 
   useEffect(() => {
@@ -70,6 +71,13 @@ const PlayerAid = ({ playerField, status }) => {
           <BsFillDiamondFill size={35} color={'#3978a8'} />
         </div>
         <div style={{ color: '#3978a8' }}>Draw Tavern Card</div>
+      </div>
+
+      <div className={jester ? 'PlayerAid-row open-row' : 'PlayerAid-row'}>
+        <div>
+          <GiJesterHat size={35} color={'#c93038'} />
+        </div>
+        <div style={{ color: '#c93038' }}>Jester Activated</div>
       </div>
     </div>
   );
