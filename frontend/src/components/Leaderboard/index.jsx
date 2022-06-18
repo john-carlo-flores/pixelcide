@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
 import "../../styles/Leaderboard/Leaderboard.scss";
-import PlayerLeader from "./playerLeader";
 
 const Leaderboard = (props) => {
   const { userAuth, user, logout } = props;
