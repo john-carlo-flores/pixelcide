@@ -1,9 +1,11 @@
-import Login from "../components/Authentication/Login";
+import Login from '../components/Authentication/Login';
 
-import "../styles/Navbar.scss";
+import '../styles/Navbar.scss';
 
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from 'framer-motion';
+
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar(props) {
   const [login, setLogin] = useState(false);
@@ -11,23 +13,19 @@ export default function Navbar(props) {
   const navigate = useNavigate();
 
   const toggleLoginForm = () => {
-    setLogin(prev => !prev);
+    setLogin((prev) => !prev);
   };
 
   const onLogout = (event) => {
     event.preventDefault();
     logout();
-    navigate("/");
-  }
+    navigate('/');
+  };
 
   return (
     <>
       <nav className="navbar">
-        <a
-          className="how-to-play"
-          href="https://www.badgersfrommars.com/assets/RegicideRulesA4.pdf"
-          target="_blank" rel="noreferrer"
-        >
+        <a className="how-to-play" href="https://www.badgersfrommars.com/assets/RegicideRulesA4.pdf" target="_blank" rel="noreferrer">
           How to Play
         </a>
 
@@ -47,7 +45,13 @@ export default function Navbar(props) {
           )}
         </div>
       </nav>
-      {login && <Login userAuth={userAuth} toggleLoginForm={toggleLoginForm}/>}
+      <AnimatePresence>
+        {login && (
+          <motion.div animate={{ y: 270 }} exit={{ y: -320 }}>
+            <Login userAuth={userAuth} toggleLoginForm={toggleLoginForm} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
