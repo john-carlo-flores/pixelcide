@@ -5,7 +5,6 @@ import styles from "../../styles/Games/Lobby.module.scss";
 
 const Lobby = (props) => {
   const { lobby, seats } = props;
-
   const seatCount = "1/4";
   const full = false;
 
@@ -26,14 +25,13 @@ const Lobby = (props) => {
         ) : (
           <span className={styles.empty}></span>
         )}
-        <AvatarList avatars={avatars}/>
+        <AvatarList avatars={avatars} />
         {full ? (
           <Button error>Spectate</Button>
         ) : (
           <Button success>Join Game</Button>
         )}
       </div>
-
     </div>
   );
 };
