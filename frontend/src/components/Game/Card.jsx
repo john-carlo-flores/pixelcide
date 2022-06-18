@@ -1,13 +1,13 @@
 import '../../styles/Game/Card.scss';
 
-import { AiFillWarning } from 'react-icons/ai';
+import { MdOutlineError } from 'react-icons/md';
 
 const Card = (props) => {
   const { image, card_name, warning } = props;
   return (
     <div className="Card">
       <div title="Same suit as enemy" className="warning">
-        {warning && <AiFillWarning size={30} />}
+        {warning && <MdOutlineError size={30} />}
       </div>
       <img className="Card" src={image} alt={card_name} />
     </div>

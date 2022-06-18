@@ -26,7 +26,13 @@
     letter-spacing: 0.7px;
     &:hover {
       width: 25rem;
+      text-decoration: none;
     }
+  }
+  .strike {
+    text-decoration: line-through;
+    text-decoration-color: #c93038;
+    text-decoration-thickness: 0.3rem;
   }
 
   .open-row {
@@ -35,15 +41,31 @@
 
   .green {
     color: #309c63;
+    transition: all 0.3s ease;
+    &:hover {
+      text-decoration-color: transparent;
+    }
   }
   .purple {
     color: #8e478c;
+    transition: all 0.3s ease;
+    &:hover {
+      text-decoration-color: transparent;
+    }
   }
   .red {
     color: #c93038;
+    transition: all 0.3s ease;
+    &:hover {
+      text-decoration-color: transparent;
+    }
   }
   .blue {
     color: #3978a8;
+    transition: all 0.3s ease;
+    &:hover {
+      text-decoration-color: transparent;
+    }
   }
 
   .gap {

@@ -7,7 +7,7 @@ import cardFlipSound from '../../assets/sounds/card-flip-.mp3';
 const Player = (props) => {
   const { playerCards, playerName, avatar, setPlayerField, playerField, setPlayerCards, status, currentBoss } = props;
   const [playOn] = useSound(cardFlipSound);
-  // const [test, setTest] = useState('df');
+
   // function to check if the card can be played into the playing field ie correct combos
   const playable = (theCard) => {
     //if field empty all cards can be played
@@ -57,11 +57,8 @@ const Player = (props) => {
         setPlayerField((prev) => [...prev, card]);
       }, 400);
     }
-
-    if (card.suit === currentBoss.suit) {
-      console.log('same');
-    }
   };
+
   //click handler to move cards back to player hand
   const moveCardToPlayerHand = (card) => {
     const newPlayerField = [...playerField].filter((item) => item.id !== card.id);
@@ -72,7 +69,7 @@ const Player = (props) => {
 
   return (
     <div className="Player">
-      <motion.div initial={false} className="player-field">
+      <motion.div className="player-field">
         {playerField.map((card) => (
           <motion.div layout transition={{ ease: 'easeIn', duration: 0.4, opacity: 0 }} onClick={() => moveCardToPlayerHand(card)} key={card.id} className="player-field-card">
             <Card image={card.image_front} warning={card.suit === currentBoss.suit && status !== 'boss_attack' ? 'warning' : ''} />
@@ -83,7 +80,18 @@ const Player = (props) => {
       <motion.div className="cards-container">
         <AnimatePresence>
           {playerCards.map((card) => (
-            <motion.div exit={{ y: -250, x: 0 }} transition={{ ease: 'easeIn', duration: 0.4 }} key={card.id} onClick={() => moveCardToPlayerField(card)} className="player-card">
+            <motion.div
+              exit={{ y: -250, x: 0 }}
+              transition={{ ease: 'easeIn', duration: 0.4 }}
+              whileHover={{
+                y: playable(card) && -20,
+                transition: { duration: 0 },
+                x: playable(card) && -70,
+              }}
+              key={card.id}
+              onClick={() => moveCardToPlayerField(card)}
+              className={playable(card) ? 'player-card highlight' : 'player-card dull'}
+            >
               <Card image={card.image_front} />
             </motion.div>
           ))}
