@@ -1,14 +1,15 @@
-const { Server } = require('socket.io');
-const { generateSessionID } = require('./helpers/authentication');
-const { LobbyStore } = require('./stores/lobbyStores');
-const { SessionStore } = require('./stores/sessionStores');
+const { Server } = require("socket.io");
+const { generateSessionID } = require("./helpers/authentication");
+const { LobbyStore } = require("./stores/lobbyStores");
+const { SessionStore } = require("./stores/sessionStores");
 
 module.exports = (sessionMiddleware, httpServer) => {
   const io = new Server(httpServer);
 
   // convert a connect middleware to a Socket.IO middleware
-  const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
-  
+  const wrap = (middleware) => (socket, next) =>
+    middleware(socket.request, {}, next);
+
   // Use sessionMiddleware to listen to socket requests
   io.use(wrap(sessionMiddleware));
 
@@ -57,7 +58,7 @@ module.exports = (sessionMiddleware, httpServer) => {
   // Handle socket connection and requests
   io.on("connection", (socket) => {
     console.log(`User ${socket.username} connected!`);
-    
+
     // Send session id on connect
     socket.emit("session", {
       sessionID: socket.sessionID,
@@ -70,6 +71,14 @@ module.exports = (sessionMiddleware, httpServer) => {
     });
 
     /* ------------- LOBBIES ------------- */
+    socket.on("Request Lobbies", () => {
+      console.log(`${socket.username} Request Lobbies`);
+      const lobbies = ls.listLobbies();
+
+      socket.emit("Get Lobbies", lobbies);
+    });
+
+    /* ------------- LOBBY ------------- */
     socket.on("Create New Lobby", (host) => {
       console.log("New Lobby Created");
       const newLobby = ls.createLobby(host);
@@ -93,20 +102,21 @@ module.exports = (sessionMiddleware, httpServer) => {
     });
 
     socket.on("Update Lobby", (lobby) => {
-      console.log('UpdateLobby');
+      console.log("Update Lobby", lobby.link);
       const updatedLobby = ls.updateLobby(lobby);
+      console.log("Updated Lobby");
+      console.log(updatedLobby);
 
       socket.broadcast.to(updatedLobby.link).emit("Update Lobby", updatedLobby);
     });
 
     /* ------------- ROOMS ------------- */
-    socket.on("Join Room", link => {
+    socket.on("Join Room", (link) => {
       socket.join(link);
     });
 
-    socket.on("Leave Room", link => {
+    socket.on("Leave Room", (link) => {
       socket.leave(link);
     });
-
   });
 };

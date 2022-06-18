@@ -5,11 +5,17 @@ import '../styles/Navbar.scss';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useState } from 'react';
+import useSound from 'use-sound';
+import introMusic from '../assets/sounds/intro-music.mp3';
+import { motion, AnimatePresence } from 'framer-motion';
+
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Navbar(props) {
   const [login, setLogin] = useState(false);
   const { userAuth, logout } = props;
+  const [playActive] = useSound(introMusic, { volume: 0.25 });
   const navigate = useNavigate();
 
   const toggleLoginForm = () => {
@@ -21,6 +27,10 @@ export default function Navbar(props) {
     logout();
     navigate('/');
   };
+
+  useEffect(() => {
+    playActive();
+  }, [props.user]);
 
   return (
     <>
