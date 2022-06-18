@@ -12,6 +12,8 @@ import shuffle from "../../helpers/shuffle";
 import PlayedCards from "./PlayedCards";
 import PlayerAid from "./PlayerAid";
 
+import { AnimateSharedLayout } from "framer-motion";
+
 const Game = (props) => {
   //initializing Game States
   const [discard, setDiscard] = useState([]);
@@ -23,11 +25,12 @@ const Game = (props) => {
   const [playerField, setPlayerField] = useState([]);
   const [status, setStatus] = useState("player_turn");
   const [playedCards, setPlayedCards] = useState([]);
-  const [validateDiscard, setValidaplayersteDiscard] = useState(false);
+  const [validateDiscard, setValidateDiscard] = useState(false);
   const [validateAttack, setValidateAttack] = useState(false);
   const [jester, setJester] = useState(false);
   //track card discard value
   const [discardVal, setDiscardVal] = useState([]);
+  const [fetchComplete, setFetchComplete] = useState(false);
 
   const { user, game } = props;
 
@@ -53,6 +56,8 @@ const Game = (props) => {
 
       //set tavern after first card deal
       setTavern(tavernDeck);
+
+      setFetchComplete(true);
     });
   }, []);
 
@@ -60,7 +65,7 @@ const Game = (props) => {
   useEffect(() => {
     if (status === "player_turn") {
       setTimeout(() => {
-        if (playerCards.length <= 0) {
+        if (playerCards.length <= 0 && fetchComplete) {
           setStatus("game_over_lose");
         } else {
           setStatus("player_attack");
@@ -270,14 +275,18 @@ const Game = (props) => {
         castle={castle}
         currentBoss={currentBossStats}
       />
-      <Status
-        status={status}
-        handlePlayerAttack={handlePlayerAttack}
-        handleBossAttack={handleBossAttack}
-        validateDiscard={validateDiscard}
-        validateAttack={validateAttack}
-        discardVal={discardVal}
-      />
+      <AnimateSharedLayout>
+        {/* <motion.div> */}
+        <Status
+          status={status}
+          handlePlayerAttack={handlePlayerAttack}
+          handleBossAttack={handleBossAttack}
+          validateDiscard={validateDiscard}
+          validateAttack={validateAttack}
+          discardVal={discardVal}
+        />
+        {/* </motion.div> */}
+      </AnimateSharedLayout>
       <PlayedCards playedCards={playedCards} />
       <Player
         playerField={playerField}
@@ -294,5 +303,3 @@ const Game = (props) => {
 };
 
 export default Game;
-
-//set player
