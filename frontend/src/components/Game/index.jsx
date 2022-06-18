@@ -12,7 +12,7 @@ import shuffle from '../../helpers/shuffle';
 import PlayedCards from './PlayedCards';
 import PlayerAid from './PlayerAid';
 
-import { motion, AnimateSharedLayout } from 'framer-motion';
+import { AnimateSharedLayout } from 'framer-motion';
 
 const Game = () => {
   //initializing Game States
@@ -30,6 +30,7 @@ const Game = () => {
   const [jester, setJester] = useState(false);
   //track card discard value
   const [discardVal, setDiscardVal] = useState([]);
+  const [fetchComplete, setFetchComplete] = useState(false);
 
   const maxHand = 8;
 
@@ -53,6 +54,8 @@ const Game = () => {
 
       //set tavern after first card deal
       setTavern(tavernDeck);
+
+      setFetchComplete(true);
     });
   }, []);
 
@@ -60,7 +63,7 @@ const Game = () => {
   useEffect(() => {
     if (status === 'player_turn') {
       setTimeout(() => {
-        if (playerCards.length <= 0) {
+        if (playerCards.length <= 0 && fetchComplete) {
           setStatus('game_over_lose');
         } else {
           setStatus('player_attack');
