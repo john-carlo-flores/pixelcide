@@ -48,7 +48,12 @@ function Router() {
             />
           }
         />
-        <Route path="leaderboard" element={<Leaderboard />} />
+        <Route
+          path="leaderboard"
+          element={
+            <Leaderboard userAuth={verifyLogin} logout={logout} user={user} />
+          }
+        />
         <Route path="statistics" element={<Statistics />} />
         <Route path="signup" element={<Registration onSubmit={register} />} />
         <Route path="test" element={<Game />} />
