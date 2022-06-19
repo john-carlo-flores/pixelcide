@@ -86,20 +86,20 @@ const Leaderboard = (props) => {
         <div className="leaderboard-main">
           <section>
             <header>
-              <div class="col">Rank</div>
-              <div class="col">Username</div>
-              <div class="col">Number of Wins</div>
-              <div class="col">Win Percentage</div>
-              <div class="col">Total moves</div>
+              <div className="col">Rank</div>
+              <div className="col">Username</div>
+              <div className="col">Number of Wins</div>
+              <div className="col">Win Percentage</div>
+              <div className="col">Total moves</div>
             </header>
             <div className="body">
               {fakeUsers.map((user, i) => (
-                <div class="row">
-                  <div class="col">{i}</div>
-                  <div class="col">{user.username}</div>
-                  <div class="col">{user.wins}</div>
-                  <div class="col">{user.winRate}</div>
-                  <div class="col">{user.totalTurns}</div>
+                <div className="row" key={i}>
+                  <div className="col">{i}</div>
+                  <div className="col">{user.username}</div>
+                  <div className="col">{user.wins}</div>
+                  <div className="col">{user.winRate}</div>
+                  <div className="col">{user.totalTurns}</div>
                 </div>
               ))}
             </div>
