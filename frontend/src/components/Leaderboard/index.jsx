@@ -7,7 +7,7 @@ const Leaderboard = (props) => {
 
   const fakeUsers = [
     {
-      username: "hyrule",
+      username: "JayCee",
       wins: 20,
       winRate: "69%",
       totalTurns: 800,
@@ -78,161 +78,35 @@ const Leaderboard = (props) => {
     },
   ];
   return (
-    <>
+    <div className="Leaderboard">
       <div className="Homepage"></div>
       <Navbar userAuth={userAuth} user={user} logout={logout} />
       <div className="leaderboard-container">
         <h1 className="leaderboard-title">LEADERBOARD</h1>
-        <div className="top-players">
-          <table>
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Username</th>
-                <th># of Wins</th>
-                <th>Win Percentage</th>
-                <th>Total Moves</th>
-              </tr>
-            </thead>
-            <tbody className="nes-container is-rounded">
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>hyrule</td>
-                <td>70</td>
-                <td>55%</td>
-                <td>544</td>
-              </tr>
-            </tbody>
-          </table>
+        <div className="leaderboard-main">
+          <section>
+            <header>
+              <div class="col">Rank</div>
+              <div class="col">Username</div>
+              <div class="col">Number of Wins</div>
+              <div class="col">Win Percentage</div>
+              <div class="col">Total moves</div>
+            </header>
+            <div className="body">
+              {fakeUsers.map((user, i) => (
+                <div class="row">
+                  <div class="col">{i}</div>
+                  <div class="col">{user.username}</div>
+                  <div class="col">{user.wins}</div>
+                  <div class="col">{user.winRate}</div>
+                  <div class="col">{user.totalTurns}</div>
+                </div>
+              ))}
+            </div>
+          </section>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

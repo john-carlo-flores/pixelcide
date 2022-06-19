@@ -1,42 +1,76 @@
+.Leaderboard {
+  .Homepage {
+    filter: blur(8px);
+  }
+}
 .leaderboard-container {
   padding-top: 5rem;
-  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
 
   .leaderboard-title {
-    color: #9c383d;
     font-size: 4rem;
     letter-spacing: 0.5rem;
+    text-shadow: 0 1px 0px #378ab4, 1px 0 0px #5dabcd, 1px 2px 1px #378ab4, 2px 1px 1px #5dabcd, 2px 3px 2px #378ab4, 3px 2px 2px #5dabcd, 3px 4px 2px #378ab4, 4px 3px 3px #5dabcd,
+      4px 5px 3px #378ab4, 5px 4px 2px #5dabcd, 5px 6px 2px #378ab4, 6px 5px 2px #5dabcd, 6px 7px 1px #378ab4, 7px 6px 1px #5dabcd, 7px 8px 0px #378ab4, 8px 7px 0px #5dabcd;
+    color: #9c383d;
   }
 
-  .top-players {
-    width: 80vw;
-    height: 70vh;
-    background-color: rgba(255, 255, 255, 0.5);
-    overflow-y: auto;
+  .leaderboard-main {
+    border: 5px solid #1b1d2a;
+    border-radius: 2px;
+    margin-top: 3rem;
+    text-align: center;
+    width: 70vw;
+    background-color: #ecece0;
+    position: relative;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+    section {
+      display: flex;
+      flex-direction: column;
+      gap: 5rem;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      max-height: 73vh;
 
-    table {
-      width: 100%;
-      background-color: none;
-      text-align: center;
+      header,
+      .row {
+        display: flex; /* aligns all child elements (flex items) in a row */
+        border: 2px solid rgba(27, 29, 42, 0.9);
+        padding: 1rem;
+        margin: 2rem 2rem;
+        border-radius: 5px;
+      }
 
-      thead {
-        th {
-          border-bottom: solid black;
-          position: sticky;
-          top: 0;
-          padding-bottom: 1rem;
+      .col {
+        flex: 1; /* distributes space on the line equally among items */
+        letter-spacing: 0.01rem;
+      }
+
+      .body {
+        margin-top: 3rem;
+      }
+      header {
+        position: absolute;
+        width: 100%;
+        color: #ecece0;
+        top: -2.7rem;
+        right: -0.4rem;
+        margin: 0 !important;
+        border: none;
+
+        .col {
+          border: 4px solid black;
+          background-color: rgba(27, 29, 42, 1);
+          margin-right: 1rem;
+          padding: 0.5rem 0.3rem;
+          border-radius: 5px;
         }
       }
 
-      tbody {
-        border: none;
-      }
-
-      td {
-        padding-top: 1rem;
+      &::-webkit-scrollbar {
+        width: 1px;
       }
     }
   }
