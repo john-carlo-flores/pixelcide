@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
 import "../../styles/Leaderboard/Leaderboard.scss";
 
+import backBtn from "../../assets/icons/back.svg";
+
 const Leaderboard = (props) => {
   const { userAuth, user, logout } = props;
 
@@ -80,6 +82,11 @@ const Leaderboard = (props) => {
   return (
     <div className="Leaderboard">
       <div className="Homepage"></div>
+      <Link to="/">
+        <div className="back">
+          <img className="back-btn" src={backBtn} alt="back button" />
+        </div>
+      </Link>
       <Navbar userAuth={userAuth} user={user} logout={logout} />
       <div className="leaderboard-container">
         <h1 className="leaderboard-title">LEADERBOARD</h1>
