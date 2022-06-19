@@ -1,7 +1,7 @@
 import useSound from "use-sound";
 import Card from "./Card";
 import "../../styles/Game/Player.scss";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import cardFlipSound from "../../assets/sounds/card-flip-.mp3";
 
 const Player = (props) => {
@@ -69,33 +69,38 @@ const Player = (props) => {
 
   return (
     <div className="Player">
-      <motion.div className="player-field">
-        {playerField.map((card) => (
-          <motion.div layout transition={{ ease: "easeIn", duration: 0.4, opacity: 0 }} onClick={() => moveCardToPlayerHand(card)} key={card.id} className="player-field-card">
-            <Card image={card.image_front} warning={card.suit === currentBoss.suit && status !== "boss_attack" ? "warning" : ""} />
-          </motion.div>
-        ))}
-      </motion.div>
-
-      <motion.div className="cards-container">
-        <AnimatePresence>
-          {playerCards.map((card) => (
-            <motion.div
-              exit={{ y: -250, x: 0 }}
-              transition={{ ease: "easeIn", duration: 0.4 }}
-              whileHover={{
-                y: playable(card) && -20,
-                transition: { duration: 0 },
-                x: playable(card) && -70,
-              }}
-              key={card.id}
-              onClick={() => moveCardToPlayerField(card)}
-              className={(status === "player_attack" && playable(card)) || status === "boss_attack" ? "player-card highlight" : "player-card dull"}
-            >
-              <Card image={card.image_front} />
+      <LayoutGroup>
+        <motion.div className="player-field">
+          {playerField.map((card) => (
+            <motion.div layout transition={{ ease: "easeIn", duration: 0.4, opacity: 0 }} onClick={() => moveCardToPlayerHand(card)} key={card.id} className="player-field-card">
+              <Card image={card.image_front} warning={card.suit === currentBoss.suit && status !== "boss_attack" ? "warning" : ""} />
             </motion.div>
           ))}
-        </AnimatePresence>
+        </motion.div>
+      </LayoutGroup>
+
+      <motion.div className="cards-container">
+        <LayoutGroup>
+          <AnimatePresence>
+            {playerCards.map((card) => (
+              <motion.div
+                layout
+                exit={{ y: -250, x: 0 }}
+                transition={{ ease: "easeIn", duration: 0.4 }}
+                whileHover={{
+                  y: playable(card) && -20,
+                  transition: { duration: 0 },
+                  x: playable(card) && -70,
+                }}
+                key={card.id}
+                onClick={() => moveCardToPlayerField(card)}
+                className={playable(card) ? "player-card highlight nes-pointer" : "player-card dull"}
+              >
+                <Card image={card.image_front} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </LayoutGroup>
       </motion.div>
 
       <div className="player-info">

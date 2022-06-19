@@ -7,10 +7,11 @@ import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SocketContext } from "../../context/socket";
 
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+
 export default function Homepage(props) {
   const { user, userAuth, logout } = props;
-  const { hostGame, lobby, assignLobbyTitle, cancelLobby, updateLobby } =
-    props.state;
+  const { hostGame, lobby, assignLobbyTitle, cancelLobby, updateLobby } = props.state;
   const [createLobby, setCreateLobby] = useState({ create: false });
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
@@ -37,8 +38,7 @@ export default function Homepage(props) {
     socket.on("Get Created Lobby", (createdLobby) => {
       if (!createdLobby) {
         return setCreateLobby({
-          error:
-            "Reached maximum amount of rooms alloted. Please join existing games or try again later.",
+          error: "Reached maximum amount of rooms alloted. Please join existing games or try again later.",
         });
       }
 
@@ -57,32 +57,46 @@ export default function Homepage(props) {
       <div className="Menu">
         <h1 className="Title">Pixelcide</h1>
         <div className="Buttons">
-          {props.user && (
-            <>
-              <Button onClick={onHost} error>
-                Host Game
-              </Button>
-              <Link to="games">
-                <Button error>Join Game</Button>
-              </Link>
-              <Link to="statistics">
-                <Button error>Statistics</Button>
-              </Link>
-              <Link to="leaderboard">
-                <Button error>Leaderboard</Button>
-              </Link>
-            </>
-          )}
-          {!props.user && (
-            <Link to="signup">
-              <Button error>Sign Up</Button>
-            </Link>
-          )}
+          <LayoutGroup>
+            <AnimatePresence>
+              {props.user && (
+                <>
+                  <motion.div initial={{ opacity: 0, y: -200 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -200 }} transition={{ duration: 0.5 }}>
+                    <Button onClick={onHost} error>
+                      Host Game
+                    </Button>
+                  </motion.div>
+                  <motion.div initial={{ opacity: 0, y: -200 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -200 }} transition={{ duration: 0.4 }}>
+                    <Link to="games">
+                      <Button error>Join Game</Button>
+                    </Link>
+                  </motion.div>
+                  <motion.div initial={{ opacity: 0, y: -200 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -200 }} transition={{ duration: 0.3 }}>
+                    <Link to="statistics">
+                      <Button error>Statistics</Button>
+                    </Link>
+                  </motion.div>
+                  <motion.div initial={{ opacity: 0, y: -200 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -200 }} transition={{ duration: 0.2 }}>
+                    <Link to="leaderboard">
+                      <Button error>Leaderboard</Button>
+                    </Link>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {!props.user && (
+                <motion.div layout initial={{ opacity: 0, y: -600 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 120 }} transition={{ duration: 0.5 }}>
+                  <Link to="signup">
+                    <Button error>Sign Up</Button>
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </LayoutGroup>
         </div>
       </div>
-      {createLobby.create && (
-        <LobbyCreation onCancel={onCancel} onCreate={onCreate} />
-      )}
+      {createLobby.create && <LobbyCreation onCancel={onCancel} onCreate={onCreate} />}
       {createLobby.error && <p>{createLobby.error}</p>}
     </>
   );
