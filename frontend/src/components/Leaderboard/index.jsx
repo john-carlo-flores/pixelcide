@@ -102,7 +102,7 @@ const Leaderboard = (props) => {
             <div className="body">
               {fakeUsers.map((user, i) => (
                 <div className="row" key={i}>
-                  <div className="col">{i}</div>
+                  <div className="col">{i + 1}</div>
                   <div className="col">{user.username}</div>
                   <div className="col">{user.wins}</div>
                   <div className="col">{user.winRate}</div>
