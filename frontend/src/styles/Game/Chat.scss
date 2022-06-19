@@ -3,7 +3,7 @@
   .container {
     width: 20rem;
     min-height: 10rem;
-    max-height: 30rem;
+    max-height: 25rem;
     overflow-y: scroll;
     border-radius: 10px;
     margin-top: 0.3rem;
@@ -97,31 +97,33 @@
     width: 3rem;
     filter: invert(100%) sepia(2%) saturate(4371%) hue-rotate(322deg) brightness(96%) contrast(92%);
   }
-}
-.outer-div {
-  width: 20rem;
-  margin-bottom: 4.2rem;
-  background-color: rgba(236, 236, 224, 0.6);
-  backdrop-filter: blur(10px);
-  border: 1px solid #3b324a;
-  border-radius: 10px;
-  padding: 1rem 0;
-}
 
-form {
-  display: flex;
-  gap: 1rem;
-  padding: 0 0.4rem;
-  height: 2.5rem;
-  input {
-    width: 100%;
-    outline: none;
-    border-color: #ecece0;
-    padding: 0 0.7rem;
+  .outer-div {
+    width: 20rem;
+    margin-bottom: 4.2rem;
+    background-color: rgba(236, 236, 224, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid #3b324a;
     border-radius: 10px;
+    padding: 1rem 0;
   }
-  .nes-btn {
-    font-size: 0.6rem;
-    letter-spacing: 0.1rem;
+
+  form {
+    display: flex;
+    gap: 1rem;
+    padding: 0 0.4rem;
+    height: 2.5rem;
+    font-size: 0.9rem;
+    input {
+      width: 100%;
+      outline: none;
+      border-color: #ecece0;
+      padding: 0 0.7rem;
+      border-radius: 10px;
+    }
+    .nes-btn {
+      font-size: 0.6rem;
+      letter-spacing: 0.1rem;
+    }
   }
 }

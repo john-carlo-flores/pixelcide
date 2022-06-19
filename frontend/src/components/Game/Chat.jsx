@@ -11,11 +11,14 @@ const Chat = () => {
   const [toggleChat, setToggleChat] = useState(false);
   const [chatInput, setChatInput] = useState("");
 
+  const [userChat, setUserChat] = useState([]);
+
   const handleToggle = () => {
     setToggleChat((prev) => !prev);
   };
 
   const handleSubmit = (e) => {
+    setUserChat([...userChat, chatInput]);
     e.preventDefault();
     setChatInput("");
   };
@@ -30,25 +33,15 @@ const Chat = () => {
         {toggleChat && (
           <motion.div initial={{ y: 50 }} animate={{ y: -20 }} exit={{ y: 100, opacity: 0 }} className="outer-div">
             <div className="container">
-              <div className="input ">
-                <div className="avatar">
-                  <img src={crappyAvatar} alt="" />
+              {userChat.map((chat) => (
+                <div className="input ">
+                  <div className="avatar">
+                    <img src={crappyAvatar} alt="" />
+                  </div>
+                  <div className="content ">{chat}</div>
                 </div>
-                <div className="content ">Hey</div>
-              </div>
+              ))}
 
-              <div className="output ">
-                <div className="content">What's up</div>
-                <div className="avatar">
-                  <img src={moreCrappyDrawing} alt="" />
-                </div>
-              </div>
-              <div className="input ">
-                <div className="avatar">
-                  <img src={crappyAvatar} alt="" />
-                </div>
-                <div className="content ">Hey</div>
-              </div>
               <div className="output ">
                 <div className="content">What's up</div>
                 <div className="avatar">
