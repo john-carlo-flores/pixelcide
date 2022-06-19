@@ -72,7 +72,13 @@ const Player = (props) => {
       <LayoutGroup>
         <motion.div className="player-field">
           {playerField.map((card) => (
-            <motion.div layout transition={{ ease: "easeIn", duration: 0.4, opacity: 0 }} onClick={() => moveCardToPlayerHand(card)} key={card.id} className="player-field-card">
+            <motion.div
+              layout
+              transition={{ ease: "easeIn", duration: 0.4, opacity: 0 }}
+              onClick={() => moveCardToPlayerHand(card)}
+              key={card.id}
+              className="player-field-card nes-pointer"
+            >
               <Card image={card.image_front} warning={card.suit === currentBoss.suit && status !== "boss_attack" ? "warning" : ""} />
             </motion.div>
           ))}
@@ -94,7 +100,7 @@ const Player = (props) => {
                 }}
                 key={card.id}
                 onClick={() => moveCardToPlayerField(card)}
-                className={(status === "player_attack" && playable(card)) || status === "boss_attack" ? "player-card highlight" : "player-card dull"}
+                className={(status === "player_attack" && playable(card)) || status === "boss_attack" ? "player-card highlight nes-pointer" : "player-card dull"}
               >
                 <Card image={card.image_front} />
               </motion.div>
