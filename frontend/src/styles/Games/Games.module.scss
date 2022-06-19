@@ -22,6 +22,14 @@
 .back {
   position: absolute;
   top: 5rem;
-  left: 25rem;
+  left: 35rem;
   color: #9c383d;
+  background-color: #1b1d2a;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+
+  img {
+    width: 4rem;
+    filter: invert(98%) sepia(4%) saturate(1031%) hue-rotate(324deg) brightness(104%) contrast(85%);
+  }
 }
