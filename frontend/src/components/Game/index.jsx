@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import "../../styles/Game/Game.scss";
 import Player from "../Game/Player";
@@ -284,8 +285,10 @@ const Game = () => {
         currentBoss={currentBossStats}
       />
 
-      <div className="close-icon">
-        <img src={closeIcon} alt="" />
+      <div className="close-icon nes-pointer">
+        <Link to={"/"}>
+          <img src={closeIcon} alt="" />
+        </Link>
       </div>
     </div>
   );
