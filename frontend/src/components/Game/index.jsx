@@ -7,16 +7,26 @@ import DeckList from "./DeckList";
 import makeCastle from "../../helpers/game-starters/makeCastle";
 import makeTavern from "../../helpers/game-starters/makeTavern";
 import Status from "./Status";
+<<<<<<< HEAD
 import suitActivation from "../../helpers/suit-activation";
+=======
+import suitActivation from "../../helpers/player-helpers";
+>>>>>>> 2211a48d4e47958c1bcb276029b25c00077b2f6f
 import shuffle from "../../helpers/shuffle";
 import PlayedCards from "./PlayedCards";
 import PlayerAid from "./PlayerAid";
 
+<<<<<<< HEAD
 import closeIcon from "../../assets/icons/close-icon.svg";
 
 import { AnimateSharedLayout } from "framer-motion";
 
 const Game = () => {
+=======
+import { AnimateSharedLayout } from "framer-motion";
+
+const Game = (props) => {
+>>>>>>> 2211a48d4e47958c1bcb276029b25c00077b2f6f
   //initializing Game States
   const [discard, setDiscard] = useState([]);
   const [castle, setCastle] = useState([]);
@@ -33,6 +43,8 @@ const Game = () => {
   //track card discard value
   const [discardVal, setDiscardVal] = useState([]);
   const [fetchComplete, setFetchComplete] = useState(false);
+
+  const { user, game } = props;
 
   const maxHand = 8;
 
@@ -74,6 +86,7 @@ const Game = () => {
     }
   }, [status, playerCards]);
 
+<<<<<<< HEAD
   // mockData for testing
   const user = {
     id: 1,
@@ -84,6 +97,8 @@ const Game = () => {
     avatar_id: 1,
   };
 
+=======
+>>>>>>> 2211a48d4e47958c1bcb276029b25c00077b2f6f
   //onClickHander for playerAttack
   const handlePlayerAttack = () => {
     //making copies of states that potentially change multiple times
@@ -96,7 +111,14 @@ const Game = () => {
     let playedCardsCopy = [...playedCards];
 
     //Activate Jester and short circuit loop to attack stage
+<<<<<<< HEAD
     if (commitedPlayerField.length === 1 && commitedPlayerField[0].tag === "Jester") {
+=======
+    if (
+      commitedPlayerField.length === 1 &&
+      commitedPlayerField[0].tag === "Jester"
+    ) {
+>>>>>>> 2211a48d4e47958c1bcb276029b25c00077b2f6f
       bossCard.suit = "none";
       setJester(true);
       setStatus("player_turn");
@@ -107,7 +129,10 @@ const Game = () => {
     }
 
     //power-activation logic, returns activated suits
-    const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(playerField, bossCard);
+    const { spadePower, diamondPower, heartPower, clubPower } = suitActivation(
+      playerField,
+      bossCard
+    );
 
     //Heart Power Activated
     if (heartPower > 0) {
@@ -160,7 +185,12 @@ const Game = () => {
 
     // check to see if boss defeated and change state accordingly
     if (bossCard.health < 0) {
-      discardCards = [...discardCards, currentBoss, ...commitedPlayerField, ...playedCardsCopy];
+      discardCards = [
+        ...discardCards,
+        currentBoss,
+        ...commitedPlayerField,
+        ...playedCardsCopy,
+      ];
       castleCards.pop();
       bossCard = castleCards.at(-1);
       commitedPlayerField = [];
@@ -171,7 +201,11 @@ const Game = () => {
       tavernCards = [...tavernCards, currentBoss];
       castleCards.pop();
       bossCard = castleCards.at(-1);
-      discardCards = [...discardCards, ...commitedPlayerField, ...playedCardsCopy];
+      discardCards = [
+        ...discardCards,
+        ...commitedPlayerField,
+        ...playedCardsCopy,
+      ];
       commitedPlayerField = [];
       setPlayedCards(commitedPlayerField);
       castleCards.length === 0 && setStatus("game_over_win");
@@ -257,9 +291,19 @@ const Game = () => {
   return (
     <div className="Game">
       <div className="background-gif"></div>
-      <PlayerAid playerField={playerField} status={status} jester={jester} setJester={setJester} currentBossStats={currentBossStats} />
-      <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBossStats} />
-
+      <PlayerAid
+        playerField={playerField}
+        status={status}
+        jester={jester}
+        setJester={setJester}
+        currentBossStats={currentBossStats}
+      />
+      <DeckList
+        tavern={tavern}
+        discard={discard}
+        castle={castle}
+        currentBoss={currentBossStats}
+      />
       <AnimateSharedLayout>
         {/* <motion.div> */}
         <Status
