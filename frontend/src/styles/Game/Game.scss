@@ -3,7 +3,7 @@
   align-items: center;
   flex-direction: column;
   .background-gif {
-    background: url('../../assets/backgrounds/game-background.gif');
+    background: url("../../assets/backgrounds/game-background.gif");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -21,4 +21,15 @@
     pointer-events: none;
   }
   user-select: none;
+
+  .close-icon {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    width: 4rem;
+    z-index: 88888;
+    img {
+      filter: invert(30%) sepia(40%) saturate(4503%) hue-rotate(339deg) brightness(81%) contrast(94%);
+    }
+  }
 }

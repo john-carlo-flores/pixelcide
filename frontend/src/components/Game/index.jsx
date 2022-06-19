@@ -1,18 +1,20 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-import '../../styles/Game/Game.scss';
-import Player from '../Game/Player';
-import DeckList from './DeckList';
-import makeCastle from '../../helpers/game-starters/makeCastle';
-import makeTavern from '../../helpers/game-starters/makeTavern';
-import Status from './Status';
-import suitActivation from '../../helpers/suit-activation';
-import shuffle from '../../helpers/shuffle';
-import PlayedCards from './PlayedCards';
-import PlayerAid from './PlayerAid';
+import "../../styles/Game/Game.scss";
+import Player from "../Game/Player";
+import DeckList from "./DeckList";
+import makeCastle from "../../helpers/game-starters/makeCastle";
+import makeTavern from "../../helpers/game-starters/makeTavern";
+import Status from "./Status";
+import suitActivation from "../../helpers/suit-activation";
+import shuffle from "../../helpers/shuffle";
+import PlayedCards from "./PlayedCards";
+import PlayerAid from "./PlayerAid";
 
-import { AnimateSharedLayout } from 'framer-motion';
+import closeIcon from "../../assets/icons/close-icon.svg";
+
+import { AnimateSharedLayout } from "framer-motion";
 
 const Game = () => {
   //initializing Game States
@@ -23,7 +25,7 @@ const Game = () => {
   const [currentBossStats, setCurrentBossStats] = useState({});
   const [playerCards, setPlayerCards] = useState([]);
   const [playerField, setPlayerField] = useState([]);
-  const [status, setStatus] = useState('player_turn');
+  const [status, setStatus] = useState("player_turn");
   const [playedCards, setPlayedCards] = useState([]);
   const [validateDiscard, setValidateDiscard] = useState(false);
   const [validateAttack, setValidateAttack] = useState(false);
@@ -36,7 +38,7 @@ const Game = () => {
 
   // initial game set up
   useEffect(() => {
-    axios.get('/cards').then((response) => {
+    axios.get("/cards").then((response) => {
       const cards = response.data;
 
       const castleDeck = makeCastle(cards);
@@ -61,12 +63,12 @@ const Game = () => {
 
   // check in player turn to see if player has cards, game over if player has no cards
   useEffect(() => {
-    if (status === 'player_turn') {
+    if (status === "player_turn") {
       setTimeout(() => {
         if (playerCards.length <= 0 && fetchComplete) {
-          setStatus('game_over_lose');
+          setStatus("game_over_lose");
         } else {
-          setStatus('player_attack');
+          setStatus("player_attack");
         }
       }, 2000);
     }
@@ -75,10 +77,10 @@ const Game = () => {
   // mockData for testing
   const user = {
     id: 1,
-    username: 'gagan420',
-    name: 'singh',
-    email: 'a@b.com',
-    password_digest: 'password',
+    username: "gagan420",
+    name: "singh",
+    email: "a@b.com",
+    password_digest: "password",
     avatar_id: 1,
   };
 
@@ -94,10 +96,10 @@ const Game = () => {
     let playedCardsCopy = [...playedCards];
 
     //Activate Jester and short circuit loop to attack stage
-    if (commitedPlayerField.length === 1 && commitedPlayerField[0].tag === 'Jester') {
-      bossCard.suit = 'none';
+    if (commitedPlayerField.length === 1 && commitedPlayerField[0].tag === "Jester") {
+      bossCard.suit = "none";
       setJester(true);
-      setStatus('player_turn');
+      setStatus("player_turn");
       setPlayerField([]);
       setPlayedCards((prev) => [...prev, ...commitedPlayerField]);
       setCurrentBossStats({ ...bossCard });
@@ -163,7 +165,7 @@ const Game = () => {
       bossCard = castleCards.at(-1);
       commitedPlayerField = [];
       setPlayedCards(commitedPlayerField);
-      castleCards.length === 0 && setStatus('game_over_win');
+      castleCards.length === 0 && setStatus("game_over_win");
       bossDefeated = true;
     } else if (bossCard.health === 0) {
       tavernCards = [...tavernCards, currentBoss];
@@ -172,13 +174,13 @@ const Game = () => {
       discardCards = [...discardCards, ...commitedPlayerField, ...playedCardsCopy];
       commitedPlayerField = [];
       setPlayedCards(commitedPlayerField);
-      castleCards.length === 0 && setStatus('game_over_win');
+      castleCards.length === 0 && setStatus("game_over_win");
       bossDefeated = true;
     } else {
       if (bossCard.damage === 0) {
-        setStatus('player_turn');
+        setStatus("player_turn");
       } else {
-        setStatus('boss_attack');
+        setStatus("boss_attack");
       }
     }
 
@@ -200,7 +202,7 @@ const Game = () => {
 
   // check during boss attack if player has enough cards to discard on attack
   useEffect(() => {
-    if (status === 'boss_attack') {
+    if (status === "boss_attack") {
       let playerHandVal = 0;
 
       //get playerhand value i.e sum of damage of all cards
@@ -209,14 +211,14 @@ const Game = () => {
         playerHandVal += card.damage;
       }
       if (playerHandVal < currentBoss.damage) {
-        setStatus('game_over_lose');
+        setStatus("game_over_lose");
       }
     }
   }, [status]);
 
   // discard validation
   useEffect(() => {
-    if (status === 'boss_attack') {
+    if (status === "boss_attack") {
       let playerFieldVal = 0;
       for (const card of playerField) {
         playerFieldVal += card.damage;
@@ -235,7 +237,7 @@ const Game = () => {
 
   //attack validation (to open attack button)
   useEffect(() => {
-    if (status === 'player_attack') {
+    if (status === "player_attack") {
       if (playerField.length > 0) {
         setValidateAttack(true);
       } else {
@@ -247,7 +249,7 @@ const Game = () => {
   const handleBossAttack = () => {
     setDiscard([...discard, ...playerField]);
     setPlayerField([]);
-    setStatus('player_turn');
+    setStatus("player_turn");
     setValidateDiscard(false);
     setValidateAttack(false);
   };
@@ -281,6 +283,10 @@ const Game = () => {
         status={status}
         currentBoss={currentBossStats}
       />
+
+      <div className="close-icon">
+        <img src={closeIcon} alt="" />
+      </div>
     </div>
   );
 };
