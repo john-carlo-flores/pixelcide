@@ -12,6 +12,7 @@ import suitActivation from "../../helpers/suit-activation";
 import shuffle from "../../helpers/shuffle";
 import PlayedCards from "./PlayedCards";
 import PlayerAid from "./PlayerAid";
+import Chat from "./Chat";
 
 import closeIcon from "../../assets/icons/close-icon.svg";
 
@@ -290,6 +291,8 @@ const Game = () => {
           <img src={closeIcon} alt="" />
         </Link>
       </div>
+
+      <Chat />
     </div>
   );
 };
