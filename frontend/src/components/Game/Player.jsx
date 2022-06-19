@@ -94,7 +94,7 @@ const Player = (props) => {
                 }}
                 key={card.id}
                 onClick={() => moveCardToPlayerField(card)}
-                className={playable(card) ? "player-card highlight nes-pointer" : "player-card dull"}
+                className={(status === "player_attack" && playable(card)) || status === "boss_attack" ? "player-card highlight" : "player-card dull"}
               >
                 <Card image={card.image_front} />
               </motion.div>
