@@ -69,46 +69,46 @@ const Player = (props) => {
 
   return (
     <div className="Player">
-      <LayoutGroup>
-        <motion.div className="player-field">
-          <AnimatePresence>
-            {playerField.map((card) => (
-              <motion.div
-                layout
-                transition={{ ease: "easeIn", duration: 0.5, opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => moveCardToPlayerHand(card)}
-                key={card.id}
-                className="player-field-card nes-pointer"
-              >
-                <Card image={card.image_front} warning={card.suit === currentBoss.suit && status !== "boss_attack" ? "warning" : ""} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-      </LayoutGroup>
+      {/* <LayoutGroup> */}
+      <motion.div className="player-field">
+        {/* <AnimatePresence> */}
+        {playerField.map((card) => (
+          <motion.div
+            layout
+            transition={{ ease: "easeIn", duration: 0.5, opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => moveCardToPlayerHand(card)}
+            key={card.id}
+            className="player-field-card nes-pointer"
+          >
+            <Card image={card.image_front} warning={card.suit === currentBoss.suit && status !== "boss_attack" ? "warning" : ""} />
+          </motion.div>
+        ))}
+        {/* </AnimatePresence> */}
+      </motion.div>
+      {/* </LayoutGroup> */}
 
       <motion.div className="cards-container">
         <LayoutGroup>
-          <AnimatePresence>
-            {playerCards.map((card) => (
-              <motion.div
-                layout
-                exit={{ y: -250, x: 0 }}
-                transition={{ ease: "easeIn", duration: 0.4 }}
-                whileHover={{
-                  y: playable(card) && -20,
-                  transition: { duration: 0.1 },
-                  x: playable(card) && -40,
-                }}
-                key={card.id}
-                onClick={() => moveCardToPlayerField(card)}
-                className={(status === "player_attack" && playable(card)) || status === "boss_attack" ? "player-card highlight nes-pointer" : "player-card dull"}
-              >
-                <Card image={card.image_front} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
+          {/* <AnimatePresence> */}
+          {playerCards.map((card) => (
+            <motion.div
+              layout
+              exit={{ y: -250, x: 0 }}
+              transition={{ ease: "easeIn", duration: 0.4 }}
+              whileHover={{
+                y: playable(card) && -20,
+                transition: { duration: 0.1 },
+                x: playable(card) && -40,
+              }}
+              key={card.id}
+              onClick={() => moveCardToPlayerField(card)}
+              className={(status === "player_attack" && playable(card)) || status === "boss_attack" ? "player-card highlight nes-pointer" : "player-card dull"}
+            >
+              <Card image={card.image_front} />
+            </motion.div>
+          ))}
+          {/* </AnimatePresence> */}
         </LayoutGroup>
       </motion.div>
 

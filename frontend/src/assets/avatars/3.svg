@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+      <mask id="avatarsRadiusMask">
+        <rect width="20" height="20" fill="#fff" rx="0" ry="0"></rect>
+      </mask>
+      <g mask="url(#avatarsRadiusMask)">
+        <path
+          fill="rgba(255, 219, 172, 1)"
+          d="M6 4V3h8v1h1v1h1v3h1v3h-1v2h-1v1h-1v1h-2v1h4v1h1v3H3v-3h1v-1h4v-1H6v-1H5v-1H4v-2H3V8h1V5h1V4h1z"
+        ></path>
+        <path
+          fill="#fff"
+          fillOpacity="0.1"
+          d="M6 3v1H5v1H4v3H3v3h1v2h1v1h1v1h8v-1h1v-1h1v-2h1V8h-1V5h-1V4h-1V3H6z"
+        ></path>
+        <g fillRule="evenodd" clipRule="evenodd">
+          <path fill="#fff" d="M6 7h1v2H5V8h1V7zm7 0h1v2h-2V8h1V7z"></path>
+          <path fill="#000" d="M7 7v1H6v1h2V7H7zm7 0v1h-1v1h2V7h-1z"></path>
+          <path
+            fill="#fff"
+            fillOpacity="0.5"
+            d="M7 7v1h1V7H7zM6 8v1h1V8H6zm8-1v1h1V7h-1zm-1 1v1h1V8h-1z"
+          ></path>
+        </g>
+        <g fillRule="evenodd" clipRule="evenodd">
+          <path
+            fill="rgba(97, 28, 23, 1)"
+            d="M6 5h3v2H8V6H6V5zm5 0h3v1h-2v1h-1V5z"
+          ></path>
+          <path
+            fill="#000"
+            fillOpacity="0.1"
+            d="M6 5h3v2H8V6H6V5zm5 0h3v1h-2v1h-1V5z"
+          ></path>
+        </g>
+        <path fill="rgba(222, 15, 13, 1)" d="M8 12h3v1H8v-1z"></path>
+        <path
+          fill="rgba(97, 28, 23, 1)"
+          d="M2 15h2V5h12v10h2V4h-1V3h-1V2H4v1H3v1H2v11z"
+        ></path>
+        <path
+          fill="rgba(255, 238, 173, 1)"
+          d="M3 20v-3h1v-1h4v1h4v-1h4v1h1v3H3z"
+        ></path>
+      </g>
+    </svg>

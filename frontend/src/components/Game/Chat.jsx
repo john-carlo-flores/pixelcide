@@ -1,12 +1,12 @@
 import chatIcon from "../../assets/icons/chat.svg";
 import "../../styles/Game/Chat.scss";
 import { useState, useRef } from "react";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 import Button from "../Button";
-import crappyAvatar from "../../assets/avatars/2.png";
-import moreCrappyDrawing from "../../assets/avatars/7.png";
+import crappyAvatar from "../../assets/avatars/3.svg";
+import moreCrappyDrawing from "../../assets/avatars/2.svg";
 
 const Chat = () => {
   //to check click outside the chat component

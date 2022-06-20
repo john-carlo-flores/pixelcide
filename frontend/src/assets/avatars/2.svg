@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+      <mask id="avatarsRadiusMask">
+        <rect width="20" height="20" fill="#fff" rx="0" ry="0"></rect>
+      </mask>
+      <g mask="url(#avatarsRadiusMask)">
+        <path
+          fill="rgba(203, 158, 110, 1)"
+          d="M6 4V3h8v1h1v1h1v3h1v3h-1v2h-1v1h-1v1h-2v1h4v1h1v3H3v-3h1v-1h4v-1H6v-1H5v-1H4v-2H3V8h1V5h1V4h1z"
+        ></path>
+        <path
+          fill="#fff"
+          fillOpacity="0.1"
+          d="M6 3v1H5v1H4v3H3v3h1v2h1v1h1v1h8v-1h1v-1h1v-2h1V8h-1V5h-1V4h-1V3H6z"
+        ></path>
+        <g fillRule="evenodd" clipRule="evenodd">
+          <path fill="#fff" d="M5 7h3v3H5V7zm7 0h3v3h-3V7z"></path>
+          <path fill="#000" d="M6 8h1v1H6V8zm7 0h1v1h-1V8z"></path>
+        </g>
+        <g fillRule="evenodd" clipRule="evenodd">
+          <path
+            fill="rgba(40, 21, 10, 1)"
+            d="M6 5h2v1h1v1H8V6H6V5zm8 0h-2v1h-1v1h1V6h2V5z"
+          ></path>
+          <path
+            fill="#000"
+            fillOpacity="0.1"
+            d="M6 5h2v1h1v1H8V6H6V5zm8 0h-2v1h-1v1h1V6h2V5z"
+          ></path>
+        </g>
+        <path fill="rgba(227, 93, 106, 1)" d="M9 13v1h1v-1H9z"></path>
+        <path
+          fill="rgba(40, 21, 10, 1)"
+          d="M4 4v2h1V5h1V4h8v1h1v1h1V4h-1V3H5v1H4z"
+        ></path>
+        <path
+          fill="rgba(250, 250, 210, 1)"
+          fillRule="evenodd"
+          d="M3 10v1h1v-1H3zm13 0v1h1v-1h-1z"
+          clipRule="evenodd"
+        ></path>
+        <path
+          fill="rgba(66, 139, 202, 1)"
+          d="M3 20v-3h1v-1h3v-1h1v1h1v1h2v-1h.965L12 15h1v1h3v1h1v3H3z"
+        ></path>
+        <path
+          fill="#fff"
+          fillOpacity="0.2"
+          fillRule="evenodd"
+          d="M6 16H4v1H3v3h6v-2H8v-1H6v-1zm2 0h1-1zm3 0h1-1zm2 0h1v1h-2v1h-1v2h6v-3h-1v-1h-3z"
+          clipRule="evenodd"
+        ></path>
+      </g>
+    </svg>
