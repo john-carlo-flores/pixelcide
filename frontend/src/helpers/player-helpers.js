@@ -10,7 +10,7 @@ export function getSuitPowersAndTotalDamage(
   let diamondPower = 0; // diamonds - draw cards from tavern
   let heartPower = 0; // hearts - replenish our tavern from discard
   let clubPower = 0; // clubs - double damage
-  let jesterPower  = false; // jester - reduce 
+  let jesterPower = false; // jester - reduce
 
   const suits = [];
 
@@ -143,4 +143,16 @@ export function activateClubPower(power, bossStats) {
 
 export function activateJesterPower(power, bossStats) {
   bossStats.powerEnabled = power;
+}
+
+export function commitPlayfield(players, index) {
+  players[index].field.foreach((card) => {
+    players[index].played.push(card);
+  });
+}
+
+export function clearPlayfield(players) {
+  players.foreach((player) => {
+    player.field = [];
+  });
 }
