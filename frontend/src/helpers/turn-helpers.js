@@ -28,3 +28,27 @@ function nextPosition(currentPosition, array) {
 
   return currentPosition + 1;
 }
+
+export function playerDead(currentPlayer, bossDamage) {
+  let playerHandVal = 0;
+
+  // Sum up player hand defense value
+  for (const card of currentPlayer.hand) {
+    playerHandVal += card.damage;
+  }
+
+  return playerHandVal < bossDamage;
+}
+
+export function playerDefense(currentPlayer, bossDamage) {
+  let playerFieldVal = 0;
+
+  for (const card of currentPlayer.discard) {
+    playerFieldVal += card.damage;
+  }
+
+  return {
+    enoughDefense: playerFieldVal >= bossDamage,
+    damageRemaining: bossDamage - playerFieldVal,
+  };
+}
