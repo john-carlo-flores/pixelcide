@@ -126,4 +126,8 @@
       letter-spacing: 0.1rem;
     }
   }
+
+  .glow {
+    filter: invert(34%) sepia(14%) saturate(2223%) hue-rotate(252deg) brightness(95%) contrast(87%);
+  }
 }
