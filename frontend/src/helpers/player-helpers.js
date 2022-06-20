@@ -156,3 +156,59 @@ export function clearPlayfield(players) {
     player.field = [];
   });
 }
+
+// function to check if the card can be played into the playing field ie correct combos
+export const playable = (theCard, playerField) => {
+  //if field empty all cards can be played
+  if (playerField.length === 0) {
+    return true;
+  }
+  //if any one card is in player field then only an Ace can be played (except Jester)
+  if (
+    playerField.length === 1 &&
+    playerField[0].tag === "A" &&
+    theCard.tag !== "Jester"
+  ) {
+    return true;
+  }
+  //if an ace in in player field any card can be played (except Jester)
+  if (
+    playerField.length === 1 &&
+    playerField[0].tag !== "Jester" &&
+    theCard.tag === "A"
+  ) {
+    return true;
+  }
+  //2 card combos (2-2, 3-3, 4-4, 5-5)
+  if (
+    playerField.length === 1 &&
+    ((playerField[0].tag === "2" && theCard.tag === "2") ||
+      (playerField[0].tag === "3" && theCard.tag === "3") ||
+      (playerField[0].tag === "4" && theCard.tag === "4") ||
+      (playerField[0].tag === "5" && theCard.tag === "5"))
+  ) {
+    return true;
+  }
+  //3 card combos (2-2-2, 3-3-3)
+  if (
+    playerField.length === 2 &&
+    ((playerField[0].tag === "2" &&
+      playerField[1].tag === "2" &&
+      theCard.tag === "2") ||
+      (playerField[0].tag === "3" &&
+        playerField[1].tag === "3" &&
+        theCard.tag === "3"))
+  ) {
+    return true;
+  }
+  //4 card combo (2-2-2-2)
+  if (
+    playerField.length === 3 &&
+    playerField[0].tag === "2" &&
+    playerField[1].tag === "2" &&
+    playerField[2].tag === "2" &&
+    theCard.tag === "2"
+  ) {
+    return true;
+  }
+};
