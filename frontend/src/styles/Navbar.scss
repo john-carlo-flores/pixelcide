@@ -6,6 +6,24 @@
   justify-content: space-between;
   position: absolute;
   top: 0;
+
+  .avatar-container {
+    .avatar-list {
+      padding: 1rem 0.1rem;
+      margin-left: 1rem;
+      margin-top: 1rem;
+      border-radius: 5px;
+      border: #1b1d2a 1px solid;
+      width: 14rem;
+      min-height: 7rem;
+      gap: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 }
 
 .how-to-play {

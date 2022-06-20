@@ -10,6 +10,10 @@ import useSound from "use-sound";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import axios from "axios";
+
+import Avatar from "./Games/Avatar";
+
 export default function Navbar(props) {
   const [login, setLogin] = useState(false);
   const { userAuth, logout } = props;
@@ -26,16 +30,47 @@ export default function Navbar(props) {
     navigate("/");
   };
 
-  useEffect(() => {
-    props.user && playActive();
-  }, [props.user]);
+  // useEffect(() => {
+  //   props.user && playActive();
+  // }, [props.user]);
+
+  const [openAvatarList, setOpenAvatarList] = useState(true);
+
+  const handleAvatarClick = () => {
+    setOpenAvatarList((prev) => !prev);
+  };
+
+  const avatarIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  const selectAvatar = (id, userId) => {
+    // axios.put("http://localhost:8080/users", {
+    //   user: {
+    //     id: userId,
+    //     avatar_id: id,
+    //   },
+    // });
+  };
 
   return (
     <>
       <nav className="navbar">
-        <a className="how-to-play" href="https://www.badgersfrommars.com/assets/RegicideRulesA4.pdf" target="_blank" rel="noreferrer">
+        {/* <a className="how-to-play" href="https://www.badgersfrommars.com/assets/RegicideRulesA4.pdf" target="_blank" rel="noreferrer">
           How to Play
-        </a>
+        </a> */}
+        <div className="avatar-container" onClick={handleAvatarClick}>
+          <div className="avatar-current">
+            <Avatar id={props.user.avatar_id} />
+          </div>
+          {openAvatarList && (
+            <div className="avatar-list">
+              {avatarIds.map((id) => (
+                <div key={id} className="avatar-list-item nes-pointer" onClick={() => selectAvatar(id, props.user.id)}>
+                  <Avatar id={id} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         <div className="navbar-right">
           {!props.user && (
