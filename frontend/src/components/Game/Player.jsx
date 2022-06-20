@@ -113,7 +113,10 @@ const Player = (props) => {
       </motion.div>
 
       <div className="player-info">
-        <img src={`https://raw.githubusercontent.com/tothenextcode/pixelcide/feature/frontend/Game-UI/frontend/src/assets/avatars/${avatar}.png`} alt="user avatar" />
+        <img
+          src={`https://raw.githubusercontent.com/tothenextcode/pixelcide/d5351456307843fa0a36c2df3ae67da6b3244d09/frontend/src/assets/avatars/${avatar}.svg`}
+          alt="user avatar"
+        />
         {playerName}
       </div>
     </div>
