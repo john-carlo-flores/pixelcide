@@ -1,12 +1,12 @@
 import chatIcon from "../../assets/icons/chat.svg";
 import "../../styles/Game/Chat.scss";
 import { useState, useRef } from "react";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 import Button from "../Button";
-import crappyAvatar from "../../assets/avatars/2.png";
-import moreCrappyDrawing from "../../assets/avatars/7.png";
+import crappyAvatar from "../../assets/avatars/3.svg";
+import moreCrappyDrawing from "../../assets/avatars/2.svg";
 
 const Chat = () => {
   //to check click outside the chat component
@@ -21,7 +21,7 @@ const Chat = () => {
   };
 
   const handleSubmit = (e) => {
-    setUserChat([...userChat, chatInput]);
+    chatInput && setUserChat([...userChat, chatInput]);
     e.preventDefault();
     setChatInput("");
   };
@@ -35,7 +35,7 @@ const Chat = () => {
     <div className="Chat" ref={ref}>
       <AnimatePresence>
         {toggleChat && (
-          <motion.div initial={{ y: 50 }} animate={{ y: -20 }} exit={{ y: 100, opacity: 0 }} className="outer-div">
+          <motion.div initial={{ y: 50 }} animate={{ y: -20 }} exit={{ y: 100, opacity: 0 }} className="outer-div nes-container is-rounded">
             <div className="container">
               {userChat.map((chat, i) => (
                 <motion.div initial={{ y: 20 }} animate={{ y: 0 }} key={i} className="input ">

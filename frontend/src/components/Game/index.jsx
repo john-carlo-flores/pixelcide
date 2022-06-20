@@ -14,6 +14,8 @@ import PlayedCards from "./PlayedCards";
 import PlayerAid from "./PlayerAid";
 import Chat from "./Chat";
 
+import Confetti from "react-confetti";
+
 import closeIcon from "../../assets/icons/close-icon.svg";
 
 import { AnimateSharedLayout } from "framer-motion";
@@ -260,7 +262,7 @@ const Game = () => {
     <div className="Game">
       <div className="background-gif"></div>
       <PlayerAid playerField={playerField} status={status} jester={jester} setJester={setJester} currentBossStats={currentBossStats} />
-      <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBossStats} />
+      <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBossStats} jester={jester} />
 
       <AnimateSharedLayout>
         <Status
@@ -292,6 +294,8 @@ const Game = () => {
       </div>
 
       <Chat />
+
+      {status === "game_over_win" && <Confetti width={1900} height={950} />}
     </div>
   );
 };
