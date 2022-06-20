@@ -14,6 +14,8 @@ import PlayedCards from "./PlayedCards";
 import PlayerAid from "./PlayerAid";
 import Chat from "./Chat";
 
+import Confetti from "react-confetti";
+
 import closeIcon from "../../assets/icons/close-icon.svg";
 
 import { AnimateSharedLayout } from "framer-motion";
@@ -292,6 +294,8 @@ const Game = () => {
       </div>
 
       <Chat />
+
+      {status === "game_over_win" && <Confetti width={1900} height={950} />}
     </div>
   );
 };
