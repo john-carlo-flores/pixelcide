@@ -10,14 +10,10 @@ import { BsFillSuitHeartFill } from "react-icons/bs";
 import { BsFillDiamondFill } from "react-icons/bs";
 import { GiJesterHat } from "react-icons/gi";
 
-const PlayerAid = ({ playerField, status, jester, setJester, currentBossStats }) => {
+const PlayerAid = ({ playerField, status, jesterActive, bossSuit }) => {
   const [toggleRow, setToggleRow] = useState([]);
 
   useEffect(() => {
-    if (status === "game_over_lose" || status === "game_over_win") {
-      setJester(false);
-    }
-
     if (status === "player_attack") {
       const currentCards = [];
       for (const card of playerField) {
@@ -43,43 +39,108 @@ const PlayerAid = ({ playerField, status, jester, setJester, currentBossStats })
       if (!_.isEqual(toggleRow, currentCards)) {
         setToggleRow(currentCards);
       }
-    } else if (status === "boss_attack") {
+    } else if (status === "boss_turn") {
+      setToggleRow([]);
+    }
+
+    if (status === "player_turn") {
       setToggleRow([]);
     }
   }, [playerField, status]);
 
   return (
     <div className="PlayerAid">
-      <div className={toggleRow.includes("Clubs") ? "PlayerAid-row open-row " : "PlayerAid-row "}>
-        <div className={toggleRow.includes("Clubs") ? "animated tada nes-pointer" : " nes-pointer"}>
+      <div
+        className={
+          toggleRow.includes("Clubs")
+            ? "PlayerAid-row open-row "
+            : "PlayerAid-row "
+        }
+      >
+        <div
+          className={
+            toggleRow.includes("Clubs")
+              ? "animated tada nes-pointer"
+              : " nes-pointer"
+          }
+        >
           <BsFillSuitClubFill size={35} color={"#309c63"} />
         </div>
-        <div className={currentBossStats.suit === "Clubs" ? "strike green" : "green"}>Deal Double Damage</div>
+        <div className={bossSuit === "Clubs" ? "strike green" : "green"}>
+          Deal Double Damage
+        </div>
       </div>
 
-      <div className={toggleRow.includes("Spades") ? "PlayerAid-row open-row" : "PlayerAid-row"}>
-        <div className={toggleRow.includes("Spades") ? "animated tada nes-pointer" : "nes-pointer"}>
+      <div
+        className={
+          toggleRow.includes("Spades")
+            ? "PlayerAid-row open-row"
+            : "PlayerAid-row"
+        }
+      >
+        <div
+          className={
+            toggleRow.includes("Spades")
+              ? "animated tada nes-pointer"
+              : "nes-pointer"
+          }
+        >
           <BsFillSuitSpadeFill size={35} color={"#8e478c"} />
         </div>
-        <div className={currentBossStats.suit === "Spades" ? "strike purple" : "purple"}> Reduce Boss Attack</div>
+        <div className={bossSuit === "Spades" ? "strike purple" : "purple"}>
+          {" "}
+          Reduce Boss Attack
+        </div>
       </div>
 
-      <div className={toggleRow.includes("Hearts") ? "PlayerAid-row open-row" : "PlayerAid-row"}>
-        <div className={toggleRow.includes("Hearts") ? "animated tada nes-pointer" : "nes-pointer"}>
+      <div
+        className={
+          toggleRow.includes("Hearts")
+            ? "PlayerAid-row open-row"
+            : "PlayerAid-row"
+        }
+      >
+        <div
+          className={
+            toggleRow.includes("Hearts")
+              ? "animated tada nes-pointer"
+              : "nes-pointer"
+          }
+        >
           <BsFillSuitHeartFill size={35} color={"#c93038"} />
         </div>
-        <div className={currentBossStats.suit === "Hearts" ? "strike red" : "red"}>Heal Tavern Deck</div>
+        <div className={bossSuit === "Hearts" ? "strike red" : "red"}>
+          Heal Tavern Deck
+        </div>
       </div>
 
-      <div className={toggleRow.includes("Diamonds") ? "PlayerAid-row open-row" : "PlayerAid-row"}>
-        <div className={toggleRow.includes("Diamonds") ? "animated tada nes-pointer" : "nes-pointer"}>
+      <div
+        className={
+          toggleRow.includes("Diamonds")
+            ? "PlayerAid-row open-row"
+            : "PlayerAid-row"
+        }
+      >
+        <div
+          className={
+            toggleRow.includes("Diamonds")
+              ? "animated tada nes-pointer"
+              : "nes-pointer"
+          }
+        >
           <BsFillDiamondFill size={35} color={"#3978a8"} />
         </div>
-        <div className={currentBossStats.suit === "Diamonds" ? "strike blue" : "blue"}>Draw Tavern Card</div>
+        <div className={bossSuit === "Diamonds" ? "strike blue" : "blue"}>
+          Draw Tavern Card
+        </div>
       </div>
 
-      <div className={jester ? "PlayerAid-row open-row" : "PlayerAid-row"}>
-        <div className={jester ? "animated tada nes-pointer" : "nes-pointer"}>
+      <div
+        className={jesterActive ? "PlayerAid-row open-row" : "PlayerAid-row"}
+      >
+        <div
+          className={jesterActive ? "animated tada nes-pointer" : "nes-pointer"}
+        >
           <GiJesterHat size={35} color={"#c93038"} />
         </div>
         <div className="red">
