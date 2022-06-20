@@ -7,26 +7,14 @@ import DeckList from "./DeckList";
 import makeCastle from "../../helpers/game-starters/makeCastle";
 import makeTavern from "../../helpers/game-starters/makeTavern";
 import Status from "./Status";
-<<<<<<< HEAD
-import suitActivation from "../../helpers/suit-activation";
-=======
 import suitActivation from "../../helpers/player-helpers";
->>>>>>> 2211a48d4e47958c1bcb276029b25c00077b2f6f
 import shuffle from "../../helpers/shuffle";
 import PlayedCards from "./PlayedCards";
 import PlayerAid from "./PlayerAid";
 
-<<<<<<< HEAD
-import closeIcon from "../../assets/icons/close-icon.svg";
-
-import { AnimateSharedLayout } from "framer-motion";
-
-const Game = () => {
-=======
 import { AnimateSharedLayout } from "framer-motion";
 
 const Game = (props) => {
->>>>>>> 2211a48d4e47958c1bcb276029b25c00077b2f6f
   //initializing Game States
   const [discard, setDiscard] = useState([]);
   const [castle, setCastle] = useState([]);
@@ -86,19 +74,6 @@ const Game = (props) => {
     }
   }, [status, playerCards]);
 
-<<<<<<< HEAD
-  // mockData for testing
-  const user = {
-    id: 1,
-    username: "gagan420",
-    name: "singh",
-    email: "a@b.com",
-    password_digest: "password",
-    avatar_id: 1,
-  };
-
-=======
->>>>>>> 2211a48d4e47958c1bcb276029b25c00077b2f6f
   //onClickHander for playerAttack
   const handlePlayerAttack = () => {
     //making copies of states that potentially change multiple times
@@ -111,14 +86,10 @@ const Game = (props) => {
     let playedCardsCopy = [...playedCards];
 
     //Activate Jester and short circuit loop to attack stage
-<<<<<<< HEAD
-    if (commitedPlayerField.length === 1 && commitedPlayerField[0].tag === "Jester") {
-=======
     if (
       commitedPlayerField.length === 1 &&
       commitedPlayerField[0].tag === "Jester"
     ) {
->>>>>>> 2211a48d4e47958c1bcb276029b25c00077b2f6f
       bossCard.suit = "none";
       setJester(true);
       setStatus("player_turn");
