@@ -17,8 +17,6 @@ const Deck = (props) => {
     Diamonds: "#3978a8",
   };
 
-  console.log(theBoss);
-
   return (
     <div className="Deck">
       {/* show card count */}
