@@ -260,7 +260,7 @@ const Game = () => {
     <div className="Game">
       <div className="background-gif"></div>
       <PlayerAid playerField={playerField} status={status} jester={jester} setJester={setJester} currentBossStats={currentBossStats} />
-      <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBossStats} />
+      <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBossStats} jester={jester} />
 
       <AnimateSharedLayout>
         <Status
