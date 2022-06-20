@@ -11,6 +11,7 @@ import {
   activateHeartPower,
   activateDiamondPower,
   activateSpadePower,
+  activateJesterPower,
 } from "../helpers/player-helpers";
 
 import axios from "axios";
@@ -78,7 +79,9 @@ const useGame = () => {
             - original does not change
               > Only changes if current player kills boss
             - current changes every turn. First element is shifted out
-              > To reset currarray
+              > To reset current, set to original
+        */
+        setCycle({
           original: [...Array(playerList.length).keys()],
           current: [...Array(playerList.length).keys()],
         });
@@ -111,20 +114,20 @@ const useGame = () => {
     const discardDeck = _.cloneDeep(decks.discard);
     const tavernDeck = _.cloneDeep(decks.tavern);
     const castleDeck = _.cloneDeep(decks.castle);
-    const bossStats = _.cloneDeep(boss.stats);
+    const bossCopy = _.cloneDeep(boss);
     const playersCopy = _.cloneDeep(players);
     const currentPlayer = playersCopy[cycle.original[0]];
 
     // STEP 1: Play Cards / Yield
     // Get Suit Power values for activation and total damage
-    const { spadePower, diamondPower, heartPower, clubPower, totalDamage } =
+    const { spadePower, diamondPower, heartPower, clubPower, jesterPower, totalDamage } =
       getSuitPowersAndTotalDamage(
         currentPlayer.field,
-        bossStats,
-        bossStats.powerEnabled
+        bossCopy.stats,
+        bossCopy.stats.powerEnabled
       );
 
-    //
+    // STEP 2: Activate Suit Powers
     // Moves cards from discard to tavern deck
     if (heartPower > 0) {
       activateHeartPower(heartPower, discardDeck, tavernDeck);
@@ -144,19 +147,42 @@ const useGame = () => {
 
     // Reduces boss attack
     if (spadePower > 0) {
-      activateSpadePower(spadePower, bossStats);
+      activateSpadePower(spadePower, bossCopy.stats);
     }
 
     // Doubles attack damage
     if (clubPower > 0) {
-      activateClubPower(clubPower, bossStats);
+      activateClubPower(clubPower, bossCopy.stats);
+    }
+
+    // Nullify Boss Power
+    if (jesterPower) {
+      activateJesterPower(bossCopy.stats)
     }
 
     // STEP 3: Deal damage to boss and check condition
     // Attack Boss
-    bossStats.health -= totalDamage;
+    bossCopy.stats.health -= totalDamage;
 
-    checkBossCondition;
+    // Check if boss defeated exact or overkill
+    // Add card to tavern or discard
+    // Go to next boss
+    // Reset Cycle
+    const bossStatus = updateBossCondition(bossCopy, castleDeck, discardDeck, tavernDeck);
+
+    // commit player field cards
+    commitPlayfield(playersCopy, currentPlayer);
+    
+    // Remove copy of cards from field once cycle is complete
+    updateCycle(playersCopy, currentPlayer, cycle, playersCopy);
+
+    // Boss Attacks
+    // If dead, should be next player againclearPlayfield
+    if (bossDefeated) {
+      setStatus("boss_turn");
+    } else {
+      nextPlayer(playersCopy, cycle);
+    }
   };
 
   return { setup };
