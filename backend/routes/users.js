@@ -1,5 +1,9 @@
 const router = require("express").Router();
-const { generateAccessToken, generateRefreshToken, hashPassword } = require('../helpers/authentication');
+const {
+  generateAccessToken,
+  generateRefreshToken,
+  hashPassword,
+} = require("../helpers/authentication");
 
 module.exports = (db) => {
   // all routes will go here
@@ -28,14 +32,24 @@ module.exports = (db) => {
           name: data.rows[0].name,
           avatar_id: data.rows[0].avatar_id,
           accessToken: generateAccessToken(data.rows[0].id),
-          refreshToken: generateRefreshToken(data.rows[0].id)
-        }
+          refreshToken: generateRefreshToken(data.rows[0].id),
+        };
 
         res.status(200).json({ ...user });
       })
       .catch((err) => {
         res.send(err);
       });
+  });
+
+  router.put("/", (req, res) => {
+    const { avatar_id, id } = req.body.user;
+
+    const command = `UPDATE users SET avatar_id=$1 where id = $2;`;
+
+    db.query(command, [avatar_id, id]).then(() => {
+      res.send("User Updated");
+    });
   });
   return router;
 };
