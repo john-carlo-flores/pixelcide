@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import "../../styles/Game/Game.scss";
 import Player from "../Game/Player";
@@ -11,6 +12,7 @@ import suitActivation from "../../helpers/suit-activation";
 import shuffle from "../../helpers/shuffle";
 import PlayedCards from "./PlayedCards";
 import PlayerAid from "./PlayerAid";
+import Chat from "./Chat";
 
 import closeIcon from "../../assets/icons/close-icon.svg";
 
@@ -284,9 +286,13 @@ const Game = () => {
         currentBoss={currentBossStats}
       />
 
-      <div className="close-icon">
-        <img src={closeIcon} alt="" />
+      <div className="close-icon nes-pointer">
+        <Link to={"/"}>
+          <img src={closeIcon} alt="" />
+        </Link>
       </div>
+
+      <Chat />
     </div>
   );
 };

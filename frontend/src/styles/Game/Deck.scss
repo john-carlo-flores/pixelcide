@@ -6,6 +6,15 @@
   width: 20rem;
   position: relative;
 
+  .empty-card {
+    width: 10rem;
+    z-index: 777;
+    height: 12rem;
+    background-color: rgba(236, 236, 224, 0.2);
+    backdrop-filter: blur(20px);
+    border-radius: 10px;
+  }
+
   .count-badge {
     position: absolute;
     top: 4rem;

@@ -1,19 +1,19 @@
-import Login from '../components/Authentication/Login';
+import Login from "../components/Authentication/Login";
 
-import '../styles/Navbar.scss';
+import "../styles/Navbar.scss";
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
 
-import introMusic from '../assets/sounds/intro-music.mp3';
+import introMusic from "../assets/sounds/intro-music.mp3";
 
-import useSound from 'use-sound';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import useSound from "use-sound";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar(props) {
   const [login, setLogin] = useState(false);
   const { userAuth, logout } = props;
-  const [playActive] = useSound(introMusic, { volume: 0.25 });
+  const [playActive] = useSound(introMusic, { volume: 0.01 });
   const navigate = useNavigate();
 
   const toggleLoginForm = () => {
@@ -23,11 +23,11 @@ export default function Navbar(props) {
   const onLogout = (event) => {
     event.preventDefault();
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   useEffect(() => {
-    playActive();
+    props.user && playActive();
   }, [props.user]);
 
   return (

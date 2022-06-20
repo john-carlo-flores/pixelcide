@@ -1,0 +1,136 @@
+.Chat {
+  z-index: 999999;
+  .container {
+    width: 20rem;
+    min-height: 10rem;
+    max-height: 25rem;
+    overflow-y: scroll;
+    border-radius: 10px;
+    margin-top: 0.3rem;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    padding: 1.1rem 0.8rem;
+    gap: 2rem;
+    font-size: 0.8rem;
+
+    &::-webkit-scrollbar {
+      width: 1px;
+    }
+    .input,
+    .output {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      gap: 1rem;
+      img {
+        width: 2rem;
+        border-radius: 50%;
+      }
+    }
+    .output {
+      align-self: flex-start;
+
+      .content {
+        box-sizing: border-box;
+        position: relative;
+        height: 35px;
+        background: #ecece0;
+        border-radius: 15px;
+        padding: 9px 9px;
+        min-width: 4rem;
+        padding-bottom: 0.5rem;
+        text-align: center;
+        &:after {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 0;
+          left: -1.3rem;
+          top: 0.5rem;
+          border-top: 8px solid transparent;
+          border-bottom: 8px solid transparent;
+          border-right: 8px solid transparent;
+          border-left: 18px solid #ecece0;
+
+          border-top: 8px solid transparent;
+          border-bottom: 8px solid transparent;
+          border-left: 8px solid transparent;
+          border-right: 18px solid #ecece0;
+        }
+      }
+    }
+
+    .input {
+      .content {
+        box-sizing: border-box;
+        position: relative;
+        height: 35px;
+        background: #ecece0;
+        border-radius: 15px;
+        padding: 9px 9px;
+        min-width: 4rem;
+        padding-bottom: 0.5rem;
+        text-align: center;
+        &:after {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 0;
+          right: -1.3rem;
+          top: 0.5rem;
+          border-top: 8px solid transparent;
+          border-bottom: 8px solid transparent;
+          border-right: 8px solid transparent;
+          border-left: 18px solid #ecece0;
+        }
+      }
+    }
+  }
+  bottom: 3rem;
+  right: 3rem;
+  position: absolute;
+  .chat-icon {
+    position: absolute;
+    right: 0;
+    bottom: 0.01rem;
+    width: 3rem;
+    filter: invert(100%) sepia(2%) saturate(4371%) hue-rotate(322deg) brightness(96%) contrast(92%);
+  }
+
+  .outer-div {
+    width: 20rem;
+    margin-bottom: 4.2rem;
+    background-color: rgba(236, 236, 224, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid #3b324a;
+    border-radius: 10px;
+    padding: 1rem 0;
+  }
+
+  form {
+    display: flex;
+    gap: 1rem;
+    padding: 0 0.4rem;
+    height: 2.5rem;
+    font-size: 0.9rem;
+    align-items: center;
+    input {
+      width: 100%;
+      outline: none;
+      border-color: #ecece0;
+      background-color: #ecece0;
+      padding: 0 0.7rem;
+      border-radius: 10px;
+      height: 2rem;
+    }
+    .nes-btn {
+      font-size: 0.6rem;
+      letter-spacing: 0.1rem;
+    }
+  }
+
+  .glow {
+    filter: invert(34%) sepia(14%) saturate(2223%) hue-rotate(252deg) brightness(95%) contrast(87%);
+  }
+}

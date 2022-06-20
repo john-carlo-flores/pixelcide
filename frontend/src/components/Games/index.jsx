@@ -6,7 +6,8 @@ import { SocketContext } from "../../context/socket";
 import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { IoArrowBackCircle } from "react-icons/io5";
+import backBtn from "../../assets/icons/back.svg";
+
 import styles from "../../styles/Games/Games.module.scss";
 
 const Games = (props) => {
@@ -33,14 +34,11 @@ const Games = (props) => {
       <div className={styles.Homepage}></div>
       <Navbar userAuth={userAuth} user={user} logout={logout} />
       <div className={styles.container}>
-        <FilterLobby
-          lobbies={lobbies}
-          setFilteredLobbies={setFilteredLobbies}
-        />
+        <FilterLobby lobbies={lobbies} setFilteredLobbies={setFilteredLobbies} />
         {filteredLobbies && <LobbyList lobbies={filteredLobbies} />}
       </div>
       <Link to="/" className={styles.back}>
-        <IoArrowBackCircle size={80} />
+        <img src={backBtn} alt="back button" />
       </Link>
     </>
   );

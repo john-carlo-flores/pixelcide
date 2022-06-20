@@ -1,6 +1,5 @@
-import Card from '../Game/Card';
-import emptyCard from '../../assets/cards/placeholder.png';
-import '../../styles/Game/Deck.scss';
+import Card from "../Game/Card";
+import "../../styles/Game/Deck.scss";
 
 const Deck = (props) => {
   const { deck, name, currentBoss } = props;
@@ -8,8 +7,8 @@ const Deck = (props) => {
   //waiting on the boss
   const theBoss = currentBoss || {};
 
-  const lastDiscardCard = deck.length > 0 && name === 'discard' ? deck.at(-1) : {};
-  const lastTavernCard = deck.length > 0 && name === 'tavern' ? deck.at(-1) : {};
+  const lastDiscardCard = deck.length > 0 && name === "discard" ? deck.at(-1) : {};
+  const lastTavernCard = deck.length > 0 && name === "tavern" ? deck.at(-1) : {};
 
   return (
     <div className="Deck">
@@ -18,19 +17,19 @@ const Deck = (props) => {
 
       {/* discard deck */}
       <div className="deckName">{name.toUpperCase()}</div>
-      <div className={deck.length && 'deck-main'}>
-        {/* {name === 'discard' && !deck.length ? <Card image={emptyCard} /> : <Card image={lastDiscardCard.image_front} />} */}
-        {name === 'discard' && <Card image={lastDiscardCard.image_front} />}
+      <div className={deck.length && "deck-main"}>
+        {!deck.length && <div className="empty-card"></div>}
+        {name === "discard" && <Card image={lastDiscardCard.image_front} />}
 
         {/* castle deck */}
-        {name === 'castle' && <Card image={theBoss.image_front} />}
+        {name === "castle" && <Card image={theBoss.image_front} />}
 
         {/* tavern deck */}
-        {name === 'tavern' && <Card image={lastTavernCard.image_back} />}
+        {name === "tavern" && <Card image={lastTavernCard.image_back} />}
       </div>
 
       {/* show boss stats */}
-      {name === 'castle' && (
+      {name === "castle" && (
         <div className="nes-container with-title is-centered">
           <p className="title">Enemy status</p>
           <p className="boss-stats">Attack: {theBoss.damage}</p>
