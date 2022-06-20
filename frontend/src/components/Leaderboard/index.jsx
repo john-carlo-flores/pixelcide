@@ -1,11 +1,21 @@
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
 import "../../styles/Leaderboard/Leaderboard.scss";
-
+import axios from "axios";
 import backBtn from "../../assets/icons/back.svg";
+import { useEffect, useState } from "react";
 
 const Leaderboard = (props) => {
   const { userAuth, user, logout } = props;
+  const [fetchComplete, setFetchComplete] = useState(false);
+  const [leaderboardData, setLeaderboardData] = useState([]);
+
+  useEffect(() => {
+    axios.get("/leaderboard").then((response) => {
+      setLeaderboardData(response.data);
+      setFetchComplete(true);
+    });
+  }, []);
 
   const fakeUsers = [
     {
@@ -100,15 +110,18 @@ const Leaderboard = (props) => {
               <div className="col">Total moves</div>
             </header>
             <div className="body">
-              {fakeUsers.map((user, i) => (
-                <div className="row" key={i}>
-                  <div className="col">{i + 1}</div>
-                  <div className="col">{user.username}</div>
-                  <div className="col">{user.wins}</div>
-                  <div className="col">{user.winRate}</div>
-                  <div className="col">{user.totalTurns}</div>
-                </div>
-              ))}
+              {fetchComplete &&
+                leaderboardData.map((user, i) => (
+                  <div className="row" key={i}>
+                    <div className="col">{user.rank}</div>
+                    <div className="col">{user.username}</div>
+                    <div className="col">{user.total_wins}</div>
+                    <div className="col">{`${user.win_percentage.toFixed(
+                      2
+                    )}%`}</div>
+                    <div className="col">{user.total_moves}</div>
+                  </div>
+                ))}
             </div>
           </section>
         </div>
