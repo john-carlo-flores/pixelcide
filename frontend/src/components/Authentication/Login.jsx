@@ -1,12 +1,18 @@
-import Button from '../Button';
+import Button from "../Button";
 
-import { useState } from 'react';
+import { useState, useRef } from "react";
 
-import '../../styles/Authentication/Login.scss';
+import "../../styles/Authentication/Login.scss";
+
+import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 const Login = (props) => {
   const { userAuth, toggleLoginForm } = props;
   const [error, setError] = useState(false);
+
+  //detect click outside form
+  const ref = useRef();
+  useOnClickOutside(ref, () => toggleLoginForm());
 
   const login = (event) => {
     event.preventDefault();
@@ -29,7 +35,7 @@ const Login = (props) => {
   };
 
   return (
-    <div className={'form-login nes-container is-rounded'}>
+    <div className={"form-login nes-container is-rounded"} ref={ref}>
       <form onSubmit={login}>
         <div className="nes-field">
           <input className="nes-input is-inline" placeholder="Username" type="text" name="uname" required />
