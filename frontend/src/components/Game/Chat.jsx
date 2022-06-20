@@ -21,7 +21,7 @@ const Chat = () => {
   };
 
   const handleSubmit = (e) => {
-    setUserChat([...userChat, chatInput]);
+    chatInput && setUserChat([...userChat, chatInput]);
     e.preventDefault();
     setChatInput("");
   };
