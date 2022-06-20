@@ -10,6 +10,7 @@ export function getSuitPowersAndTotalDamage(
   let diamondPower = 0; // diamonds - draw cards from tavern
   let heartPower = 0; // hearts - replenish our tavern from discard
   let clubPower = 0; // clubs - double damage
+  let jesterPower  = false; // jester - reduce 
 
   const suits = [];
 
@@ -45,11 +46,16 @@ export function getSuitPowersAndTotalDamage(
     clubPower = totalValue;
   }
 
+  if (suits.includes("Jester")) {
+    jesterPower = true;
+  }
+
   return {
     spadePower,
     diamondPower,
     heartPower,
     clubPower,
+    jesterPower,
     totalDamage: totalValue,
   };
 }
@@ -133,4 +139,8 @@ export function activateSpadePower(power, bossStats) {
 
 export function activateClubPower(power, bossStats) {
   bossStats.health -= power;
+}
+
+export function activateJesterPower(power, bossStats) {
+  bossStats.powerEnabled = power;
 }
