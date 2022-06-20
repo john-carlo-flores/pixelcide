@@ -263,7 +263,6 @@ const Game = () => {
       <DeckList tavern={tavern} discard={discard} castle={castle} currentBoss={currentBossStats} />
 
       <AnimateSharedLayout>
-        {/* <motion.div> */}
         <Status
           status={status}
           handlePlayerAttack={handlePlayerAttack}
@@ -272,8 +271,8 @@ const Game = () => {
           validateAttack={validateAttack}
           discardVal={discardVal}
         />
-        {/* </motion.div> */}
       </AnimateSharedLayout>
+
       <PlayedCards playedCards={playedCards} />
       <Player
         playerField={playerField}

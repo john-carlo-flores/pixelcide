@@ -71,17 +71,20 @@ const Player = (props) => {
     <div className="Player">
       <LayoutGroup>
         <motion.div className="player-field">
-          {playerField.map((card) => (
-            <motion.div
-              layout
-              transition={{ ease: "easeIn", duration: 0.4, opacity: 0 }}
-              onClick={() => moveCardToPlayerHand(card)}
-              key={card.id}
-              className="player-field-card nes-pointer"
-            >
-              <Card image={card.image_front} warning={card.suit === currentBoss.suit && status !== "boss_attack" ? "warning" : ""} />
-            </motion.div>
-          ))}
+          <AnimatePresence>
+            {playerField.map((card) => (
+              <motion.div
+                layout
+                transition={{ ease: "easeIn", duration: 0.5, opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => moveCardToPlayerHand(card)}
+                key={card.id}
+                className="player-field-card nes-pointer"
+              >
+                <Card image={card.image_front} warning={card.suit === currentBoss.suit && status !== "boss_attack" ? "warning" : ""} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </motion.div>
       </LayoutGroup>
 
@@ -95,8 +98,8 @@ const Player = (props) => {
                 transition={{ ease: "easeIn", duration: 0.4 }}
                 whileHover={{
                   y: playable(card) && -20,
-                  transition: { duration: 0 },
-                  x: playable(card) && -70,
+                  transition: { duration: 0.1 },
+                  x: playable(card) && -40,
                 }}
                 key={card.id}
                 onClick={() => moveCardToPlayerField(card)}
