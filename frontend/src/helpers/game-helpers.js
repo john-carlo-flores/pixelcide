@@ -4,6 +4,6 @@ export function shuffle(deck) {
   return shuffledDeck;
 }
 
-export function seperateCards(cards, criteria) {
+export function separateCards(cards, criteria) {
   return cards.filter((card) => card.tag === criteria);
 }
