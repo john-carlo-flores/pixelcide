@@ -3,6 +3,7 @@ import Card from "./Card";
 import "../../styles/Game/Player.scss";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import cardFlipSound from "../../assets/sounds/card-flip-.mp3";
+import Avatar from "../Games/Avatar";
 
 const Player = (props) => {
   const { playerCards, playerName, avatar, setPlayerField, playerField, setPlayerCards, status, currentBoss } = props;
@@ -113,10 +114,7 @@ const Player = (props) => {
       </motion.div>
 
       <div className="player-info">
-        <img
-          src={`https://raw.githubusercontent.com/tothenextcode/pixelcide/d5351456307843fa0a36c2df3ae67da6b3244d09/frontend/src/assets/avatars/${avatar}.svg`}
-          alt="user avatar"
-        />
+        <Avatar id={avatar} />
         {playerName}
       </div>
     </div>

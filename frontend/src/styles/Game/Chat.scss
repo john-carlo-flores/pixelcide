@@ -1,5 +1,11 @@
 .Chat {
   z-index: 999999;
+  .avatar {
+    img {
+      background-color: rgba(236, 236, 224, 0);
+      border: 0.1px solid rgba(236, 236, 224, 0);
+    }
+  }
   .container {
     width: 20rem;
     min-height: 10rem;
