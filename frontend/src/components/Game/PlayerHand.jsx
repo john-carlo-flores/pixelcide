@@ -2,6 +2,8 @@ import Card from "./Card";
 
 import { playable } from "../../helpers/player-helpers";
 
+import { motion } from "framer-motion";
+
 const PlayerHand = (props) => {
   const { playerHand, playerField, status, moveCardTo, playOn, playerTurn } = props;
 
@@ -27,14 +29,6 @@ const PlayerHand = (props) => {
 
   const playerHandList = playerHand.map((card) => (
     <div
-      layout
-      exit={{ y: -250, x: 0 }}
-      transition={{ ease: "easeIn", duration: 0.4 }}
-      whileHover={{
-        y: playableStatus(card) && -20,
-        transition: { duration: 0 },
-        x: playableStatus(card) && -70,
-      }}
       key={card.id}
       onClick={() => onClick(card)}
       className={(status === "player_attack" && playable(card, playerField)) || status === "boss_attack" ? "player-card highlight nes-pointer" : "player-card dull"}
