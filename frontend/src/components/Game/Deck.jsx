@@ -8,6 +8,7 @@ const Deck = (props) => {
   //waiting on the boss
   const bossCard = boss?.current;
   const bossStats = boss?.stats;
+  const bossPreview = boss?.preview;
 
   const lastDiscardCard =
     deck.length > 0 && name === "discard" ? deck.at(-1) : {};
@@ -36,8 +37,20 @@ const Deck = (props) => {
       {name === "castle" && (
         <div className="nes-container with-title is-centered">
           <p className="title">Enemy status</p>
-          <p className="boss-stats">Attack: {bossStats.damage}</p>
-          <p className="boss-stats">Health: {bossStats.health}</p>
+          {bossPreview.damage && bossPreview.damage !== bossStats.damage ? (
+            <p className="boss-stats">
+              Attack: <span className="preview">{bossPreview.damage}</span>
+            </p>
+          ) : (
+            <p className="boss-stats">Attack: {bossStats.damage}</p>
+          )}
+          {bossPreview.health && bossPreview.health !== bossStats.health ? (
+            <p className="boss-stats">
+              Health: <span className="preview">{bossPreview.health}</span>
+            </p>
+          ) : (
+            <p className="boss-stats">Health: {bossStats.health}</p>
+          )}
         </div>
       )}
     </div>
