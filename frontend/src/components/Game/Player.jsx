@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 import useSound from "use-sound";
 import cardFlipSound from "../../assets/sounds/card-flip-.mp3";
+import Avatar from "../Games/Avatar";
 
 import "../../styles/Game/Player.scss";
 

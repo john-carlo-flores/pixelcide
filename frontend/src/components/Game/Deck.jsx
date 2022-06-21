@@ -1,19 +1,31 @@
 import Card from "../Game/Card";
-import emptyCard from "../../assets/cards/placeholder.png";
 import "../../styles/Game/Deck.scss";
+
+import classNames from "classnames";
 
 const Deck = (props) => {
   const { deck, name, boss } = props;
 
-  //waiting on the boss
+  // Declare boss sub components
   const bossCard = boss?.current;
   const bossStats = boss?.stats;
   const bossPreview = boss?.preview;
+  const jesterActive = bossStats?.powerEnabled;
 
+  // Get top cards of each deck to render front
   const lastDiscardCard =
     deck.length > 0 && name === "discard" ? deck.at(-1) : {};
   const lastTavernCard =
     deck.length > 0 && name === "tavern" ? deck.at(-1) : {};
+
+  // Declare classNames
+  const container = classNames(
+    `nes-container with-title is-centered ${bossStats.suit}`,
+    { funky: jesterActive }
+  );
+  const containerTitle = classNames(`title ${bossStats.suit}`, {
+    "more-funky": jesterActive,
+  });
 
   return (
     <div className="Deck">
@@ -23,7 +35,7 @@ const Deck = (props) => {
       {/* discard deck */}
       <div className="deckName">{name.toUpperCase()}</div>
       <div className={deck.length && "deck-main"}>
-        {/* {name === 'discard' && !deck.length ? <Card image={emptyCard} /> : <Card image={lastDiscardCard.image_front} />} */}
+        {!deck.length && <div className="empty-card"></div>}
         {name === "discard" && <Card image={lastDiscardCard.image_front} />}
 
         {/* castle deck */}
@@ -35,8 +47,8 @@ const Deck = (props) => {
 
       {/* show boss stats */}
       {name === "castle" && (
-        <div className="nes-container with-title is-centered">
-          <p className="title">Enemy status</p>
+        <div className={container}>
+          <p className={containerTitle}>Enemy status</p>
           {bossPreview.damage && bossPreview.damage !== bossStats.damage ? (
             <p className="boss-stats">
               Attack: <span className="preview">{bossPreview.damage}</span>

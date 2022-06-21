@@ -2,11 +2,14 @@ import PlayerList from "../Game/PlayerList";
 import DeckList from "./DeckList";
 import Status from "./Status";
 import PlayerAid from "./PlayerAid";
+import Chat from "./Chat";
 import Loading from "../Loading";
 
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import useGame from "../../hooks/useGame";
 
+import Confetti from "react-confetti";
 import { AnimateSharedLayout } from "framer-motion";
 
 import "../../styles/Game/Game.scss";
@@ -40,9 +43,11 @@ const Game = (props) => {
 
   return (
     <>
-      {!started ? (
-        <Loading />
-      ) : (
+      {!started && <Loading />}
+      {started && status === "game_over_win" && (
+        <Confetti width={1900} height={950} />
+      )}
+      {started && (
         <div className="Game">
           <div className="background-gif"></div>
           <PlayerAid
@@ -58,14 +63,12 @@ const Game = (props) => {
             boss={boss}
           />
           <AnimateSharedLayout>
-            {/* <motion.div> */}
             <Status
               status={status}
               handleCommands={handleCommands}
               validate={validate}
               currentPlayer={currentPlayer}
             />
-            {/* </motion.div> */}
           </AnimateSharedLayout>
           <PlayerList
             players={players}
@@ -78,6 +81,7 @@ const Game = (props) => {
           <div className="close-icon">
             <img src={closeIcon} alt="" />
           </div>
+          <Chat />
         </div>
       )}
     </>

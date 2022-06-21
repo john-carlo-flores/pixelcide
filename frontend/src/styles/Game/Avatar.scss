@@ -1,0 +1,13 @@
+.Avatar {
+  img {
+    border-radius: 50%;
+    border: 0.4px solid;
+    width: 3rem;
+    height: 3rem;
+    image-rendering: pixelated;
+    background-color: rgba(236, 236, 224, 0.1);
+    backdrop-filter: 10px;
+    border-color: #1b1d2a;
+    box-shadow: 0 19px 38px rgba(236, 236, 224, 0.1), 0 15px 12px rgba(236, 236, 224, 0.1);
+  }
+}

@@ -152,7 +152,8 @@ const PlayerAid = ({ playerField, status, jesterActive, bossSuit }) => {
           <span className="blue">t</span>
           <span className="green">e</span>
           <span className="purple">r</span>
-          <span className="red gap">A</span>
+          <span>&nbsp;</span>
+          <span className="red ">A</span>
           <span className="blue">c</span>
           <span className="green">t</span>
           <span className="purple">i</span>

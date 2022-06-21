@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@dicebear/avatars": "^4.10.3",
+    "@dicebear/pixel-art-neutral": "^4.10.3",
     "axios": "^0.27.2",
     "classnames": "^2.3.1",
     "framer-motion": "^6.3.11",
@@ -10,6 +12,7 @@
     "lodash": "^4.17.21",
     "nes.css": "^2.3.0",
     "react": "^17.0.1",
+    "react-confetti": "^6.1.0",
     "react-dom": "^17.0.1",
     "react-icons": "^4.4.0",
     "react-router-dom": "^6.3.0",
