@@ -6,7 +6,6 @@ import Games from "./components/Games";
 import Registration from "./components/Authentication/Registration";
 import Leaderboard from "./components/Leaderboard";
 import Statistics from "./components/Statistics";
-import Game from "./components/Game";
 import useAuth from "./hooks/useAuth";
 
 import { useContext } from "react";
