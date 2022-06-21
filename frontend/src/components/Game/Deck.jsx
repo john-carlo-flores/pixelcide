@@ -1,21 +1,31 @@
 import Card from "../Game/Card";
 import "../../styles/Game/Deck.scss";
 
+import classNames from "classnames";
+
 const Deck = (props) => {
-  const { deck, name, currentBoss, jester } = props;
+  const { deck, name, boss } = props;
 
-  //waiting on the boss
-  const theBoss = currentBoss || {};
+  // Declare boss sub components
+  const bossCard = boss?.current;
+  const bossStats = boss?.stats;
+  const bossPreview = boss?.preview;
+  const jesterActive = bossStats?.powerEnabled;
 
-  const lastDiscardCard = deck.length > 0 && name === "discard" ? deck.at(-1) : {};
-  const lastTavernCard = deck.length > 0 && name === "tavern" ? deck.at(-1) : {};
+  // Get top cards of each deck to render front
+  const lastDiscardCard =
+    deck.length > 0 && name === "discard" ? deck.at(-1) : {};
+  const lastTavernCard =
+    deck.length > 0 && name === "tavern" ? deck.at(-1) : {};
 
-  const colors = {
-    Clubs: "#309c63",
-    Hearts: "#c93038",
-    Spades: "#8e478c",
-    Diamonds: "#3978a8",
-  };
+  // Declare classNames
+  const container = classNames(
+    `nes-container with-title is-centered ${bossStats?.suit}-border`,
+    { funky: jesterActive }
+  );
+  const containerTitle = classNames(`title ${bossStats?.suit}-background`, {
+    "more-funky": jesterActive,
+  });
 
   return (
     <div className="Deck">
@@ -29,7 +39,7 @@ const Deck = (props) => {
         {name === "discard" && <Card image={lastDiscardCard.image_front} />}
 
         {/* castle deck */}
-        {name === "castle" && <Card image={theBoss.image_front} />}
+        {name === "castle" && <Card image={bossCard.image_front} />}
 
         {/* tavern deck */}
         {name === "tavern" && <Card image={lastTavernCard.image_back} />}
@@ -37,15 +47,22 @@ const Deck = (props) => {
 
       {/* show boss stats */}
       {name === "castle" && (
-        <div
-          className={!jester ? "nes-container with-title is-centered" : "nes-container with-title is-centered funky"}
-          style={{ borderColor: `${!jester && colors[theBoss.suit]}` }}
-        >
-          <p className={!jester ? "title" : "title more-funky"} style={{ backgroundColor: `${colors[theBoss.suit]}` }}>
-            Enemy status
-          </p>
-          <p className="boss-stats">Attack: {theBoss.damage}</p>
-          <p className="boss-stats">Health: {theBoss.health}</p>
+        <div className={container}>
+          <p className={containerTitle}>Enemy status</p>
+          {bossPreview.damage && bossPreview.damage !== bossStats.damage ? (
+            <p className="boss-stats">
+              Attack: <span className="preview">{bossPreview.damage}</span>
+            </p>
+          ) : (
+            <p className="boss-stats">Attack: {bossStats.damage}</p>
+          )}
+          {bossPreview.health && bossPreview.health !== bossStats.health ? (
+            <p className="boss-stats">
+              Health: <span className="preview">{bossPreview.health}</span>
+            </p>
+          ) : (
+            <p className="boss-stats">Health: {bossStats.health}</p>
+          )}
         </div>
       )}
     </div>
