@@ -3,7 +3,13 @@ import Card from "./Card";
 import { motion, LayoutGroup } from "framer-motion";
 
 const PlayerField = (props) => {
-  const { playerField, moveCardTo, status, bossSuit } = props;
+  const { playerField, moveCardTo, status, bossSuit, playerTurn } = props;
+
+  const onClick = (card) => {
+    if (playerTurn) {
+      moveCardTo(card, "Hand");
+    }
+  };
 
   const playerFieldList = playerField.map((card) => (
     <motion.div
