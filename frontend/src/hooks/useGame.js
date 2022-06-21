@@ -278,7 +278,7 @@ const useGame = () => {
     const cycleCopy = _.cloneDeep(cycle);
     const currentPlayerIndex = cycleCopy.current[0];
 
-    // STEP 1: Play Cards / Yield
+    // STEP 1: Play Cards
     // Get Suit Power values for activation and total damage
     const {
       spadePower,
