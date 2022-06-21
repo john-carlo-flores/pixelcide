@@ -4,6 +4,9 @@
   align-items: center;
   margin-left: 1rem;
   width: 10rem;
+  max-height: 30rem;
+  position: absolute;
+  bottom: 0;
   .player-field {
     display: flex;
     height: 9.5rem;
