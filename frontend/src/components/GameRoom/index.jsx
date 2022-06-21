@@ -12,23 +12,13 @@ import { SocketContext } from "../../context/socket";
 import styles from "../../styles/GameRoom/GameRoom.module.scss";
 
 const GameRoom = (props) => {
-  const { user, userAuth, logout } = props;
+  const { user, userAuth, logout, updateUserAvatar } = props;
 
   const { id } = useParams();
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
 
-  const {
-    lobby,
-    takeSeat,
-    updateSeats,
-    startGame,
-    updateLobby,
-    mode,
-    seats,
-    game,
-    error,
-  } = props.state;
+  const { lobby, takeSeat, updateSeats, startGame, updateLobby, mode, seats, game, error } = props.state;
 
   useEffect(() => {
     // Only reload lobby data if not created by host
@@ -88,14 +78,7 @@ const GameRoom = (props) => {
       {mode === "Room" && (
         <>
           <h1 className={styles.Title}>{`<${lobby.title}>`}</h1>
-          <Room
-            user={user}
-            handleStartGame={startGame}
-            seats={seats}
-            updateSeats={updateSeats}
-            takeSeat={takeSeat}
-            error={error}
-          />
+          <Room user={user} handleStartGame={startGame} seats={seats} updateSeats={updateSeats} takeSeat={takeSeat} error={error} />
         </>
       )}
       {mode === "Loading" && <Loading />}

@@ -11,7 +11,7 @@ import backBtn from "../../assets/icons/back.svg";
 import styles from "../../styles/Games/Games.module.scss";
 
 const Games = (props) => {
-  const { userAuth, user, logout } = props;
+  const { userAuth, user, logout, updateUserAvatar } = props;
   const [lobbies, setLobbies] = useState();
   const [filteredLobbies, setFilteredLobbies] = useState();
   const socket = useContext(SocketContext);
@@ -32,7 +32,7 @@ const Games = (props) => {
   return (
     <>
       <div className={styles.Homepage}></div>
-      <Navbar userAuth={userAuth} user={user} logout={logout} />
+      <Navbar userAuth={userAuth} updateUserAvatar={updateUserAvatar} user={user} logout={logout} />
       <div className={styles.container}>
         <FilterLobby lobbies={lobbies} setFilteredLobbies={setFilteredLobbies} />
         {filteredLobbies && <LobbyList lobbies={filteredLobbies} />}

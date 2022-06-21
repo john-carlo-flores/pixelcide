@@ -10,7 +10,7 @@ import { SocketContext } from "../../context/socket";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 
 export default function Homepage(props) {
-  const { user, userAuth, logout } = props;
+  const { user, userAuth, logout, updateUserAvatar } = props;
   const { hostGame, lobby, assignLobbyTitle, cancelLobby, updateLobby } = props.state;
   const [createLobby, setCreateLobby] = useState({ create: false });
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ export default function Homepage(props) {
   return (
     <>
       <div className="Homepage"></div>
-      <Navbar userAuth={userAuth} user={user} logout={logout} />
+      <Navbar updateUserAvatar={updateUserAvatar} userAuth={userAuth} user={user} logout={logout} />
       <div className="Menu">
         <h1 className="Title">Pixelcide</h1>
         <div className="Buttons">
