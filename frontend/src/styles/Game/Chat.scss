@@ -1,11 +1,5 @@
 .Chat {
   z-index: 999999;
-  .avatar {
-    img {
-      background-color: rgba(236, 236, 224, 0);
-      border: 0.1px solid rgba(236, 236, 224, 0);
-    }
-  }
   .container {
     width: 20rem;
     min-height: 10rem;
@@ -32,6 +26,7 @@
       img {
         width: 2rem;
         border-radius: 50%;
+        border-color: rgba(236, 236, 224, 0.1);
       }
     }
     .output {
@@ -71,13 +66,13 @@
       .content {
         box-sizing: border-box;
         position: relative;
-        height: 35px;
         background: #ecece0;
         border-radius: 15px;
         padding: 9px 9px;
         min-width: 4rem;
         padding-bottom: 0.5rem;
         text-align: center;
+        height: auto;
         &:after {
           content: "";
           position: absolute;
