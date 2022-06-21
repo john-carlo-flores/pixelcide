@@ -20,10 +20,10 @@ const Deck = (props) => {
 
   // Declare classNames
   const container = classNames(
-    `nes-container with-title is-centered ${bossStats.suit}`,
+    `nes-container with-title is-centered ${bossStats?.suit}-border`,
     { funky: jesterActive }
   );
-  const containerTitle = classNames(`title ${bossStats.suit}`, {
+  const containerTitle = classNames(`title ${bossStats?.suit}-background`, {
     "more-funky": jesterActive,
   });
 

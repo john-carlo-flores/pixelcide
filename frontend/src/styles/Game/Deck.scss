@@ -57,9 +57,26 @@
     background-color: rgba(236, 236, 224, 0.1);
     backdrop-filter: blur(1px);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+
     p.title {
       text-transform: uppercase;
       font-size: 1rem;
+    }
+
+    .Clubs-background {
+      background-color: #309c63;
+    }
+
+    .Hearts-background {
+      background-color: #c93038;
+    }
+
+    .Spades-background {
+      background-color: #8e478c;
+    }
+
+    .Diamonds-background {
+      background-color: #3978a8;
     }
 
     .boss-stats {
@@ -91,6 +108,23 @@
       );
     }
   }
+
+  .Clubs-border {
+    border-color: #309c63;
+  }
+
+  .Hearts-border {
+    border-color: #c93038;
+  }
+
+  .Spades-border {
+    border-color: #8e478c;
+  }
+
+  .Diamonds-border {
+    border-color: #3978a8;
+  }
+
   .funky {
     border-top-color: #309c63 !important;
     border-left-color: #c93038 !important;
