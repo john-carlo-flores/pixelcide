@@ -22,7 +22,6 @@ const Player = (props) => {
     status,
     bossSuit,
     moveCardTo,
-    viewPlayed,
     owner,
     playerTurn,
   } = props;
@@ -32,17 +31,16 @@ const Player = (props) => {
   const [view, setView] = useState("player-field");
 
   useEffect(() => {
-    if (viewPlayed) {
+    if (!playerTurn) {
       return setView("played-field");
     }
-
     if (status === "player_attack") {
       return setView("player-field");
     }
     if (status === "boss_attack") {
       return setView("player-discard");
     }
-  }, [status, viewPlayed]);
+  }, [status]);
 
   return (
     <>

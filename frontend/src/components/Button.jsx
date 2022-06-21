@@ -11,12 +11,7 @@ export default function Button(props) {
   );
 
   return (
-    <button
-      onClick={props.onClick}
-      className={buttonClass}
-      onMouseDown={props.onMouseDown}
-      onMouseUp={props.onMouseUp}
-    >
+    <button onClick={props.onClick} className={buttonClass}>
       {props.children}
     </button>
   );
