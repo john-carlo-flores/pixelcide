@@ -5,8 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 import Button from "../Button";
-import crappyAvatar from "../../assets/avatars/3.svg";
-import moreCrappyDrawing from "../../assets/avatars/2.svg";
+import Avatar from "../Games/Avatar";
 
 const Chat = () => {
   //to check click outside the chat component
@@ -40,7 +39,7 @@ const Chat = () => {
               {userChat.map((chat, i) => (
                 <motion.div initial={{ y: 20 }} animate={{ y: 0 }} key={i} className="input ">
                   <div className="avatar">
-                    <img src={crappyAvatar} alt="" />
+                    <Avatar id={6} />
                   </div>
                   <div className="content ">{chat}</div>
                 </motion.div>
@@ -49,7 +48,7 @@ const Chat = () => {
               <motion.div layout initial={{ y: 20 }} animate={{ y: 0 }} className="output ">
                 <div className="content">What's up</div>
                 <div className="avatar">
-                  <img src={moreCrappyDrawing} alt="" />
+                  <Avatar id={4} />
                 </div>
               </motion.div>
             </div>

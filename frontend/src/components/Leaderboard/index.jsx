@@ -6,7 +6,7 @@ import backBtn from "../../assets/icons/back.svg";
 import { useEffect, useState } from "react";
 
 const Leaderboard = (props) => {
-  const { userAuth, user, logout } = props;
+  const { userAuth, user, logout, updateUserAvatar } = props;
   const [fetchComplete, setFetchComplete] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState([]);
 
@@ -19,13 +19,13 @@ const Leaderboard = (props) => {
 
   return (
     <div className="Leaderboard">
+      <Navbar updateUserAvatar={updateUserAvatar} userAuth={userAuth} user={user} logout={logout} />
       <div className="Homepage"></div>
       <Link to="/">
         <div className="back">
           <img className="back-btn" src={backBtn} alt="back button" />
         </div>
       </Link>
-      <Navbar userAuth={userAuth} user={user} logout={logout} />
       <div className="leaderboard-container">
         <h1 className="leaderboard-title">LEADERBOARD</h1>
         <div className="leaderboard-main">
@@ -44,9 +44,7 @@ const Leaderboard = (props) => {
                     <div className="col">{user.rank}</div>
                     <div className="col">{user.username}</div>
                     <div className="col">{user.total_wins}</div>
-                    <div className="col">{`${user.win_percentage.toFixed(
-                      2
-                    )}%`}</div>
+                    <div className="col">{`${user.win_percentage.toFixed(2)}%`}</div>
                     <div className="col">{user.total_moves}</div>
                   </div>
                 ))}
