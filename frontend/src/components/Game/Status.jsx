@@ -54,11 +54,13 @@ const Status = (props) => {
       )}
 
       {status === "game_over_lose" && (
-        <div className="center">
-          <div className="game-over center">YOU LOSE</div>
-          <Link to="/">
-            <Button error>BACK TO MENU</Button>
-          </Link>
+        <div className="loser">
+          <div>
+            <Link to="/">
+              <Button error>BACK TO MENU</Button>
+            </Link>
+          </div>
+          <div>YOU LOSE</div>
         </div>
       )}
     </div>
