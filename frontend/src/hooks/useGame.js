@@ -1,4 +1,9 @@
-import { makeCastle, makeTavern, makeHand, calcMaxHand } from "../helpers/game-starters";
+import {
+  makeCastle,
+  makeTavern,
+  makeHand,
+  calcMaxHand,
+} from "../helpers/game-starters";
 
 import {
   getSuitPowersAndTotalDamage,
@@ -12,7 +17,12 @@ import {
   clearPlayfield,
 } from "../helpers/player-helpers";
 
-import { updateCycle, resetCycle, playerDead, playerDefense } from "../helpers/turn-helpers";
+import {
+  updateCycle,
+  resetCycle,
+  playerDead,
+  playerDefense,
+} from "../helpers/turn-helpers";
 
 import { updateBossCondition } from "../helpers/boss-helpers";
 
@@ -44,10 +54,14 @@ const useGame = () => {
     }
 
     // On boss attack, check if current player has enough cards to defend
-    if (status === "boss_attack") {
-      if (playerDead(currentPlayer, boss.stats.damage)) {
-        setStatus("game_over_lose");
-      }
+    if (status === "boss_turn") {
+      setTimeout(() => {
+        if (playerDead(currentPlayer, boss.stats.damage)) {
+          setStatus("game_over_lose");
+        } else {
+          setStatus("boss_attack");
+        }
+      }, 2000);
     }
 
     // Reset joker on game end
@@ -71,11 +85,20 @@ const useGame = () => {
       const bossCopy = _.cloneDeep(boss);
 
       // Get spade, club and total damage
-      const { spadePower, clubPower, totalDamage } = getSuitPowersAndTotalDamage(players[cycle.current[0]].field, bossCopy.stats, bossCopy.stats.powerDisabled);
+      const { spadePower, clubPower, totalDamage } =
+        getSuitPowersAndTotalDamage(
+          players[cycle.current[0]].field,
+          bossCopy.stats,
+          bossCopy.stats.powerDisabled
+        );
 
       // Calculate boss damage preview
-      const newBossDamage = spadePower === 0 ? null : boss.stats.damage - spadePower;
-      const newBossHealth = clubPower + totalDamage === 0 ? null : boss.stats.health - clubPower - totalDamage;
+      const newBossDamage =
+        spadePower === 0 ? null : boss.stats.damage - spadePower;
+      const newBossHealth =
+        clubPower + totalDamage === 0
+          ? null
+          : boss.stats.health - clubPower - totalDamage;
 
       // Update boss preview (Set to string to skip !render on 0 falsy)
       bossCopy.preview.damage = newBossDamage?.toString();
@@ -89,7 +112,10 @@ const useGame = () => {
   useEffect(() => {
     // Validate player discard amount is enough to defend
     if (status === "boss_attack") {
-      const { enoughDefense, damageRemaining } = playerDefense(currentPlayer, boss.stats.damage);
+      const { enoughDefense, damageRemaining } = playerDefense(
+        currentPlayer,
+        boss.stats.damage
+      );
 
       setValidate((prev) => {
         return {
@@ -262,7 +288,14 @@ const useGame = () => {
 
     // STEP 1: Play Cards
     // Get Suit Power values for activation and total damage
-    const { spadePower, diamondPower, heartPower, clubPower, jesterPower, totalDamage } = getSuitPowersAndTotalDamage(
+    const {
+      spadePower,
+      diamondPower,
+      heartPower,
+      clubPower,
+      jesterPower,
+      totalDamage,
+    } = getSuitPowersAndTotalDamage(
       currentPlayer.field,
       bossCopy.stats,
       bossCopy.stats.powerDisabled
@@ -271,7 +304,11 @@ const useGame = () => {
     // STEP 2: Activate Suit Powers
     // Moves cards from discard to tavern deck
     if (heartPower > 0) {
-      const { discardUpdate, tavernUpdate } = activateHeartPower(heartPower, discardDeck, tavernDeck);
+      const { discardUpdate, tavernUpdate } = activateHeartPower(
+        heartPower,
+        discardDeck,
+        tavernDeck
+      );
 
       // Deck does not update in function so have to send it here
       tavernDeck = tavernUpdate;
@@ -280,7 +317,14 @@ const useGame = () => {
 
     // Draws cards to each player from tavern deck
     if (diamondPower > 0) {
-      activateDiamondPower(diamondPower, playersCopy, currentPlayerIndex, cycleCopy.original, tavernDeck, maxHand);
+      activateDiamondPower(
+        diamondPower,
+        playersCopy,
+        currentPlayerIndex,
+        cycleCopy.original,
+        tavernDeck,
+        maxHand
+      );
     }
 
     // Reduces boss attack
@@ -305,7 +349,12 @@ const useGame = () => {
 
     // Check if boss defeated and where to move defeated card
     // updates to next boss
-    const bossCondition = updateBossCondition(bossCopy, castleDeck, discardDeck, tavernDeck);
+    const bossCondition = updateBossCondition(
+      bossCopy,
+      castleDeck,
+      discardDeck,
+      tavernDeck
+    );
 
     // Reset boss preview values
     bossCopy.preview.damage = 0;
@@ -329,7 +378,7 @@ const useGame = () => {
 
         newStatus = "player_turn";
       } else if (newStatus !== "select_player") {
-        newStatus = "boss_attack";
+        newStatus = "boss_turn";
       }
     }
 
@@ -465,12 +514,16 @@ const useGame = () => {
 
         // Remove from discard if boss attack
         if (status === "boss_attack") {
-          currentPlayer.discard = currentPlayer.discard.filter((item) => item.id !== card.id);
+          currentPlayer.discard = currentPlayer.discard.filter(
+            (item) => item.id !== card.id
+          );
         }
 
         // Remove from field if player attack
         if (status === "player_attack") {
-          currentPlayer.field = currentPlayer.field.filter((item) => item.id !== card.id);
+          currentPlayer.field = currentPlayer.field.filter(
+            (item) => item.id !== card.id
+          );
         }
 
         // Add card to player hand and save
@@ -484,7 +537,9 @@ const useGame = () => {
           const currentPlayer = playersCopy[cycle.current[0]];
 
           // Remove card to move from player hand
-          currentPlayer.hand = currentPlayer.hand.filter((item) => item.id !== card.id);
+          currentPlayer.hand = currentPlayer.hand.filter(
+            (item) => item.id !== card.id
+          );
 
           // Add card to player discard
           currentPlayer.discard = [...currentPlayer.discard, card];
@@ -501,7 +556,9 @@ const useGame = () => {
           const currentPlayer = playersCopy[cycle.current[0]];
 
           // Remove card to move from player hand
-          currentPlayer.hand = currentPlayer.hand.filter((item) => item.id !== card.id);
+          currentPlayer.hand = currentPlayer.hand.filter(
+            (item) => item.id !== card.id
+          );
 
           // Add card to player field
           currentPlayer.field = [...currentPlayer.field, card];
