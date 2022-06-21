@@ -13,6 +13,7 @@ import {
   activateSpadePower,
   activateJesterPower,
   commitPlayfield,
+  commitPlayedfield,
   clearPlayfield,
 } from "../helpers/player-helpers";
 
@@ -54,7 +55,7 @@ const useGame = () => {
 
     // On boss attack, check if current player has enough cards to defend
     if (status === "boss_attack") {
-      if (playerDead(currentPlayer, boss.damage)) {
+      if (playerDead(currentPlayer, boss.stats.damage)) {
         setStatus("game_over_lose");
       }
     }
@@ -71,11 +72,45 @@ const useGame = () => {
   }, [status]);
 
   useEffect(() => {
+    // Update currentPlayer data everytime player data changes
+    if (status !== "setup") {
+      setCurrentPlayer(players[cycle.current[0]]);
+    }
+
+    if (status === "player_attack") {
+      const bossCopy = _.cloneDeep(boss);
+
+      // Get spade, club and total damage
+      const { spadePower, clubPower, totalDamage } =
+        getSuitPowersAndTotalDamage(
+          players[cycle.current[0]].field,
+          bossCopy.stats,
+          bossCopy.stats.powerEnabled
+        );
+
+      // Calculate boss damage preview
+      const newBossDamage =
+        spadePower === 0 ? null : boss.stats.damage - spadePower;
+      const newBosshealth =
+        clubPower + totalDamage === 0
+          ? null
+          : boss.stats.health - clubPower - totalDamage;
+
+      // Update boss preview
+      bossCopy.preview.damage = newBossDamage;
+      bossCopy.preview.health = newBosshealth;
+
+      // Save status
+      setBoss(bossCopy);
+    }
+  }, [players]);
+
+  useEffect(() => {
     // Validate player discard amount is enough to defend
     if (status === "boss_attack") {
       const { enoughDefense, damageRemaining } = playerDefense(
         currentPlayer,
-        boss.damage
+        boss.stats.damage
       );
 
       setValidate((prev) => {
@@ -120,8 +155,6 @@ const useGame = () => {
     const _maxHand = calcMaxHand(playerList.length);
     setMaxHand(_maxHand);
 
-    console.log("Setting up!");
-
     // Request for list of all cards from api server
     axios
       .get("/cards")
@@ -142,7 +175,11 @@ const useGame = () => {
                 damage: lastCastleCard.damage,
                 health: lastCastleCard.health,
                 suit: lastCastleCard.suit,
-                powerEnabled: true,
+                powerEnabled: false,
+              },
+              preview: {
+                damage: 0,
+                health: 0,
               },
             };
 
@@ -210,13 +247,32 @@ const useGame = () => {
   };
 
   const handleYield = () => {
+    // Get copy of players to modify
+    let playersCopy = _.cloneDeep(players);
+    const currentPlayer = playersCopy[cycle.current[0]];
+
+    // Move all player cards back to hand and save state
+    currentPlayer.hand = [...currentPlayer.hand, ...currentPlayer.field];
+    setPlayers(playersCopy);
+
+    // Get copy of boss to modify
+    const bossCopy = _.cloneDeep(boss);
+
+    // Reset Boss Preview
+    bossCopy.preview.damage = 0;
+    bossCopy.preview.health = 0;
+
+    // Save state
+    setBoss(bossCopy);
+
+    // Proceed to boss attack phase
     setStatus("boss_attack");
   };
 
   const handlePlayerAttack = () => {
-    const discardDeck = _.cloneDeep(decks.discard);
-    const tavernDeck = _.cloneDeep(decks.tavern);
-    const castleDeck = _.cloneDeep(decks.castle);
+    let discardDeck = _.cloneDeep(decks.discard);
+    let tavernDeck = _.cloneDeep(decks.tavern);
+    let castleDeck = _.cloneDeep(decks.castle);
     const bossCopy = _.cloneDeep(boss);
     const playersCopy = _.cloneDeep(players);
     const cycleCopy = _.cloneDeep(cycle);
@@ -240,7 +296,15 @@ const useGame = () => {
     // STEP 2: Activate Suit Powers
     // Moves cards from discard to tavern deck
     if (heartPower > 0) {
-      activateHeartPower(heartPower, discardDeck, tavernDeck);
+      const { discardUpdate, tavernUpdate } = activateHeartPower(
+        heartPower,
+        discardDeck,
+        tavernDeck
+      );
+
+      // Deck does not update in function so have to send it here
+      tavernDeck = tavernUpdate;
+      discardDeck = discardUpdate;
     }
 
     // Draws cards to each player from tavern deck
@@ -283,20 +347,39 @@ const useGame = () => {
       tavernDeck
     );
 
+    // Reset boss preview values
+    bossCopy.preview.damage = 0;
+    bossCopy.preview.health = 0;
+
     // commit cards on field to played
     commitPlayfield(playersCopy, currentPlayerIndex);
 
     // STEP 4: Suffer damage from boss
     // boss still alive, switch status to boss attack
     if (!bossCondition.defeated) {
-      setStatus("boss_attack");
+      if (bossCopy.stats.damage === 0) {
+        // Set next player in cycle
+        const cycleReset = updateCycle(cycleCopy);
+        if (cycleReset) {
+          resetCycle(cycleCopy);
+          clearPlayfield(playersCopy);
+          commitPlayedfield(playersCopy, discardDeck);
+        }
+
+        setStatus("player_turn");
+      } else {
+        setStatus("boss_attack");
+      }
     }
 
     // If dead, keep same player but reset cycle
     // Remove all cards in play field
+    // Commit played field to discard
     if (bossCondition.defeated) {
       clearPlayfield(playersCopy);
+      commitPlayedfield(playersCopy, discardDeck);
       resetCycle(cycle);
+      setStatus("player_turn");
     }
 
     // if all bosses dead, set game over win status
@@ -317,18 +400,22 @@ const useGame = () => {
   };
 
   const handlePlayerDiscard = () => {
-    const discardDeck = _.cloneDeep(decks.discard);
+    let discardDeck = _.cloneDeep(decks.discard);
     const playersCopy = _.cloneDeep(players);
     const cycleCopy = _.cloneDeep(cycle);
     const currentPlayerIndex = cycleCopy.current[0];
 
     // Move discarded cards from playerfield to discard
-    setDecks([...discardDeck.discard, ...currentPlayer.discard]);
+    discardDeck = [...discardDeck, ...currentPlayer.discard];
     playersCopy[currentPlayerIndex].discard = []; // clear player discard
 
     // Set next player in cycle
     const cycleReset = updateCycle(cycleCopy);
-    if (cycleReset) resetCycle(cycleCopy);
+    if (cycleReset) {
+      resetCycle(cycleCopy);
+      clearPlayfield(playersCopy);
+      commitPlayedfield(playersCopy, discardDeck);
+    }
 
     // Save changes
     setPlayers(playersCopy);
@@ -337,6 +424,13 @@ const useGame = () => {
 
     // Go to next player
     setStatus("player_turn");
+
+    setDecks((prev) => {
+      return {
+        ...prev,
+        discard: discardDeck,
+      };
+    });
   };
 
   const handleGameOver = (condition) => {
@@ -372,6 +466,8 @@ const useGame = () => {
   };
 
   const moveCardTo = (card, area, playable = true, playCardSound = null) => {
+    if (!playable) return;
+
     switch (area) {
       case "Hand":
         // Copy players to modify and track current player
@@ -407,16 +503,12 @@ const useGame = () => {
             (item) => item.id !== card.id
           );
 
+          // Add card to player discard
+          currentPlayer.discard = [...currentPlayer.discard, card];
           playCardSound();
 
-          // Save player hand
+          // Save player state
           setPlayers(playersCopy);
-
-          setTimeout(() => {
-            // Add card to player discard and save
-            currentPlayer.discard = [...currentPlayer.discard, card];
-            setPlayers(playersCopy);
-          }, 400);
         }
         break;
       case "Field":
@@ -430,16 +522,13 @@ const useGame = () => {
             (item) => item.id !== card.id
           );
 
+          // Add card to player field
+          currentPlayer.field = [...currentPlayer.field, card];
+
           playCardSound();
 
-          // Save player hand
+          // Save player state
           setPlayers(playersCopy);
-
-          setTimeout(() => {
-            // Add card to player field and save
-            currentPlayer.field = [...currentPlayer.field, card];
-            setPlayers(playersCopy);
-          }, 400);
         }
         break;
       default:
