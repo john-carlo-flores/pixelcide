@@ -2,13 +2,14 @@ import "../../styles/Game/Status.scss";
 import Button from "../Button";
 import { Link } from "react-router-dom";
 
+import { FaRegFlag } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Status = (props) => {
-  const { status, handleCommands, validate } = props;
+  const { status, handleCommands, validate, currentPlayer } = props;
 
   return (
-    <>
+    <div className="">
       <AnimatePresence>
         {status === "player_turn" && (
           <motion.div
@@ -16,9 +17,9 @@ const Status = (props) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ ease: "easeOut", duration: 0 }}
-            className="player-turn"
+            className="player-turn center"
           >
-            -- YOUR TURN --
+            {`-- ${currentPlayer.username}'s TURN --`}
           </motion.div>
         )}
       </AnimatePresence>
@@ -32,13 +33,18 @@ const Status = (props) => {
             exit={{ opacity: 0, y: -60 }}
             transition={{ ease: "easeInOut", duration: 0.1 }}
           >
-            <Button
-              onClick={() => handleCommands("Attack")}
-              error
-              disabled={!validate.attackButton}
-            >
-              ATTACK
-            </Button>
+            <div className="attack-div center">
+              <Button
+                onClick={() => handleCommands("Attack")}
+                error
+                disabled={!validate.attackButton}
+              >
+                ATTACK
+              </Button>
+              <Button onClick={() => handleCommands("Yield")}>
+                <FaRegFlag size={25} />
+              </Button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -51,6 +57,7 @@ const Status = (props) => {
             animate={{ opacity: 1, y: -10 }}
             exit={{ opacity: 0, y: -60 }}
             transition={{ ease: "easeInOut", duration: 0.2 }}
+            className="center"
           >
             <Button
               onClick={() => handleCommands("Discard")}
@@ -68,23 +75,23 @@ const Status = (props) => {
       </AnimatePresence>
 
       {status === "game_over_win" && (
-        <>
+        <div className="center">
           <div className="game-over">YOU WON</div>
           <Link to="/">
             <Button error>BACK TO MENU</Button>
           </Link>
-        </>
+        </div>
       )}
 
       {status === "game_over_lose" && (
-        <>
-          <div className="game-over">YOU LOSE</div>
+        <div className="center">
+          <div className="game-over center">YOU LOSE</div>
           <Link to="/">
             <Button error>BACK TO MENU</Button>
           </Link>
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 export default Status;
