@@ -1,5 +1,5 @@
 export function shuffle(deck) {
-  const shuffledDeck = [...deck];
+  let shuffledDeck = [...deck];
   shuffledDeck.sort((a, b) => 0.5 - Math.random());
   return shuffledDeck;
 }
