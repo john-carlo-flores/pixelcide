@@ -440,6 +440,28 @@ const useGame = () => {
     });
   };
 
+  const handleSelect = (id) => {
+    // Create copy of cycle to modify
+    const cycleCopy = _.cloneDeep(cycle);
+
+    // Remove current player from beginning of cycle
+    cycleCopy.shift();
+
+    // Find index of selected player
+    const selectedIndex = cycleCopy.findIndex((index) => index === id);
+
+    // Remove selected player from cycle and move to first index
+    cycleCopy.splice(selectedIndex, 1);
+    cycleCopy.unshift(id);
+
+    // Update Current Player
+    setCurrentPlayer(players[cycleCopy[0]]);
+
+    // Save state and go to next player
+    setCycle(cycleCopy);
+    setStatus("player_turn");
+  };
+
   const handleGameOver = (condition) => {
     // condition = true or false
     // Leave game
@@ -466,6 +488,9 @@ const useGame = () => {
         break;
       case "Leave Lobby":
         handleLeaver();
+        break;
+      case "Select":
+        handleSelect(condition);
         break;
       default:
         break;
