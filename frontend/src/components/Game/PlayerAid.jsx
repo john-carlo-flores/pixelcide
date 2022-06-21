@@ -39,7 +39,9 @@ const PlayerAid = ({ playerField, status, jesterActive, bossSuit }) => {
       if (!_.isEqual(toggleRow, currentCards)) {
         setToggleRow(currentCards);
       }
-    } else if (status === "boss_turn") {
+    }
+
+    if (status === "boss_attack") {
       setToggleRow([]);
     }
 
