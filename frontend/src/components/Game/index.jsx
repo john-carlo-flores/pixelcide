@@ -13,7 +13,7 @@ import "../../styles/Game/Game.scss";
 import closeIcon from "../../assets/icons/close-icon.svg";
 
 const Game = (props) => {
-  //initializing Game States
+  // Initializing Game States
   const {
     setup,
     setGame,
@@ -31,9 +31,6 @@ const Game = (props) => {
 
   // initial game set up
   useEffect(() => {
-    console.log("Initial Game");
-    console.log(gamePlayers);
-
     if (game.started) {
       setGame(game);
     } else {
@@ -66,6 +63,7 @@ const Game = (props) => {
               status={status}
               handleCommands={handleCommands}
               validate={validate}
+              currentPlayer={currentPlayer}
             />
             {/* </motion.div> */}
           </AnimateSharedLayout>
@@ -75,6 +73,7 @@ const Game = (props) => {
             moveCardTo={moveCardTo}
             status={status}
             bossSuit={boss.stats?.suit}
+            currentPlayer={currentPlayer}
           />
           <div className="close-icon">
             <img src={closeIcon} alt="" />
