@@ -18,7 +18,17 @@ const GameRoom = (props) => {
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
 
-  const { lobby, takeSeat, updateSeats, startGame, updateLobby, mode, seats, game, error } = props.state;
+  const {
+    lobby,
+    takeSeat,
+    updateSeats,
+    startGame,
+    updateLobby,
+    mode,
+    seats,
+    game,
+    error,
+  } = props.state;
 
   useEffect(() => {
     // Only reload lobby data if not created by host
@@ -95,13 +105,25 @@ const GameRoom = (props) => {
       {(mode === "Room" || mode === "Loading") && (
         <>
           <div className={styles.Homepage}></div>
-          <Navbar userAuth={userAuth} user={user} logout={logout} />
+          <Navbar
+            userAuth={userAuth}
+            user={user}
+            logout={logout}
+            updateUserAvatar={updateUserAvatar}
+          />
         </>
       )}
       {mode === "Room" && (
         <>
           <h1 className={styles.Title}>{`<${lobby.title}>`}</h1>
-          <Room user={user} handleStartGame={startGame} seats={seats} updateSeats={updateSeats} takeSeat={takeSeat} error={error} />
+          <Room
+            user={user}
+            handleStartGame={startGame}
+            seats={seats}
+            updateSeats={updateSeats}
+            takeSeat={takeSeat}
+            error={error}
+          />
         </>
       )}
       {mode === "Loading" && <Loading />}
