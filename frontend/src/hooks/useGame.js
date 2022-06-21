@@ -79,6 +79,7 @@ const useGame = () => {
 
     if (status === "player_attack") {
       const bossCopy = _.cloneDeep(boss);
+      console.log("PlayerField", players[cycle.current[0]].field);
 
       // Get spade, club and total damage
       const { spadePower, clubPower, totalDamage } =
@@ -91,14 +92,14 @@ const useGame = () => {
       // Calculate boss damage preview
       const newBossDamage =
         spadePower === 0 ? null : boss.stats.damage - spadePower;
-      const newBosshealth =
+      const newBossHealth =
         clubPower + totalDamage === 0
           ? null
           : boss.stats.health - clubPower - totalDamage;
 
-      // Update boss preview
-      bossCopy.preview.damage = newBossDamage;
-      bossCopy.preview.health = newBosshealth;
+      // Update boss preview (Set to string to skip !render on 0 falsy)
+      bossCopy.preview.damage = newBossDamage?.toString();
+      bossCopy.preview.health = newBossHealth?.toString();
 
       // Save status
       setBoss(bossCopy);
@@ -178,8 +179,8 @@ const useGame = () => {
                 powerEnabled: false,
               },
               preview: {
-                damage: 0,
-                health: 0,
+                damage: null,
+                health: null,
               },
             };
 
@@ -259,8 +260,8 @@ const useGame = () => {
     const bossCopy = _.cloneDeep(boss);
 
     // Reset Boss Preview
-    bossCopy.preview.damage = 0;
-    bossCopy.preview.health = 0;
+    bossCopy.preview.damage = null;
+    bossCopy.preview.health = null;
 
     // Save state
     setBoss(bossCopy);
@@ -277,6 +278,7 @@ const useGame = () => {
     const playersCopy = _.cloneDeep(players);
     const cycleCopy = _.cloneDeep(cycle);
     const currentPlayerIndex = cycleCopy.current[0];
+    let newStatus = "";
 
     // STEP 1: Play Cards
     // Get Suit Power values for activation and total damage
@@ -367,9 +369,9 @@ const useGame = () => {
           commitPlayedfield(playersCopy, discardDeck);
         }
 
-        setStatus("player_turn");
+        newStatus = "player_turn";
       } else {
-        setStatus("boss_attack");
+        newStatus = "boss_attack";
       }
     }
 
@@ -380,12 +382,12 @@ const useGame = () => {
       clearPlayfield(playersCopy);
       commitPlayedfield(playersCopy, discardDeck);
       resetCycle(cycle);
-      setStatus("player_turn");
+      newStatus = "player_turn";
     }
 
     // if all bosses dead, set game over win status
     if (bossCondition.gameOver) {
-      setStatus("game_over_win");
+      newStatus = "game_over_win";
     }
 
     // Update all deck, boss and player data
@@ -398,6 +400,9 @@ const useGame = () => {
     setCycle(cycleCopy);
     setBoss(bossCopy);
     setPlayers(playersCopy);
+    setTimeout(() => {
+      setStatus(newStatus);
+    }, 100);
   };
 
   const handlePlayerDiscard = () => {
