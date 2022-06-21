@@ -30,7 +30,7 @@ const PlayerHand = (props) => {
   const playerHandList = playerHand.map((card) => (
     <AnimatePresence>
       <motion.div
-        transition={{ ease: "easeIn", duration: 0.4 }}
+        transition={{ ease: "easeIn", duration: 0.1 }}
         whileHover={{
           y: playableStatus(card) && -15,
           transition: { duration: 0 },

@@ -9,10 +9,13 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import useGame from "../../hooks/useGame";
 
+import { motion } from "framer-motion";
+
 import Confetti from "react-confetti";
 
 import "../../styles/Game/Game.scss";
 import closeIcon from "../../assets/icons/close-icon.svg";
+import helpIcon from "../../assets/icons/help.png";
 
 const Game = (props) => {
   // Initializing Game States
@@ -80,7 +83,13 @@ const Game = (props) => {
             <Link to={"/"}>
               <img src={closeIcon} alt="" />
             </Link>
-          </div>
+          </motion.div>
+
+          <motion.div whileHover={{ scale: 1.2 }} className="help-icon nes-pointer">
+            <a href="https://www.badgersfrommars.com/assets/RegicideRulesA4.pdf" target={"_blank"}>
+              <img src={helpIcon} alt="" />
+            </a>
+          </motion.div>
           <Chat />
         </div>
       )}

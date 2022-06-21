@@ -25,13 +25,21 @@
 
   .close-icon {
     position: absolute;
-    top: 3rem;
-    right: 3rem;
-    width: 4rem;
+    top: 2rem;
+    right: 1.5rem;
+    width: 3rem;
     z-index: 88888;
     img {
-      filter: invert(30%) sepia(40%) saturate(4503%) hue-rotate(339deg)
-        brightness(81%) contrast(94%);
+      filter: invert(30%) sepia(40%) saturate(4503%) hue-rotate(339deg) brightness(81%) contrast(94%);
+    }
+  }
+  .help-icon {
+    position: absolute;
+    bottom: 2rem;
+    left: 1.5rem;
+    z-index: 88888;
+    img {
+      width: 2.5rem;
     }
   }
 }
