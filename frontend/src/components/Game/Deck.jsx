@@ -10,7 +10,7 @@ const Deck = (props) => {
   const bossCard = boss?.current;
   const bossStats = boss?.stats;
   const bossPreview = boss?.preview;
-  const jesterActive = bossStats?.powerEnabled;
+  const jesterActive = bossStats?.powerDisabled;
 
   // Get top cards of each deck to render front
   const lastDiscardCard =

@@ -2,6 +2,7 @@ import PlayerField from "./PlayerField";
 import PlayerDiscard from "./PlayerDiscard";
 import PlayedCards from "./PlayedCards";
 import PlayerHand from "./PlayerHand";
+import PlayerSelect from "./PlayerSelect";
 
 import { useEffect, useState } from "react";
 
@@ -13,17 +14,15 @@ import "../../styles/Game/Player.scss";
 
 const Player = (props) => {
   const {
-    playerField,
-    playerHand,
-    playerDiscard,
-    playedCards,
-    playerName,
-    avatar,
+    index,
+    player,
     status,
     bossSuit,
+    jesterActive,
     moveCardTo,
     owner,
     playerTurn,
+    handleCommands,
   } = props;
 
   const [playOn] = useSound(cardFlipSound);
@@ -31,7 +30,7 @@ const Player = (props) => {
   const [view, setView] = useState("player-field");
 
   useEffect(() => {
-    if (!playerTurn) {
+    if (!playerTurn && status !== "select_player") {
       return setView("played-field");
     }
     if (status === "player_attack") {
@@ -40,23 +39,27 @@ const Player = (props) => {
     if (status === "boss_attack") {
       return setView("player-discard");
     }
+    if (status === "select_player") {
+      return setView("player-select");
+    }
   }, [status]);
 
   return (
     <div className="Player">
       {view === "player-field" && (
         <PlayerField
-          playerField={playerField}
+          playerField={player.field}
           moveCardTo={moveCardTo}
           status={status}
           bossSuit={bossSuit}
+          jesterActive={jesterActive}
           playerTurn={playerTurn}
           owner={owner}
         />
       )}
       {view === "player-discard" && (
         <PlayerDiscard
-          playerDiscard={playerDiscard}
+          playerDiscard={player.discard}
           moveCardTo={moveCardTo}
           status={status}
           bossSuit={bossSuit}
@@ -64,10 +67,16 @@ const Player = (props) => {
           owner={owner}
         />
       )}
-      {view === "played-field" && <PlayedCards playedCards={playedCards} />}
+      {view === "player-select" && (
+        <PlayerSelect
+          onSelect={() => handleCommands("Select", index)}
+          playerTurn={playerTurn}
+        />
+      )}
+      {view === "played-field" && <PlayedCards playedCards={player.played} />}
       <PlayerHand
-        playerHand={playerHand}
-        playerField={playerField}
+        playerHand={player.hand}
+        playerField={player.field}
         status={status}
         moveCardTo={moveCardTo}
         playOn={playOn}
@@ -75,8 +84,8 @@ const Player = (props) => {
         owner={owner}
       />
       <div className="player-info">
-        <Avatar id={avatar} />
-        {playerName}
+        <Avatar id={player.avatar_id} />
+        {player.username}
       </div>
     </div>
   );
