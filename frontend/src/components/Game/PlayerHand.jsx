@@ -2,11 +2,8 @@ import Card from "./Card";
 
 import { playable } from "../../helpers/player-helpers";
 
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-
 const PlayerHand = (props) => {
-  const { playerHand, playerField, status, moveCardTo, playOn, playerTurn } =
-    props;
+  const { playerHand, playerField, status, moveCardTo, playOn, playerTurn } = props;
 
   const playableStatus = (card) => {
     if (status === "player_attack") {
@@ -29,7 +26,7 @@ const PlayerHand = (props) => {
   };
 
   const playerHandList = playerHand.map((card) => (
-    <motion.div
+    <div
       layout
       exit={{ y: -250, x: 0 }}
       transition={{ ease: "easeIn", duration: 0.4 }}
@@ -40,24 +37,13 @@ const PlayerHand = (props) => {
       }}
       key={card.id}
       onClick={() => onClick(card)}
-      className={
-        (status === "player_attack" && playable(card, playerField)) ||
-        status === "boss_attack"
-          ? "player-card highlight nes-pointer"
-          : "player-card dull"
-      }
+      className={(status === "player_attack" && playable(card, playerField)) || status === "boss_attack" ? "player-card highlight nes-pointer" : "player-card dull"}
     >
       <Card image={card.image_front} />
-    </motion.div>
+    </div>
   ));
 
-  return (
-    <motion.div className="cards-container">
-      <LayoutGroup>
-        <AnimatePresence>{playerHandList}</AnimatePresence>
-      </LayoutGroup>
-    </motion.div>
-  );
+  return <div className="cards-container">{playerHandList}</div>;
 };
 
 export default PlayerHand;
