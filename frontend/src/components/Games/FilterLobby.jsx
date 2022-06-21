@@ -17,10 +17,7 @@ const FilterLobby = (props) => {
     setText(criteria);
     setFilteredLobbies(
       lobbies.filter((lobby) => {
-        return (
-          lobby.host.toLowerCase().includes(criteria) ||
-          lobby.title.toLowerCase().includes(criteria)
-        );
+        return lobby.host.toLowerCase().includes(criteria) || lobby.title.toLowerCase().includes(criteria);
       })
     );
   };
@@ -34,7 +31,7 @@ const FilterLobby = (props) => {
 
   return (
     <div className={styles.container}>
-      <input onChange={filter} value={text} />
+      <input className="nes-input" style={{ outline: "none", backgroundColor: "rgba(236, 236, 224, 0.1)", backdropFilter: "blur(10px)" }} onChange={filter} value={text} />
       <Button onClick={clear}>
         <AiOutlineClear />
       </Button>
