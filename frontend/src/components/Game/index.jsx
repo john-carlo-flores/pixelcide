@@ -52,7 +52,7 @@ const Game = (props) => {
           <PlayerAid
             playerField={currentPlayer.field}
             status={status}
-            jester={boss.stats?.powerEnabled}
+            jesterActive={boss.stats?.powerDisabled}
             bossSuit={boss.stats?.suit}
           />
           <DeckList
@@ -72,7 +72,7 @@ const Game = (props) => {
             user={user}
             moveCardTo={moveCardTo}
             status={status}
-            bossSuit={boss.stats?.suit}
+            boss={boss}
             currentPlayer={currentPlayer}
             handleCommands={handleCommands}
           />

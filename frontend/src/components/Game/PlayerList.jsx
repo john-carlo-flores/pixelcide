@@ -7,19 +7,21 @@ const PlayerList = (props) => {
     user,
     moveCardTo,
     status,
-    bossSuit,
+    boss,
     currentPlayer,
     handleCommands,
   } = props;
 
-  const playerList = players.map((player) => {
+  const playerList = players.map((player, index) => {
     return (
       <div className="PlayerList">
         <Player
           key={player.id}
+          index={index}
           player={player}
           status={status}
-          bossSuit={bossSuit}
+          bossSuit={boss.stats?.suit}
+          jesterActive={boss.stats?.powerDisabled}
           moveCardTo={moveCardTo}
           owner={user.id === player.id}
           playerTurn={currentPlayer.id === player.id}
