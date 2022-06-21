@@ -10,7 +10,7 @@ const PlayerDiscard = (props) => {
   };
 
   const playerDiscardList = playerDiscard.map((card) => (
-    <div layout transition={{ ease: "easeIn", duration: 0.4, opacity: 0 }} onClick={() => onClick(card)} key={card.id} className="player-field-card nes-pointer">
+    <div onClick={() => onClick(card)} key={card.id} className="player-field-card nes-pointer">
       <Card image={card.image_front} warning={card.suit === bossSuit && status !== "boss_attack" ? "warning" : ""} />
     </div>
   ));

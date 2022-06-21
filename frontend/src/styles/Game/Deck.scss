@@ -40,11 +40,9 @@
     margin-bottom: 3rem;
     padding: 0.2rem;
     background-color: #ecece0;
-    box-shadow: 1px 1px 1px white, 2px 2px 1px white, 3px 3px 1px gray,
-      4px 4px 1px white, 5px 5px 1px white, 6px 6px 1px gray, 7px 7px 1px white,
-      8px 8px 1px white, 9px 9px 1px gray, 10px 10px 1px white,
-      11px 11px 1px white, 12px 12px 1px gray, 13px 13px 1px white,
-      14px 14px 1px white, 15px 15px 1px gray, 25px 25px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 1px white, 2px 2px 1px white, 3px 3px 1px gray, 4px 4px 1px white, 5px 5px 1px white, 6px 6px 1px gray, 7px 7px 1px white, 8px 8px 1px white,
+      9px 9px 1px gray, 10px 10px 1px white, 11px 11px 1px white, 12px 12px 1px gray, 13px 13px 1px white, 14px 14px 1px white, 15px 15px 1px gray,
+      25px 25px 15px rgba(0, 0, 0, 0.3);
 
     img {
       width: 8rem;
@@ -84,28 +82,14 @@
       letter-spacing: 0.1rem;
 
       .preview {
-        color: red;
+        color: #890f0d;
         font-size: 1rem;
         letter-spacing: 0.1rem;
       }
     }
 
     .more-funky {
-      background-image: linear-gradient(
-        to right,
-        #3978a8,
-        #4672aa,
-        #576aa9,
-        #6961a5,
-        #7a579d,
-        #8a4f96,
-        #99468b,
-        #a53c7e,
-        #b43470,
-        #bf2d60,
-        #c62b4d,
-        #c93038
-      );
+      background-image: linear-gradient(to right, #3978a8, #4672aa, #576aa9, #6961a5, #7a579d, #8a4f96, #99468b, #a53c7e, #b43470, #bf2d60, #c62b4d, #c93038);
     }
   }
 
