@@ -19,19 +19,7 @@ import helpIcon from "../../assets/icons/help.png";
 
 const Game = (props) => {
   // Initializing Game States
-  const {
-    setup,
-    setGame,
-    started,
-    handleCommands,
-    moveCardTo,
-    players,
-    currentPlayer,
-    boss,
-    status,
-    validate,
-    decks,
-  } = useGame();
+  const { setup, setGame, started, handleCommands, moveCardTo, players, currentPlayer, boss, status, validate, decks } = useGame();
   const { user, game, gamePlayers, updateGame } = props;
 
   // initial game set up
@@ -46,40 +34,15 @@ const Game = (props) => {
   return (
     <>
       {!started && <Loading />}
-      {started && status === "game_over_win" && (
-        <Confetti width={1900} height={950} />
-      )}
+      {started && status === "game_over_win" && <Confetti width={1900} height={950} />}
       {started && (
         <div className="Game">
           <div className="background-gif"></div>
-          <PlayerAid
-            playerField={currentPlayer.field}
-            status={status}
-            jesterActive={boss.stats?.powerDisabled}
-            bossSuit={boss.stats?.suit}
-          />
-          <DeckList
-            tavern={decks.tavern}
-            discard={decks.discard}
-            castle={decks.castle}
-            boss={boss}
-          />
-          <Status
-            status={status}
-            handleCommands={handleCommands}
-            validate={validate}
-            currentPlayer={currentPlayer}
-          />
-          <PlayerList
-            players={players}
-            user={user}
-            moveCardTo={moveCardTo}
-            status={status}
-            boss={boss}
-            currentPlayer={currentPlayer}
-            handleCommands={handleCommands}
-          />
-          <div className="close-icon">
+          <PlayerAid playerField={currentPlayer.field} status={status} jesterActive={boss.stats?.powerDisabled} bossSuit={boss.stats?.suit} />
+          <DeckList tavern={decks.tavern} discard={decks.discard} castle={decks.castle} boss={boss} />
+          <Status status={status} handleCommands={handleCommands} validate={validate} currentPlayer={currentPlayer} />
+          <PlayerList players={players} user={user} moveCardTo={moveCardTo} status={status} boss={boss} currentPlayer={currentPlayer} handleCommands={handleCommands} />
+          <motion.div className="close-icon">
             <Link to={"/"}>
               <img src={closeIcon} alt="" />
             </Link>
