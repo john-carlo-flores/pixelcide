@@ -357,6 +357,7 @@ const useGame = () => {
     // STEP 4: Suffer damage from boss
     // boss still alive, switch status to boss attack
     if (!bossCondition.defeated) {
+      // If boss does no damage, skip damage step
       if (bossCopy.stats.damage === 0) {
         // Set next player in cycle
         const cycleReset = updateCycle(cycleCopy);
