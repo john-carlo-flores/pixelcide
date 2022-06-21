@@ -164,7 +164,7 @@ const useGame = () => {
 
         setDecks(() => {
           const castleDeck = makeCastle(cards);
-          const tavernDeck = makeTavern(cards);
+          const tavernDeck = makeTavern(cards, playerList.length);
 
           // Assign boss card and stats
           setBoss(() => {
