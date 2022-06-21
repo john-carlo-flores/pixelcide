@@ -68,7 +68,11 @@ const PlayerAid = ({ playerField, status, jesterActive, bossSuit }) => {
         >
           <BsFillSuitClubFill size={35} color={"#309c63"} />
         </div>
-        <div className={bossSuit === "Clubs" ? "strike green" : "green"}>
+        <div
+          className={
+            bossSuit === "Clubs" && !jesterActive ? "strike green" : "green"
+          }
+        >
           Deal Double Damage
         </div>
       </div>
@@ -89,7 +93,11 @@ const PlayerAid = ({ playerField, status, jesterActive, bossSuit }) => {
         >
           <BsFillSuitSpadeFill size={35} color={"#8e478c"} />
         </div>
-        <div className={bossSuit === "Spades" ? "strike purple" : "purple"}>
+        <div
+          className={
+            bossSuit === "Spades" && !jesterActive ? "strike purple" : "purple"
+          }
+        >
           {" "}
           Reduce Boss Attack
         </div>
@@ -111,7 +119,11 @@ const PlayerAid = ({ playerField, status, jesterActive, bossSuit }) => {
         >
           <BsFillSuitHeartFill size={35} color={"#c93038"} />
         </div>
-        <div className={bossSuit === "Hearts" ? "strike red" : "red"}>
+        <div
+          className={
+            bossSuit === "Hearts" && !jesterActive ? "strike red" : "red"
+          }
+        >
           Heal Tavern Deck
         </div>
       </div>
@@ -132,7 +144,11 @@ const PlayerAid = ({ playerField, status, jesterActive, bossSuit }) => {
         >
           <BsFillDiamondFill size={35} color={"#3978a8"} />
         </div>
-        <div className={bossSuit === "Diamonds" ? "strike blue" : "blue"}>
+        <div
+          className={
+            bossSuit === "Diamonds" && !jesterActive ? "strike blue" : "blue"
+          }
+        >
           Draw Tavern Card
         </div>
       </div>

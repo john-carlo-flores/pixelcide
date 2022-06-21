@@ -14,9 +14,11 @@ import "../../styles/Game/Player.scss";
 
 const Player = (props) => {
   const {
+    index,
     player,
     status,
     bossSuit,
+    jesterActive,
     moveCardTo,
     owner,
     playerTurn,
@@ -50,6 +52,7 @@ const Player = (props) => {
           moveCardTo={moveCardTo}
           status={status}
           bossSuit={bossSuit}
+          jesterActive={jesterActive}
           playerTurn={playerTurn}
           owner={owner}
         />
@@ -64,8 +67,11 @@ const Player = (props) => {
           owner={owner}
         />
       )}
-      {view === "played-select" && (
-        <PlayerSelect onSelect={() => handleCommands("Select", player.id)} />
+      {view === "player-select" && (
+        <PlayerSelect
+          onSelect={() => handleCommands("Select", index)}
+          playerTurn={playerTurn}
+        />
       )}
       {view === "played-field" && <PlayedCards playedCards={player.played} />}
       <PlayerHand
