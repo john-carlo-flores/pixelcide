@@ -153,6 +153,8 @@ export function commitPlayfield(players, index) {
   players[index].field.forEach((card) => {
     players[index].played.push(card);
   });
+
+  players[index].field.length = 0;
 }
 
 export function clearPlayfield(players) {
