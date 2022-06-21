@@ -334,6 +334,7 @@ const useGame = () => {
     // Nullify Boss Power
     if (jesterPower) {
       activateJesterPower(bossCopy.stats);
+      newStatus = "select_player";
     }
 
     // STEP 3: Deal damage to boss and check condition
