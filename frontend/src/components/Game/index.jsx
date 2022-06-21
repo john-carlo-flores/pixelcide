@@ -40,7 +40,9 @@ const Game = (props) => {
           <Status status={status} handleCommands={handleCommands} validate={validate} currentPlayer={currentPlayer} />
           <PlayerList players={players} user={user} moveCardTo={moveCardTo} status={status} bossSuit={boss.stats?.suit} currentPlayer={currentPlayer} />
           <div className="close-icon">
-            <img src={closeIcon} alt="" />
+            <Link to={"/"}>
+              <img src={closeIcon} alt="" />
+            </Link>
           </div>
           <Chat />
         </div>
