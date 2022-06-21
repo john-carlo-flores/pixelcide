@@ -64,7 +64,7 @@ const useGame = () => {
     if (status === "game_over_lose" || status === "game_over_win") {
       setBoss((prev) => {
         const bossCopy = _.cloneDeep(prev);
-        bossCopy.stats.powerEnabled = false;
+        bossCopy.stats.powerDisabled = false;
 
         return bossCopy;
       });
@@ -79,14 +79,13 @@ const useGame = () => {
 
     if (status === "player_attack") {
       const bossCopy = _.cloneDeep(boss);
-      console.log("PlayerField", players[cycle.current[0]].field);
 
       // Get spade, club and total damage
       const { spadePower, clubPower, totalDamage } =
         getSuitPowersAndTotalDamage(
           players[cycle.current[0]].field,
           bossCopy.stats,
-          bossCopy.stats.powerEnabled
+          bossCopy.stats.powerDisabled
         );
 
       // Calculate boss damage preview
@@ -176,7 +175,7 @@ const useGame = () => {
                 damage: lastCastleCard.damage,
                 health: lastCastleCard.health,
                 suit: lastCastleCard.suit,
-                powerEnabled: false,
+                powerDisabled: false,
               },
               preview: {
                 damage: null,
@@ -211,9 +210,12 @@ const useGame = () => {
             - current changes every turn. First element is shifted out
               > To reset current, set to original
         */
+          const cycleList = [];
+          playerList.forEach((player, index) => cycleList.push(index));
+
           setCycle({
-            original: [...Array(playerList.length).keys()],
-            current: [...Array(playerList.length).keys()],
+            original: [...cycleList],
+            current: [...cycleList],
           });
 
           /* Set ValidateButton (Handles enabling of Discard and Attack button) 
@@ -292,7 +294,7 @@ const useGame = () => {
     } = getSuitPowersAndTotalDamage(
       currentPlayer.field,
       bossCopy.stats,
-      bossCopy.stats.powerEnabled
+      bossCopy.stats.powerDisabled
     );
 
     // STEP 2: Activate Suit Powers
@@ -333,7 +335,7 @@ const useGame = () => {
 
     // Nullify Boss Power
     if (jesterPower) {
-      activateJesterPower(bossCopy.stats);
+      activateJesterPower(jesterPower, bossCopy.stats);
       newStatus = "select_player";
     }
 
@@ -361,7 +363,7 @@ const useGame = () => {
     // boss still alive, switch status to boss attack
     if (!bossCondition.defeated) {
       // If boss does no damage, skip damage step
-      if (bossCopy.stats.damage === 0) {
+      if (bossCopy.stats.damage === 0 && !jesterPower) {
         // Set next player in cycle
         const cycleReset = updateCycle(cycleCopy);
         if (cycleReset) {
@@ -371,7 +373,7 @@ const useGame = () => {
         }
 
         newStatus = "player_turn";
-      } else {
+      } else if (newStatus !== "select_player") {
         newStatus = "boss_attack";
       }
     }
@@ -445,17 +447,17 @@ const useGame = () => {
     const cycleCopy = _.cloneDeep(cycle);
 
     // Remove current player from beginning of cycle
-    cycleCopy.shift();
+    cycleCopy.current.shift();
 
     // Find index of selected player
-    const selectedIndex = cycleCopy.findIndex((index) => index === id);
+    const selectedIndex = cycleCopy.current.findIndex((index) => index === id);
 
     // Remove selected player from cycle and move to first index
-    cycleCopy.splice(selectedIndex, 1);
-    cycleCopy.unshift(id);
+    cycleCopy.current.splice(selectedIndex, 1);
+    cycleCopy.current.unshift(id);
 
     // Update Current Player
-    setCurrentPlayer(players[cycleCopy[0]]);
+    setCurrentPlayer(players[cycleCopy.current[0]]);
 
     // Save state and go to next player
     setCycle(cycleCopy);
