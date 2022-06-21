@@ -17,4 +17,18 @@
   display: flex;
   justify-content: center;
   gap: 1rem;
+  margin: 0 auto;
+  align-items: center;
+  color: white;
+}
+
+.loser {
+  color: white;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 15rem;
+  text-align: center;
+  gap: 1rem;
 }
