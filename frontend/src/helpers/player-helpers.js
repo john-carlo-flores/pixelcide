@@ -146,7 +146,7 @@ export function activateClubPower(power, bossStats) {
 }
 
 export function activateJesterPower(power, bossStats) {
-  bossStats.powerEnabled = power;
+  bossStats.powerDisabled = power;
 }
 
 export function commitPlayfield(players, index) {
