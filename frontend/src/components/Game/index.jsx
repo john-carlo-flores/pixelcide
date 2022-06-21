@@ -9,10 +9,13 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import useGame from "../../hooks/useGame";
 
+import { motion } from "framer-motion";
+
 import Confetti from "react-confetti";
 
 import "../../styles/Game/Game.scss";
 import closeIcon from "../../assets/icons/close-icon.svg";
+import helpIcon from "../../assets/icons/help.png";
 
 const Game = (props) => {
   // Initializing Game States
@@ -39,11 +42,17 @@ const Game = (props) => {
           <DeckList tavern={decks.tavern} discard={decks.discard} castle={decks.castle} boss={boss} />
           <Status status={status} handleCommands={handleCommands} validate={validate} currentPlayer={currentPlayer} />
           <PlayerList players={players} user={user} moveCardTo={moveCardTo} status={status} bossSuit={boss.stats?.suit} currentPlayer={currentPlayer} />
-          <div className="close-icon">
+          <motion.div title="Exit Game?" whileHover={{ scale: 1.2 }} className="close-icon">
             <Link to={"/"}>
               <img src={closeIcon} alt="" />
             </Link>
-          </div>
+          </motion.div>
+
+          <motion.div whileHover={{ scale: 1.2 }} className="help-icon nes-pointer">
+            <a href="https://www.badgersfrommars.com/assets/RegicideRulesA4.pdf" target={"_blank"}>
+              <img src={helpIcon} alt="" />
+            </a>
+          </motion.div>
           <Chat />
         </div>
       )}

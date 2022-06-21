@@ -34,7 +34,7 @@ const Chat = () => {
     <div className="Chat" ref={ref}>
       <AnimatePresence>
         {toggleChat && (
-          <motion.div initial={{ y: 50 }} animate={{ y: -20 }} exit={{ y: 100, opacity: 0 }} className="outer-div nes-container is-rounded">
+          <motion.div initial={{ y: 10 }} animate={{ y: -200 }} exit={{ y: 10, opacity: 0 }} className="outer-div nes-container is-rounded">
             <div className="container">
               {userChat.map((chat, i) => (
                 <motion.div initial={{ y: 20 }} animate={{ y: 0 }} key={i} className="input ">
@@ -60,9 +60,9 @@ const Chat = () => {
         )}
       </AnimatePresence>
 
-      <div onClick={handleToggle} className={toggleChat ? "chat-icon nes-pointer glow" : "chat-icon nes-pointer"}>
+      <motion.div whileHover={{ scale: 1.2 }} onClick={handleToggle} className={toggleChat ? "chat-icon nes-pointer glow" : "chat-icon nes-pointer"}>
         <img src={chatIcon} alt="chat-icon" />
-      </div>
+      </motion.div>
     </div>
   );
 };
