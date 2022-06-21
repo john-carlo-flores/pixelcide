@@ -51,6 +51,7 @@ const Player = (props) => {
           status={status}
           bossSuit={bossSuit}
           playerTurn={playerTurn}
+          owner={owner}
         />
       )}
       {view === "player-discard" && (
@@ -60,6 +61,7 @@ const Player = (props) => {
           status={status}
           bossSuit={bossSuit}
           playerTurn={playerTurn}
+          owner={owner}
         />
       )}
       {view === "played-field" && <PlayedCards playedCards={playedCards} />}
@@ -70,6 +72,7 @@ const Player = (props) => {
         moveCardTo={moveCardTo}
         playOn={playOn}
         playerTurn={playerTurn}
+        owner={owner}
       />
       <div className="player-info">
         <Avatar id={avatar} />
