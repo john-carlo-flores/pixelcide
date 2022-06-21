@@ -21,24 +21,30 @@ const Player = (props) => {
     status,
     bossSuit,
     moveCardTo,
+    viewPlayed,
+    owner,
+    playerTurn,
   } = props;
 
   const [playOn] = useSound(cardFlipSound);
 
-  const [view, setView] = useState("");
+  const [view, setView] = useState("player-field");
 
   useEffect(() => {
+    if (viewPlayed) {
+      return setView("played-field");
+    }
+
     if (status === "player_attack") {
-      setView("player-field");
+      return setView("player-field");
     }
     if (status === "boss_attack") {
-      setView("player-discard");
+      return setView("player-discard");
     }
-  }, [status]);
+  }, [status, viewPlayed]);
 
   return (
     <>
-      <PlayedCards playedCards={playedCards} />
       <div className="Player">
         {view === "player-field" && (
           <PlayerField
@@ -46,6 +52,7 @@ const Player = (props) => {
             moveCardTo={moveCardTo}
             status={status}
             bossSuit={bossSuit}
+            playerTurn={playerTurn}
           />
         )}
         {view === "player-discard" && (
@@ -54,14 +61,17 @@ const Player = (props) => {
             moveCardTo={moveCardTo}
             status={status}
             bossSuit={bossSuit}
+            playerTurn={playerTurn}
           />
         )}
-
+        {view === "played-field" && <PlayedCards playedCards={playedCards} />}
         <PlayerHand
           playerHand={playerHand}
+          playerField={playerField}
           status={status}
           moveCardTo={moveCardTo}
           playOn={playOn}
+          playerTurn={playerTurn}
         />
         <div className="player-info">
           <img
