@@ -54,7 +54,7 @@ const useGame = () => {
     if (status === "game_over_lose" || status === "game_over_win") {
       setBoss((prev) => {
         const bossCopy = _.cloneDeep(prev);
-        bossCopy.stats.powerEnabled = false;
+        bossCopy.stats.powerDisabled = false;
 
         return bossCopy;
       });
@@ -71,15 +71,15 @@ const useGame = () => {
       const bossCopy = _.cloneDeep(boss);
 
       // Get spade, club and total damage
-      const { spadePower, clubPower, totalDamage } = getSuitPowersAndTotalDamage(players[cycle.current[0]].field, bossCopy.stats, bossCopy.stats.powerEnabled);
+      const { spadePower, clubPower, totalDamage } = getSuitPowersAndTotalDamage(players[cycle.current[0]].field, bossCopy.stats, bossCopy.stats.powerDisabled);
 
       // Calculate boss damage preview
       const newBossDamage = spadePower === 0 ? null : boss.stats.damage - spadePower;
-      const newBosshealth = clubPower + totalDamage === 0 ? null : boss.stats.health - clubPower - totalDamage;
+      const newBossHealth = clubPower + totalDamage === 0 ? null : boss.stats.health - clubPower - totalDamage;
 
-      // Update boss preview
-      bossCopy.preview.damage = newBossDamage;
-      bossCopy.preview.health = newBosshealth;
+      // Update boss preview (Set to string to skip !render on 0 falsy)
+      bossCopy.preview.damage = newBossDamage?.toString();
+      bossCopy.preview.health = newBossHealth?.toString();
 
       // Save status
       setBoss(bossCopy);
@@ -141,7 +141,7 @@ const useGame = () => {
 
         setDecks(() => {
           const castleDeck = makeCastle(cards);
-          const tavernDeck = makeTavern(cards);
+          const tavernDeck = makeTavern(cards, playerList.length);
 
           // Assign boss card and stats
           setBoss(() => {
@@ -153,11 +153,11 @@ const useGame = () => {
                 damage: lastCastleCard.damage,
                 health: lastCastleCard.health,
                 suit: lastCastleCard.suit,
-                powerEnabled: false,
+                powerDisabled: false,
               },
               preview: {
-                damage: 0,
-                health: 0,
+                damage: null,
+                health: null,
               },
             };
 
@@ -188,9 +188,12 @@ const useGame = () => {
             - current changes every turn. First element is shifted out
               > To reset current, set to original
         */
+          const cycleList = [];
+          playerList.forEach((player, index) => cycleList.push(index));
+
           setCycle({
-            original: [...Array(playerList.length).keys()],
-            current: [...Array(playerList.length).keys()],
+            original: [...cycleList],
+            current: [...cycleList],
           });
 
           /* Set ValidateButton (Handles enabling of Discard and Attack button) 
@@ -237,8 +240,8 @@ const useGame = () => {
     const bossCopy = _.cloneDeep(boss);
 
     // Reset Boss Preview
-    bossCopy.preview.damage = 0;
-    bossCopy.preview.health = 0;
+    bossCopy.preview.damage = null;
+    bossCopy.preview.health = null;
 
     // Save state
     setBoss(bossCopy);
@@ -255,13 +258,14 @@ const useGame = () => {
     const playersCopy = _.cloneDeep(players);
     const cycleCopy = _.cloneDeep(cycle);
     const currentPlayerIndex = cycleCopy.current[0];
+    let newStatus = "";
 
     // STEP 1: Play Cards
     // Get Suit Power values for activation and total damage
     const { spadePower, diamondPower, heartPower, clubPower, jesterPower, totalDamage } = getSuitPowersAndTotalDamage(
       currentPlayer.field,
       bossCopy.stats,
-      bossCopy.stats.powerEnabled
+      bossCopy.stats.powerDisabled
     );
 
     // STEP 2: Activate Suit Powers
@@ -291,7 +295,8 @@ const useGame = () => {
 
     // Nullify Boss Power
     if (jesterPower) {
-      activateJesterPower(bossCopy.stats);
+      activateJesterPower(jesterPower, bossCopy.stats);
+      newStatus = "select_player";
     }
 
     // STEP 3: Deal damage to boss and check condition
@@ -313,7 +318,7 @@ const useGame = () => {
     // boss still alive, switch status to boss attack
     if (!bossCondition.defeated) {
       // If boss does no damage, skip damage step
-      if (bossCopy.stats.damage === 0) {
+      if (bossCopy.stats.damage === 0 && !jesterPower) {
         // Set next player in cycle
         const cycleReset = updateCycle(cycleCopy);
         if (cycleReset) {
@@ -322,9 +327,9 @@ const useGame = () => {
           commitPlayedfield(playersCopy, discardDeck);
         }
 
-        setStatus("player_turn");
-      } else {
-        setStatus("boss_attack");
+        newStatus = "player_turn";
+      } else if (newStatus !== "select_player") {
+        newStatus = "boss_attack";
       }
     }
 
@@ -335,12 +340,12 @@ const useGame = () => {
       clearPlayfield(playersCopy);
       commitPlayedfield(playersCopy, discardDeck);
       resetCycle(cycle);
-      setStatus("player_turn");
+      newStatus = "player_turn";
     }
 
     // if all bosses dead, set game over win status
     if (bossCondition.gameOver) {
-      setStatus("game_over_win");
+      newStatus = "game_over_win";
     }
 
     // Update all deck, boss and player data
@@ -353,6 +358,9 @@ const useGame = () => {
     setCycle(cycleCopy);
     setBoss(bossCopy);
     setPlayers(playersCopy);
+    setTimeout(() => {
+      setStatus(newStatus);
+    }, 100);
   };
 
   const handlePlayerDiscard = () => {
@@ -389,6 +397,28 @@ const useGame = () => {
     });
   };
 
+  const handleSelect = (id) => {
+    // Create copy of cycle to modify
+    const cycleCopy = _.cloneDeep(cycle);
+
+    // Remove current player from beginning of cycle
+    cycleCopy.current.shift();
+
+    // Find index of selected player
+    const selectedIndex = cycleCopy.current.findIndex((index) => index === id);
+
+    // Remove selected player from cycle and move to first index
+    cycleCopy.current.splice(selectedIndex, 1);
+    cycleCopy.current.unshift(id);
+
+    // Update Current Player
+    setCurrentPlayer(players[cycleCopy.current[0]]);
+
+    // Save state and go to next player
+    setCycle(cycleCopy);
+    setStatus("player_turn");
+  };
+
   const handleGameOver = (condition) => {
     // condition = true or false
     // Leave game
@@ -415,6 +445,9 @@ const useGame = () => {
         break;
       case "Leave Lobby":
         handleLeaver();
+        break;
+      case "Select":
+        handleSelect(condition);
         break;
       default:
         break;

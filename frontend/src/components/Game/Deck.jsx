@@ -10,7 +10,7 @@ const Deck = (props) => {
   const bossCard = boss?.current;
   const bossStats = boss?.stats;
   const bossPreview = boss?.preview;
-  const jesterActive = bossStats?.powerEnabled;
+  const jesterActive = bossStats?.powerDisabled;
 
   // Get top cards of each deck to render front
   const lastDiscardCard =
@@ -49,14 +49,14 @@ const Deck = (props) => {
       {name === "castle" && (
         <div className={container}>
           <p className={containerTitle}>Enemy status</p>
-          {bossPreview.damage && bossPreview.damage !== bossStats.damage ? (
+          {bossPreview.damage ? (
             <p className="boss-stats">
               Attack: <span className="preview">{bossPreview.damage}</span>
             </p>
           ) : (
             <p className="boss-stats">Attack: {bossStats.damage}</p>
           )}
-          {bossPreview.health && bossPreview.health !== bossStats.health ? (
+          {bossPreview.health ? (
             <p className="boss-stats">
               Health: <span className="preview">{bossPreview.health}</span>
             </p>

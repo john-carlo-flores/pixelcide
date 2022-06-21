@@ -2,24 +2,30 @@ import Player from "./Player";
 import "../../styles/Game/PlayerList.scss";
 
 const PlayerList = (props) => {
-  const { players, user, moveCardTo, status, bossSuit, currentPlayer } = props;
+  const {
+    players,
+    user,
+    moveCardTo,
+    status,
+    boss,
+    currentPlayer,
+    handleCommands,
+  } = props;
 
-  const playerList = players.map((player) => {
+  const playerList = players.map((player, index) => {
     return (
       <div className="PlayerList">
         <Player
           key={player.id}
-          playerField={player.field}
-          playerHand={player.hand}
-          playerDiscard={player.discard}
-          playedCards={player.played}
-          playerName={player.username}
-          avatar={user.avatar_id}
+          index={index}
+          player={player}
           status={status}
-          bossSuit={bossSuit}
+          bossSuit={boss.stats?.suit}
+          jesterActive={boss.stats?.powerDisabled}
           moveCardTo={moveCardTo}
           owner={user.id === player.id}
           playerTurn={currentPlayer.id === player.id}
+          handleCommands={handleCommands}
         />
       </div>
     );

@@ -25,7 +25,11 @@ export function updateBossCondition(boss, castleDeck, discardDeck, tavernDeck) {
       damage: boss.current.damage,
       health: boss.current.health,
       suit: boss.current.suit,
-      powerEnabled: false,
+      powerDisabled: false,
+    };
+    boss.preview = {
+      damage: null,
+      health: null,
     };
   }
 
