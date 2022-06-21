@@ -55,7 +55,7 @@ export default function Navbar(props) {
           </div>
           <AnimatePresence>
             {openAvatarList && (
-              <motion.div exit={{ x: -400 }} animate={{ x: 0 }} className="avatar-list nes-container is-rounded">
+              <motion.div initial={{ x: -200 }} exit={{ x: -400 }} animate={{ x: 0 }} className="avatar-list nes-container is-rounded">
                 {avatarIds.map((id) => (
                   <div key={id} className="avatar-list-item nes-pointer" onClick={() => selectAvatar(id)}>
                     <Avatar id={id} />
