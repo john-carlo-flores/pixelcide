@@ -76,7 +76,7 @@ const Player = (props) => {
         />
         <div className="player-info">
           <img
-            src={`https://raw.githubusercontent.com/tothenextcode/pixelcide/feature/frontend/Game-UI/frontend/src/assets/avatars/${avatar}.png`}
+            src={`https://raw.githubusercontent.com/tothenextcode/pixelcide/4719b98b6e86c3722d5407182d15547969c5d32d/frontend/src/assets/avatars/${avatar}.svg`}
             alt="user avatar"
           />
           {playerName}
