@@ -11,12 +11,6 @@ const PlayerList = (props) => {
   const [viewPlayed, setViewPlayed] = useState(false);
 
   const playerList = players.map((player) => {
-    console.log(`Player ${player.username} [${player.id}]`);
-    console.log(
-      `currentPlayer ${currentPlayer.username} [${currentPlayer.id}]`
-    );
-    console.log(`Comparison ${currentPlayer.id === player.id}`);
-
     return (
       <div className="PlayerList">
         <Player
