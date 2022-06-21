@@ -1,4 +1,4 @@
-import { shuffle } from "./game-helpers";
+import { shuffle } from "lodash";
 
 export function getSuitPowersAndTotalDamage(
   playerField,
@@ -63,6 +63,9 @@ export function getSuitPowersAndTotalDamage(
 export function activateHeartPower(power, discardDeck, tavernDeck) {
   let cardsHealed;
 
+  // Shuffle discard deck before proceeding
+  discardDeck = shuffle(discardDeck);
+
   // If discard deck is less than or equal to number of cards to heal
   // Move all cards to bottom of tavern deck
   if (discardDeck.length > 0 && discardDeck.length <= power) {
@@ -77,6 +80,8 @@ export function activateHeartPower(power, discardDeck, tavernDeck) {
     cardsHealed = discardDeck.splice(-power, power);
     tavernDeck = [...cardsHealed, ...tavernDeck];
   }
+
+  return { discardUpdate: discardDeck, tavernUpdate: tavernDeck };
 }
 
 export function activateDiamondPower(
@@ -89,16 +94,13 @@ export function activateDiamondPower(
 ) {
   // Make a copy of player list to update player hands
   // Remove players from copy which are full
-  const playersList = [...players];
+  let cycleList = [...cycle];
 
   // Make a copy of draw amount to reduce per loop
   let cardsLeftToDraw = power;
 
   // Set start of draw cycle to player who activated power
-  let currentPlayer = nextPlayer(cycle, activePlayer);
-
-  // Shuffle deck before proceeding
-  tavernDeck = shuffle(tavernDeck);
+  let currentPlayer = nextPlayer(cycle, activePlayer, true);
 
   /* Draw Cards until:
       - All players hands are full
@@ -106,17 +108,19 @@ export function activateDiamondPower(
       - Tavern Deck is empty
   */
   while (
-    playersList.length !== 0 &&
+    cycleList.length !== 0 &&
     cardsLeftToDraw > 0 &&
     tavernDeck.length > 0
   ) {
     // If currentPlayer's hand is maxed out, remove from list of players to give out cards
-    if (playersList[currentPlayer].hand.length === maxHand) {
-      playersList.splice(currentPlayer, 1);
+    if (players[currentPlayer].hand.length === maxHand) {
+      cycleList = cycleList.filter((index) => index !== currentPlayer);
+      currentPlayer = nextPlayer(cycle, currentPlayer);
+      continue;
     }
 
     // Draw a card from tavern deck and give to player hand
-    currentPlayer.hand.push(tavernDeck.pop());
+    players[currentPlayer].hand.push(tavernDeck.pop());
 
     // Reduce total amount of cards left to draw
     cardsLeftToDraw--;
@@ -129,7 +133,7 @@ export function activateDiamondPower(
 function nextPlayer(cycle, currentPlayer, start = false) {
   const currentIndex = cycle.findIndex((index) => index === currentPlayer);
   if (start) return currentIndex;
-  return currentIndex + 1 > cycle.length ? 0 : currentIndex + 1;
+  return currentIndex + 1 === cycle.length ? 0 : currentIndex + 1;
 }
 
 export function activateSpadePower(power, bossStats) {
@@ -146,15 +150,23 @@ export function activateJesterPower(power, bossStats) {
 }
 
 export function commitPlayfield(players, index) {
-  players[index].field.foreach((card) => {
+  players[index].field.forEach((card) => {
     players[index].played.push(card);
   });
 }
 
 export function clearPlayfield(players) {
-  players.foreach((player) => {
+  players.forEach((player) => {
     player.field = [];
   });
+}
+
+export function commitPlayedfield(players, discardDeck) {
+  for (const player of players) {
+    while (player.played.length !== 0) {
+      discardDeck.push(player.played.pop());
+    }
+  }
 }
 
 // function to check if the card can be played into the playing field ie correct combos
@@ -211,4 +223,6 @@ export const playable = (theCard, playerField) => {
   ) {
     return true;
   }
+
+  return false;
 };
