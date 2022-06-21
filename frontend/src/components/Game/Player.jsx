@@ -43,44 +43,39 @@ const Player = (props) => {
   }, [status]);
 
   return (
-    <>
-      <div className="Player">
-        {view === "player-field" && (
-          <PlayerField
-            playerField={playerField}
-            moveCardTo={moveCardTo}
-            status={status}
-            bossSuit={bossSuit}
-            playerTurn={playerTurn}
-          />
-        )}
-        {view === "player-discard" && (
-          <PlayerDiscard
-            playerDiscard={playerDiscard}
-            moveCardTo={moveCardTo}
-            status={status}
-            bossSuit={bossSuit}
-            playerTurn={playerTurn}
-          />
-        )}
-        {view === "played-field" && <PlayedCards playedCards={playedCards} />}
-        <PlayerHand
-          playerHand={playerHand}
+    <div className="Player">
+      {view === "player-field" && (
+        <PlayerField
           playerField={playerField}
-          status={status}
           moveCardTo={moveCardTo}
-          playOn={playOn}
+          status={status}
+          bossSuit={bossSuit}
           playerTurn={playerTurn}
         />
-        <div className="player-info">
-          <img
-            src={`https://raw.githubusercontent.com/tothenextcode/pixelcide/4719b98b6e86c3722d5407182d15547969c5d32d/frontend/src/assets/avatars/${avatar}.svg`}
-            alt="user avatar"
-          />
-          {playerName}
-        </div>
+      )}
+      {view === "player-discard" && (
+        <PlayerDiscard
+          playerDiscard={playerDiscard}
+          moveCardTo={moveCardTo}
+          status={status}
+          bossSuit={bossSuit}
+          playerTurn={playerTurn}
+        />
+      )}
+      {view === "played-field" && <PlayedCards playedCards={playedCards} />}
+      <PlayerHand
+        playerHand={playerHand}
+        playerField={playerField}
+        status={status}
+        moveCardTo={moveCardTo}
+        playOn={playOn}
+        playerTurn={playerTurn}
+      />
+      <div className="player-info">
+        <Avatar id={avatar} />
+        {playerName}
       </div>
-    </>
+    </div>
   );
 };
 

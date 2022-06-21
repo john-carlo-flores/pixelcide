@@ -1,7 +1,5 @@
 import Card from "./Card";
 
-import { motion, LayoutGroup } from "framer-motion";
-
 const PlayerDiscard = (props) => {
   const { playerDiscard, moveCardTo, status, bossSuit, playerTurn } = props;
 
@@ -12,27 +10,12 @@ const PlayerDiscard = (props) => {
   };
 
   const playerDiscardList = playerDiscard.map((card) => (
-    <motion.div
-      layout
-      transition={{ ease: "easeIn", duration: 0.4, opacity: 0 }}
-      onClick={() => onClick(card)}
-      key={card.id}
-      className="player-field-card nes-pointer"
-    >
-      <Card
-        image={card.image_front}
-        warning={
-          card.suit === bossSuit && status !== "boss_attack" ? "warning" : ""
-        }
-      />
-    </motion.div>
+    <div layout transition={{ ease: "easeIn", duration: 0.4, opacity: 0 }} onClick={() => onClick(card)} key={card.id} className="player-field-card nes-pointer">
+      <Card image={card.image_front} warning={card.suit === bossSuit && status !== "boss_attack" ? "warning" : ""} />
+    </div>
   ));
 
-  return (
-    <LayoutGroup>
-      <motion.div className="player-field">{playerDiscardList}</motion.div>
-    </LayoutGroup>
-  );
+  return <div className="player-field">{playerDiscardList}</div>;
 };
 
 export default PlayerDiscard;
