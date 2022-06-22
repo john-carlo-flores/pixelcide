@@ -62,11 +62,17 @@ const useLobby = (socket) => {
       // Timeout for 2 secs before game starts
       setTimeout(() => {
         setLobby((prev) => {
-          return {
+          const gameLobby = {
             ...prev,
             mode: "Game",
             localChange: true,
           };
+
+          gameLobby.game.players = gameLobby.game.players.filter(
+            (player) => player !== "none"
+          );
+
+          return gameLobby;
         });
       }, 0);
     }
@@ -132,7 +138,9 @@ const useLobby = (socket) => {
       const seats = updatedLobby.game.players;
 
       // Check if existing user previously had a seat
-      const existingSeat = seats.findIndex((seat) => seat.username === player.username);
+      const existingSeat = seats.findIndex(
+        (seat) => seat.username === player.username
+      );
 
       // Empty out old seat
       if (existingSeat > -1) {
