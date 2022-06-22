@@ -33,8 +33,10 @@ const Game = (props) => {
     status,
     validate,
     decks,
+    cycle,
+    maxHand,
   } = useGame();
-  const { user, link, game, gamePlayers, updateGame } = props;
+  const { user, link, game, updateGame } = props;
 
   const socket = useContext(SocketContext);
   const [animation, SetAnimation] = useState(true);
@@ -47,6 +49,25 @@ const Game = (props) => {
       setup(game.players);
     }
   }, []);
+
+  useEffect(() => {
+    if (started && currentPlayer.id === user.id) {
+      const gameUpdates = {
+        started,
+        players,
+        currentPlayer,
+        boss,
+        status,
+        validate,
+        decks,
+      };
+
+      updateGame(gameUpdates);
+    }
+    if (started && currentPlayer !== user.id) {
+      setGame(game);
+    }
+  }, [started, players, boss, status, validate, decks]);
 
   useEffect(() => {
     if (started) {
