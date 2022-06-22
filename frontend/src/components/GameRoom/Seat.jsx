@@ -9,6 +9,8 @@ const Seat = (props) => {
   const { user, number, playerSeated, takeSeat, updateSeats } = props;
   const host = number === 0;
 
+  console.log("playerSeated", playerSeated);
+
   const addSeat = () => {
     updateSeats("+", number);
   };
@@ -23,7 +25,7 @@ const Seat = (props) => {
 
   return (
     <div className={styles.main}>
-      {playerSeated !== "none" ? (
+      {playerSeated !== "none" && playerSeated ? (
         <div className={`${styles.container} nes-container is-rounded`}>
           <div className={styles.header}>
             <h2>{!host ? "Player:" : "Host:"}</h2>
@@ -34,12 +36,14 @@ const Seat = (props) => {
             )}
           </div>
           <h2 className={styles.tag}>{playerSeated?.username || "<empty>"}</h2>
-          {!host && !user.host && playerSeated.empty ? (
+          {!host && !user.host && playerSeated?.empty ? (
             <div className={styles.btn}>
               <Button onClick={occupySeat}>Take Seat</Button>
             </div>
           ) : (
-            <div className={styles.footer}>{!playerSeated.empty && <Avatar id={playerSeated.avatar_id} />}</div>
+            <div className={styles.footer}>
+              {!playerSeated.empty && <Avatar id={playerSeated.avatar_id} />}
+            </div>
           )}
         </div>
       ) : (
