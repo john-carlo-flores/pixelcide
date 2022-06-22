@@ -13,17 +13,7 @@ import Avatar from "../Games/Avatar";
 import "../../styles/Game/Player.scss";
 
 const Player = (props) => {
-  const {
-    index,
-    player,
-    status,
-    bossSuit,
-    jesterActive,
-    moveCardTo,
-    owner,
-    playerTurn,
-    handleCommands,
-  } = props;
+  const { index, player, status, bossSuit, jesterActive, moveCardTo, owner, playerTurn, handleCommands } = props;
 
   const [playOn] = useSound(cardFlipSound);
 
@@ -47,45 +37,20 @@ const Player = (props) => {
   return (
     <div className="Player">
       {view === "player-field" && (
-        <PlayerField
-          playerField={player.field}
-          moveCardTo={moveCardTo}
-          status={status}
-          bossSuit={bossSuit}
-          jesterActive={jesterActive}
-          playerTurn={playerTurn}
-          owner={owner}
-        />
+        <PlayerField playerField={player.field} moveCardTo={moveCardTo} status={status} bossSuit={bossSuit} jesterActive={jesterActive} playerTurn={playerTurn} owner={owner} />
       )}
       {view === "player-discard" && (
-        <PlayerDiscard
-          playerDiscard={player.discard}
-          moveCardTo={moveCardTo}
-          status={status}
-          bossSuit={bossSuit}
-          playerTurn={playerTurn}
-          owner={owner}
-        />
+        <PlayerDiscard playerDiscard={player.discard} moveCardTo={moveCardTo} status={status} bossSuit={bossSuit} playerTurn={playerTurn} owner={owner} />
       )}
-      {view === "player-select" && (
-        <PlayerSelect
-          onSelect={() => handleCommands("Select", index)}
-          playerTurn={playerTurn}
-        />
-      )}
+      {view === "player-select" && <PlayerSelect onSelect={() => handleCommands("Select", index)} playerTurn={playerTurn} />}
       {view === "played-field" && <PlayedCards playedCards={player.played} />}
-      <PlayerHand
-        playerHand={player.hand}
-        playerField={player.field}
-        status={status}
-        moveCardTo={moveCardTo}
-        playOn={playOn}
-        playerTurn={playerTurn}
-        owner={owner}
-      />
+      <PlayerHand playerHand={player.hand} playerField={player.field} status={status} moveCardTo={moveCardTo} playOn={playOn} playerTurn={playerTurn} owner={owner} />
       <div className="player-info">
         <Avatar id={player.avatar_id} />
         {player.username}
+        <div title="Card count" className="card-count">
+          {player.hand.length}
+        </div>
       </div>
     </div>
   );
