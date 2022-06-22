@@ -36,7 +36,7 @@
     flex-direction: column;
     align-items: center;
     color: white;
-
+    position: relative;
     img {
       border-radius: 50%;
       width: 3rem;
@@ -44,6 +44,23 @@
       image-rendering: pixelated;
       background-color: rgba(236, 236, 224, 0.1);
       backdrop-filter: 10px;
+    }
+    .card-count {
+      position: absolute;
+      right: -1rem;
+      border-radius: 50%;
+      width: 1.8rem;
+      height: 1.8rem;
+      text-align: center;
+      background-color: #e2b436;
+      backdrop-filter: blur(10px);
+      vertical-align: middle;
+      font-size: 0.9rem;
+      display: flex;
+      text-align: center;
+      justify-content: center;
+      padding: 0.4rem;
+      color: #3b2130;
     }
   }
 

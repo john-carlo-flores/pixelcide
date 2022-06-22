@@ -38,7 +38,7 @@ const Lobby = (props) => {
       </div>
       <div className={styles.footer}>
         {full ? (
-          <div className="nes-container is-rounded">
+          <div className={`nes-container is-rounded ${styles.isError}`}>
             <span className="is-error">Full</span>
           </div>
         ) : (

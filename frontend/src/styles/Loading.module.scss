@@ -3,14 +3,21 @@
   left: 35vw;
   height: 10vh;
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
+  background-color: #e76e55;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  left: 0;
+  overflow: hidden;
 }
 
 .img {
-  object-fit: contain;
+  margin-top: 8rem;
+  // transform: scale(0.7);
 }
 
-.loadingText {
-  text-align: center;
-  color: whitesmoke;
-}
+// .loadingText {
+//   text-align: center;
+//   color: whitesmoke;
+// }

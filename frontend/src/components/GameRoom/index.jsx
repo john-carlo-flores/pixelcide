@@ -77,28 +77,28 @@ const GameRoom = (props) => {
     // eslint-disable-next-line
   }, [socket]);
 
-  const fakePlayers = [
-    {
-      id: 1,
-      username: "picklerick",
-      avatar_id: 1,
-    },
-    {
-      id: 2,
-      username: "hyrule",
-      avatar_id: 2,
-    },
-    {
-      id: 3,
-      username: "gagan420",
-      avatar_id: 3,
-    },
-    {
-      id: 4,
-      username: "momotrq94",
-      avatar_id: 4,
-    },
-  ];
+  // const fakePlayers = [
+  //   {
+  //     id: 1,
+  //     username: "picklerick",
+  //     avatar_id: 1,
+  //   },
+  //   {
+  //     id: 2,
+  //     username: "hyrule",
+  //     avatar_id: 2,
+  //   },
+  //   {
+  //     id: 3,
+  //     username: "gagan420",
+  //     avatar_id: 3,
+  //   },
+  //   {
+  //     id: 4,
+  //     username: "momotrq94",
+  //     avatar_id: 4,
+  //   },
+  // ];
 
   return (
     <>
@@ -127,9 +127,7 @@ const GameRoom = (props) => {
         </>
       )}
       {mode === "Loading" && <Loading />}
-      {mode === "Game" && (
-        <Game user={user} game={game} gamePlayers={fakePlayers} />
-      )}
+      {mode === "Game" && <Game user={user} game={game} />}
     </>
   );
 };

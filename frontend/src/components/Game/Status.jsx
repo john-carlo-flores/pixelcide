@@ -2,7 +2,7 @@ import "../../styles/Game/Status.scss";
 import Button from "../Button";
 import { Link } from "react-router-dom";
 
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { FaRegFlag } from "react-icons/fa";
 
@@ -76,7 +76,7 @@ const Status = (props) => {
               <Button error>BACK TO MENU</Button>
             </Link>
           </div>
-          <div>YOU LOSE</div>
+          <div className="game-over">YOU LOSE</div>
         </div>
       )}
     </div>
