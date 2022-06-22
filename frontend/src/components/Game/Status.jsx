@@ -7,8 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaRegFlag } from "react-icons/fa";
 
 const Status = (props) => {
-  const { handleCommands, validate, currentPlayer } = props;
-  const status = "boss_turn";
+  const { status, handleCommands, validate, currentPlayer } = props;
+
   return (
     <div className="Status">
       <AnimatePresence>

@@ -4,6 +4,7 @@ import "../../styles/Leaderboard/Leaderboard.scss";
 import axios from "axios";
 import backBtn from "../../assets/icons/back.svg";
 import { useEffect, useState } from "react";
+import Avatar from "../Games/Avatar";
 
 const Leaderboard = (props) => {
   const { userAuth, user, logout, updateUserAvatar } = props;
@@ -42,7 +43,12 @@ const Leaderboard = (props) => {
                 leaderboardData.map((user, i) => (
                   <div className="row" key={i}>
                     <div className="col">{user.rank}</div>
-                    <div className="col">{user.username}</div>
+                    <div className="col avatar-column">
+                      <div className="avatar">
+                        <Avatar id={user.avatar_id} />
+                      </div>
+                      {user.username}
+                    </div>
                     <div className="col">{user.total_wins}</div>
                     <div className="col">{`${user.win_percentage.toFixed(2)}%`}</div>
                     <div className="col">{user.total_moves}</div>
