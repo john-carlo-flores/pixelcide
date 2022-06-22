@@ -3,14 +3,20 @@
   left: 35vw;
   height: 10vh;
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
+  background-color: #3b324a;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  left: 0;
+  overflow: hidden;
 }
 
 .img {
-  object-fit: contain;
+  transform: scale(0.9);
 }
 
-.loadingText {
-  text-align: center;
-  color: whitesmoke;
-}
+// .loadingText {
+//   text-align: center;
+//   color: whitesmoke;
+// }
