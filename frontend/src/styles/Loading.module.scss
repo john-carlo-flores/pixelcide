@@ -4,7 +4,7 @@
   height: 10vh;
   display: flex;
   flex-direction: column;
-  background-color: #3b324a;
+  background-color: #e76e55;
   height: 100vh;
   width: 100vw;
   position: absolute;
@@ -13,7 +13,8 @@
 }
 
 .img {
-  transform: scale(0.9);
+  margin-top: 8rem;
+  // transform: scale(0.7);
 }
 
 // .loadingText {
