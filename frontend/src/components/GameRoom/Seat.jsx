@@ -9,8 +9,6 @@ const Seat = (props) => {
   const { user, number, playerSeated, takeSeat, updateSeats } = props;
   const host = number === 0;
 
-  console.log("playerSeated", playerSeated);
-
   const addSeat = () => {
     updateSeats("+", number);
   };
