@@ -7,7 +7,7 @@ import styles from "../../styles/GameRoom/Room.module.scss";
 const Room = (props) => {
   const {
     user,
-    handleStartGame,
+    handleSetupGame,
     seats,
     updateSeats,
     takeSeat,
@@ -32,7 +32,7 @@ const Room = (props) => {
       )}
       <div className={styles.buttonContainer}>
         {user.host && (
-          <Button onClick={handleStartGame} success>
+          <Button onClick={handleSetupGame} success>
             Start Game
           </Button>
         )}

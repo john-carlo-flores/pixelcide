@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import _ from "lodash";
 
 const useLobby = (socket) => {
   const [lobby, setLobby] = useState({
@@ -9,24 +10,32 @@ const useLobby = (socket) => {
     },
   });
 
-  useEffect(() => {
-    // If lobby is changed locally, broadcast to other users
-    if (lobby.link && lobby?.localChange) {
-      socket.emit("Update Lobby", lobby);
-    }
-    //eslint-disable-next-line
-  }, [lobby]);
+  const publishChanges = (lobby) => {
+    socket.emit("Update Lobby", lobby);
+  };
+
+  const updateLobby = (data, send = true) => {
+    setLobby((prev) => {
+      const updatedLobby = {
+        ...prev,
+        ...data,
+      };
+
+      if (send) publishChanges(updatedLobby);
+
+      return updatedLobby;
+    });
+  };
 
   const allSeatsFilled = () => {
     for (const seat of lobby.game.players) {
       if (seat.empty) {
-        setLobby((prev) => {
-          return {
-            ...prev,
+        updateLobby(
+          {
             error: "All empty seats must be filled to start the game!",
-            localChange: true,
-          };
-        });
+          },
+          false
+        );
 
         return false;
       }
@@ -46,67 +55,49 @@ const useLobby = (socket) => {
     socket.emit("Create New Lobby", host);
   };
 
-  const startGame = () => {
+  const setupGame = () => {
     // Make sure all seats set are filled
     if (allSeatsFilled()) {
-      // Clear error and set to Loading
-      setLobby((prev) => {
-        return {
-          ...prev,
-          error: null,
-          mode: "Loading",
-          localChange: true,
-        };
+      // Filter players and remove empty seats
+      const gameCopy = _.cloneDeep(lobby.game);
+      gameCopy.players = gameCopy.players.filter((player) => player !== "none");
+
+      // Clear error and start game
+      updateLobby({
+        error: null,
+        mode: "Setup",
+        game: gameCopy,
       });
-
-      // Timeout for 2 secs before game starts
-      setTimeout(() => {
-        setLobby((prev) => {
-          const gameLobby = {
-            ...prev,
-            mode: "Game",
-            localChange: true,
-          };
-
-          gameLobby.game.players = gameLobby.game.players.filter(
-            (player) => player !== "none"
-          );
-
-          return gameLobby;
-        });
-      }, 0);
     }
   };
 
-  const assignLobbyTitle = (title) => {
-    setLobby((prev) => {
-      const updatedLobby = {
-        ...prev,
-        title,
-        localChange: true,
-      };
-      return updatedLobby;
-    });
-  };
-
-  const updateLobby = (lobby, newMode = false) => {
-    setLobby((prev) => {
-      return {
-        ...lobby,
-        mode: newMode || prev.mode,
-        localChange: false,
-      };
+  const startGame = (game) => {
+    updateLobby({
+      mode: "Game",
+      game,
     });
   };
 
   const updateGame = (game) => {
-    setLobby((prev) => {
-      return {
-        ...prev,
-        game,
-        localChange: true,
-      };
+    updateLobby({ game });
+  };
+
+  const assignLobbyTitle = (title) => {
+    updateLobby({
+      title,
     });
+  };
+
+  const updateLocalLobby = (lobby, newMode = false) => {
+    const data = {
+      ...lobby,
+    };
+
+    if (newMode) {
+      data.mode = newMode;
+    }
+
+    updateLobby(data, false);
   };
 
   const cancelLobby = () => {
@@ -122,6 +113,7 @@ const useLobby = (socket) => {
         setLobby((prev) => {
           const updatedLobby = { ...prev, localChange: true };
           updatedLobby.game.players[seat] = { empty: true };
+          publishChanges(updatedLobby);
 
           return updatedLobby;
         });
@@ -132,6 +124,7 @@ const useLobby = (socket) => {
         setLobby((prev) => {
           const updatedLobby = { ...prev, localChange: true };
           updatedLobby.game.players[seat] = "none";
+          publishChanges(updatedLobby);
 
           return updatedLobby;
         });
@@ -166,6 +159,8 @@ const useLobby = (socket) => {
         empty: false,
       };
 
+      publishChanges(updatedLobby);
+
       return updatedLobby;
     });
   };
@@ -175,12 +170,13 @@ const useLobby = (socket) => {
     takeSeat,
     updateSeats,
     hostGame,
+    setupGame,
     startGame,
     updateGame,
     setLobby,
     cancelLobby,
     assignLobbyTitle,
-    updateLobby,
+    updateLocalLobby,
     mode: lobby.mode,
     seats: lobby?.game?.players,
     game: lobby.game,

@@ -11,7 +11,8 @@ import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 
 export default function Homepage(props) {
   const { user, userAuth, logout, updateUserAvatar } = props;
-  const { hostGame, lobby, assignLobbyTitle, cancelLobby, updateLobby } = props.state;
+  const { hostGame, lobby, assignLobbyTitle, cancelLobby, updateLocalLobby } =
+    props.state;
   const [createLobby, setCreateLobby] = useState({ create: false });
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
@@ -38,7 +39,8 @@ export default function Homepage(props) {
     socket.on("Get Created Lobby", (createdLobby) => {
       if (!createdLobby) {
         return setCreateLobby({
-          error: "Reached maximum amount of rooms alloted. Please join existing games or try again later.",
+          error:
+            "Reached maximum amount of rooms alloted. Please join existing games or try again later.",
         });
       }
 
@@ -46,14 +48,19 @@ export default function Homepage(props) {
 
       // Allow lobby creation
       setCreateLobby({ create: true });
-      updateLobby(createdLobby);
+      updateLocalLobby(createdLobby);
     });
   }, []);
 
   return (
     <>
       <div className="Homepage"></div>
-      <Navbar updateUserAvatar={updateUserAvatar} userAuth={userAuth} user={user} logout={logout} />
+      <Navbar
+        updateUserAvatar={updateUserAvatar}
+        userAuth={userAuth}
+        user={user}
+        logout={logout}
+      />
       <div className="Menu">
         <h1 className="Title">Pixelcide</h1>
         <div className="Buttons">
@@ -61,22 +68,42 @@ export default function Homepage(props) {
             <AnimatePresence>
               {props.user && (
                 <>
-                  <motion.div initial={{ opacity: 0, y: -200 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -200 }} transition={{ duration: 0.5 }}>
+                  <motion.div
+                    initial={{ opacity: 0, y: -200 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -200 }}
+                    transition={{ duration: 0.5 }}
+                  >
                     <Button onClick={onHost} error>
                       Host Game
                     </Button>
                   </motion.div>
-                  <motion.div initial={{ opacity: 0, y: -200 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -200 }} transition={{ duration: 0.4 }}>
+                  <motion.div
+                    initial={{ opacity: 0, y: -200 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -200 }}
+                    transition={{ duration: 0.4 }}
+                  >
                     <Link to="games">
                       <Button error>Join Game</Button>
                     </Link>
                   </motion.div>
-                  <motion.div initial={{ opacity: 0, y: -200 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -200 }} transition={{ duration: 0.3 }}>
+                  <motion.div
+                    initial={{ opacity: 0, y: -200 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -200 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     <Link to="statistics">
                       <Button error>Statistics</Button>
                     </Link>
                   </motion.div>
-                  <motion.div initial={{ opacity: 0, y: -200 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -200 }} transition={{ duration: 0.2 }}>
+                  <motion.div
+                    initial={{ opacity: 0, y: -200 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -200 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <Link to="leaderboard">
                       <Button error>Leaderboard</Button>
                     </Link>
@@ -86,7 +113,13 @@ export default function Homepage(props) {
             </AnimatePresence>
             <AnimatePresence>
               {!props.user && (
-                <motion.div layout initial={{ opacity: 0, y: -600 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 120 }} transition={{ duration: 0.5 }}>
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, y: -600 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 120 }}
+                  transition={{ duration: 0.5 }}
+                >
                   <Link to="signup">
                     <Button error>Sign Up</Button>
                   </Link>
@@ -96,7 +129,9 @@ export default function Homepage(props) {
           </LayoutGroup>
         </div>
       </div>
-      {createLobby.create && <LobbyCreation onCancel={onCancel} onCreate={onCreate} />}
+      {createLobby.create && (
+        <LobbyCreation onCancel={onCancel} onCreate={onCreate} />
+      )}
       {createLobby.error && <p>{createLobby.error}</p>}
     </>
   );

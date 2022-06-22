@@ -11,28 +11,28 @@ import { SocketContext } from "../../context/socket";
 
 import styles from "../../styles/GameRoom/GameRoom.module.scss";
 
-// const fakePlayers = [
-//   {
-//     id: 1,
-//     username: "picklerick",
-//     avatar_id: 1,
-//   },
-//   {
-//     id: 2,
-//     username: "hyrule",
-//     avatar_id: 2,
-//   },
-//   {
-//     id: 3,
-//     username: "gagan420",
-//     avatar_id: 3,
-//   },
-//   {
-//     id: 4,
-//     username: "momotrq94",
-//     avatar_id: 4,
-//   },
-// ];
+const fakePlayers = [
+  {
+    id: 1,
+    username: "picklerick",
+    avatar_id: 1,
+  },
+  {
+    id: 2,
+    username: "hyrule",
+    avatar_id: 2,
+  },
+  {
+    id: 3,
+    username: "gagan420",
+    avatar_id: 3,
+  },
+  {
+    id: 4,
+    username: "momotrq94",
+    avatar_id: 4,
+  },
+];
 
 const GameRoom = (props) => {
   const { user, userAuth, logout, updateUserAvatar } = props;
@@ -46,8 +46,9 @@ const GameRoom = (props) => {
     takeSeat,
     updateSeats,
     startGame,
+    setupGame,
     updateGame,
-    updateLobby,
+    updateLocalLobby,
     mode,
     seats,
     game,
@@ -73,7 +74,7 @@ const GameRoom = (props) => {
       socket.emit("Request Lobby", id);
     } else {
       // Update state to Room
-      updateLobby(lobby, "Room");
+      updateLocalLobby(lobby, "Room");
     }
 
     // Check and assign if user is host
@@ -101,12 +102,12 @@ const GameRoom = (props) => {
       }
 
       // Set lobby based on recieved lobby from listener and update mode
-      updateLobby(newLobby, "Room");
+      updateLocalLobby(newLobby, "Room");
     });
 
     // Listens for all update lobby broadcasts
     socket.on("Update Lobby", (lobby) => {
-      updateLobby(lobby);
+      updateLocalLobby(lobby);
     });
 
     // eslint-disable-next-line
@@ -130,7 +131,7 @@ const GameRoom = (props) => {
           <h1 className={styles.Title}>{`<${lobby.title}>`}</h1>
           <Room
             user={user}
-            handleStartGame={startGame}
+            handleSetupGame={setupGame}
             seats={seats}
             updateSeats={updateSeats}
             takeSeat={takeSeat}
@@ -140,8 +141,14 @@ const GameRoom = (props) => {
         </>
       )}
       {mode === "Loading" && <Loading />}
-      {mode === "Game" && (
-        <Game user={user} game={game} link={id} updateGame={updateGame} />
+      {((mode === "Setup" && user.host) || mode === "Game") && (
+        <Game
+          user={user}
+          game={game}
+          link={id}
+          startGame={startGame}
+          updateGame={updateGame}
+        />
       )}
     </>
   );
