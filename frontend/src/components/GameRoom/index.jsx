@@ -46,6 +46,7 @@ const GameRoom = (props) => {
     takeSeat,
     updateSeats,
     startGame,
+    updateGame,
     updateLobby,
     mode,
     seats,
@@ -139,7 +140,9 @@ const GameRoom = (props) => {
         </>
       )}
       {mode === "Loading" && <Loading />}
-      {mode === "Game" && <Game user={user} game={game} link={id} />}
+      {mode === "Game" && (
+        <Game user={user} game={game} link={id} updateGame={updateGame} />
+      )}
     </>
   );
 };

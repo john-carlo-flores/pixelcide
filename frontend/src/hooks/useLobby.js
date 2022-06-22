@@ -99,6 +99,16 @@ const useLobby = (socket) => {
     });
   };
 
+  const updateGame = (game) => {
+    setLobby((prev) => {
+      return {
+        ...prev,
+        game,
+        localChange: true,
+      };
+    });
+  };
+
   const cancelLobby = () => {
     socket.emit("Cancel Lobby", lobby);
     setLobby({});
@@ -166,6 +176,7 @@ const useLobby = (socket) => {
     updateSeats,
     hostGame,
     startGame,
+    updateGame,
     setLobby,
     cancelLobby,
     assignLobbyTitle,
