@@ -31,9 +31,11 @@ const Room = (props) => {
         </div>
       )}
       <div className={styles.buttonContainer}>
-        <Button onClick={handleStartGame} success>
-          Start Game
-        </Button>
+        {user.host && (
+          <Button onClick={handleStartGame} success>
+            Start Game
+          </Button>
+        )}
         <Link to="/games">
           <Button onClick={leaveRoom} warning>
             Leave Lobby
