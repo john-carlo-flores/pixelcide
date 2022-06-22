@@ -20,6 +20,9 @@ const Games = (props) => {
     // Request list of lobbies to render
     socket.emit("Request Lobbies");
 
+    // Join lobbies room for socket
+    socket.emit("Join Room", "lobbies");
+
     // Render list of lobbies
     socket.on("Get Lobbies", (lobbies) => {
       setLobbies(lobbies);
@@ -29,16 +32,31 @@ const Games = (props) => {
     // eslint-disable-next-line
   }, []);
 
+  const leaveRoom = () => {
+    // Join lobbies room for socket
+    socket.emit("Leave Room", "lobbies");
+  };
+
   return (
     <>
       <div className={styles.Homepage}></div>
-      <Navbar userAuth={userAuth} updateUserAvatar={updateUserAvatar} user={user} logout={logout} />
+      <Navbar
+        userAuth={userAuth}
+        updateUserAvatar={updateUserAvatar}
+        user={user}
+        logout={logout}
+      />
       <div className={styles.container}>
-        <FilterLobby lobbies={lobbies} setFilteredLobbies={setFilteredLobbies} />
-        {filteredLobbies && <LobbyList lobbies={filteredLobbies} />}
+        <FilterLobby
+          lobbies={lobbies}
+          setFilteredLobbies={setFilteredLobbies}
+        />
+        {filteredLobbies && (
+          <LobbyList lobbies={filteredLobbies} onClick={leaveRoom} />
+        )}
       </div>
       <Link to="/" className={styles.back}>
-        <img src={backBtn} alt="back button" />
+        <img src={backBtn} alt="back button" onClick={leaveRoom} />
       </Link>
     </>
   );

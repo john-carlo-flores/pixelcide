@@ -107,7 +107,10 @@ module.exports = (sessionMiddleware, httpServer) => {
       console.log("Updated Lobby");
       console.log(updatedLobby);
 
+      const lobbies = ls.listLobbies();
+
       socket.broadcast.to(updatedLobby.link).emit("Update Lobby", updatedLobby);
+      socket.broadcast.to("lobbies").emit("Get Lobbies", lobbies);
     });
 
     /* ------------- ROOMS ------------- */
