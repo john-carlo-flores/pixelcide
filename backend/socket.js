@@ -90,7 +90,8 @@ module.exports = (sessionMiddleware, httpServer) => {
       console.log("Cancel Lobby");
       ls.cancelLobby(lobby);
 
-      ls.listLobbies();
+      const lobbies = ls.listLobbies();
+      socket.broadcast.to("lobbies").emit("Get Lobbies", lobbies);
     });
 
     socket.on("Request Lobby", (link) => {
