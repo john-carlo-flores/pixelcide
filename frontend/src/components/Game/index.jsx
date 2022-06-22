@@ -5,7 +5,8 @@ import PlayerAid from "./PlayerAid";
 import Chat from "./Chat";
 import Loading from "../Loading";
 
-import { useEffect, useState } from "react";
+import { SocketContext } from "../../context/socket";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import useGame from "../../hooks/useGame";
 
@@ -33,8 +34,9 @@ const Game = (props) => {
     validate,
     decks,
   } = useGame();
-  const { user, game, gamePlayers, updateGame } = props;
+  const { user, link, game, gamePlayers, updateGame } = props;
 
+  const socket = useContext(SocketContext);
   const [animation, SetAnimation] = useState(true);
 
   // initial game set up
@@ -54,6 +56,10 @@ const Game = (props) => {
       SetAnimation(false);
     }, 2000);
   }, [started]);
+
+  const leaveRoom = () => {
+    socket.emit("Leave Room", link);
+  };
 
   return (
     <>
@@ -112,7 +118,7 @@ const Game = (props) => {
             />
             <motion.div className="close-icon">
               <Link to={"/"}>
-                <img src={closeIcon} alt="" />
+                <img src={closeIcon} alt="" onClick={leaveRoom} />
               </Link>
             </motion.div>
 

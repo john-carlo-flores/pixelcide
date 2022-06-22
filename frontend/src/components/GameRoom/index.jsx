@@ -54,7 +54,14 @@ const GameRoom = (props) => {
   } = props.state;
 
   const leaveRoom = () => {
+    // If user leaves lobby, cancel it
+    if (user.host) {
+      socket.emit("Cancel Lobby", lobby);
+    }
+
+    // leave lobby room listener and join lobbies listener
     socket.emit("Leave Room", id);
+    socket.emit("Join Room", "lobbies");
   };
 
   useEffect(() => {
@@ -132,7 +139,7 @@ const GameRoom = (props) => {
         </>
       )}
       {mode === "Loading" && <Loading />}
-      {mode === "Game" && <Game user={user} game={game} />}
+      {mode === "Game" && <Game user={user} game={game} link={id} />}
     </>
   );
 };
