@@ -4,7 +4,7 @@ import "../../styles/Game/Deck.scss";
 import classNames from "classnames";
 
 const Deck = (props) => {
-  const { deck, name, boss } = props;
+  const { deck, name, boss, playerTurn } = props;
 
   // Declare boss sub components
   const bossCard = boss?.current;
@@ -49,14 +49,14 @@ const Deck = (props) => {
       {name === "castle" && (
         <div className={container}>
           <p className={containerTitle}>Enemy status</p>
-          {bossPreview.damage ? (
+          {bossPreview.damage && playerTurn ? (
             <p className="boss-stats">
               Attack: <span className="preview">{bossPreview.damage}</span>
             </p>
           ) : (
             <p className="boss-stats">Attack: {bossStats.damage}</p>
           )}
-          {bossPreview.health ? (
+          {bossPreview.health && playerTurn ? (
             <p className="boss-stats">
               Health: <span className="preview">{bossPreview.health}</span>
             </p>

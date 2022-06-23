@@ -118,6 +118,7 @@ const Game = (props) => {
               discard={decks.discard}
               castle={decks.castle}
               boss={boss}
+              playerTurn={user.id === currentPlayer.id}
             />
             <Status
               status={status}
