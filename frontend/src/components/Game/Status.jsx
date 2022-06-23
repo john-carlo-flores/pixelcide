@@ -7,8 +7,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaRegFlag } from "react-icons/fa";
 
 const Status = (props) => {
-  const { status, handleCommands, validate, currentPlayer, onBackToMenu } =
-    props;
+  const {
+    status,
+    handleCommands,
+    validate,
+    currentPlayer,
+    onBackToMenu,
+    playerTurn,
+  } = props;
 
   return (
     <div className="Status">
@@ -25,7 +31,10 @@ const Status = (props) => {
           </motion.div>
         )}
       </AnimatePresence>
-
+      {(status === "player_attack" || status === "boss_attack") &&
+        !playerTurn && (
+          <div className="player-turn center">{`-- ${currentPlayer.username}'s TURN --`}</div>
+        )}
       <AnimatePresence>
         {status === "boss_turn" && (
           <motion.div
@@ -41,7 +50,7 @@ const Status = (props) => {
       </AnimatePresence>
 
       <AnimatePresence>
-        {status === "player_attack" && (
+        {status === "player_attack" && playerTurn && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -65,7 +74,7 @@ const Status = (props) => {
       </AnimatePresence>
 
       <AnimatePresence>
-        {status === "boss_attack" && (
+        {status === "boss_attack" && playerTurn && (
           <motion.div
             layout
             initial={{ opacity: 0, y: 20 }}

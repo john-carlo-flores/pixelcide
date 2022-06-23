@@ -10,11 +10,17 @@ import { BsFillSuitHeartFill } from "react-icons/bs";
 import { BsFillDiamondFill } from "react-icons/bs";
 import { GiJesterHat } from "react-icons/gi";
 
-const PlayerAid = ({ playerField, status, jesterActive, bossSuit }) => {
+const PlayerAid = ({
+  playerField,
+  status,
+  jesterActive,
+  bossSuit,
+  playerTurn,
+}) => {
   const [toggleRow, setToggleRow] = useState([]);
 
   useEffect(() => {
-    if (status === "player_attack") {
+    if (status === "player_attack" && playerTurn) {
       const currentCards = [];
       for (const card of playerField) {
         currentCards.push(card.suit);

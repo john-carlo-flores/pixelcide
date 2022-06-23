@@ -111,6 +111,7 @@ const Game = (props) => {
               status={status}
               jesterActive={boss.stats?.powerDisabled}
               bossSuit={boss.stats?.suit}
+              playerTurn={user.id === currentPlayer.id}
             />
             <DeckList
               tavern={decks.tavern}
@@ -124,6 +125,7 @@ const Game = (props) => {
               validate={validate}
               currentPlayer={currentPlayer}
               onBackToMenu={onBackToMenu}
+              playerTurn={user.id === currentPlayer.id}
             />
             <PlayerList
               players={players}
