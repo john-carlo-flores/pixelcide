@@ -43,19 +43,16 @@ const useGame = (socket, link, user) => {
   const [messages, setMessages] = useState([]);
 
   const updateGame = (key, data, local = true) => {
-    if (key === "cycle" || key === "currentPlayer" || key === "messages") {
-      console.log("updateGame");
-      console.log("key", key);
-      console.log("data", data);
-      console.log("local", local);
-    }
     let changes = data;
 
     switch (key) {
       case "decks":
         setDecks((prev) => {
           changes = { ...prev, ...data };
-          if (local) return changes;
+          if (local) {
+            socket.emit("Update Game", link, key, changes);
+            return changes;
+          }
 
           return data;
         });
@@ -63,7 +60,10 @@ const useGame = (socket, link, user) => {
       case "boss":
         setBoss((prev) => {
           changes = { ...prev, ...data };
-          if (local) return changes;
+          if (local) {
+            socket.emit("Update Game", link, key, changes);
+            return changes;
+          }
 
           return data;
         });
@@ -71,21 +71,38 @@ const useGame = (socket, link, user) => {
       case "cycle":
         setCycle((prev) => {
           changes = { ...prev, ...data };
-          if (local) return changes;
+          if (local) {
+            socket.emit("Update Game", link, key, changes);
+            return changes;
+          }
 
           return data;
         });
         break;
       case "players":
-        setPlayers([...data]);
+        setPlayers(() => {
+          changes = [...data];
+          if (local) {
+            socket.emit("Update Game", link, key, changes);
+            return changes;
+          }
+
+          return data;
+        });
         break;
       case "status":
-        setStatus(data);
+        setStatus(() => {
+          if (local) socket.emit("Update Game", link, key, data);
+          return data;
+        });
         break;
       case "validate":
         setValidate((prev) => {
           changes = { ...prev, ...data };
-          if (local) return changes;
+          if (local) {
+            socket.emit("Update Game", link, key, changes);
+            return changes;
+          }
 
           return data;
         });
@@ -93,21 +110,34 @@ const useGame = (socket, link, user) => {
       case "currentPlayer":
         setCurrentPlayer((prev) => {
           changes = { ...prev, ...data };
-          if (local) return changes;
+          if (local) {
+            socket.emit("Update Game", link, key, changes);
+            return changes;
+          }
 
           return data;
         });
         break;
       case "maxHand":
-        setMaxHand(data);
+        setMaxHand(() => {
+          if (local) socket.emit("Update Game", link, key, data);
+          return data;
+        });
         break;
       case "started":
-        setStarted(data);
+        setStarted(() => {
+          if (local) socket.emit("Update Game", link, key, data);
+          return data;
+        });
+
         break;
       case "messages":
         setMessages((prev) => {
           changes = [data, ...prev];
-          if (local) return changes;
+          if (local) {
+            socket.emit("Update Game", link, key, changes);
+            return changes;
+          }
 
           return data;
         });
@@ -115,8 +145,6 @@ const useGame = (socket, link, user) => {
       default:
         return;
     }
-
-    if (local) socket.emit("Update Game", link, key, changes);
   };
 
   useEffect(() => {
@@ -213,8 +241,6 @@ const useGame = (socket, link, user) => {
   }, [status, currentPlayer]);
 
   const setGame = (game) => {
-    console.log("setGame", game);
-
     // If game is already started, setGame state on refresh
     setDecks(_.cloneDeep(game.decks));
     setBoss(_.cloneDeep(game.boss));
@@ -277,8 +303,6 @@ const useGame = (socket, link, user) => {
           // Assign starting hand for each player
           setPlayers(() => {
             game.players = playerList.map((player) => {
-              console.log("before makeHand", game.decks.tavern);
-
               return {
                 ...player,
                 hand: makeHand(game.decks.tavern, game.maxHand),
@@ -287,8 +311,6 @@ const useGame = (socket, link, user) => {
                 played: [],
               };
             });
-
-            console.log("after makeHand", game.decks.tavern);
 
             //Assign currentPlayer as a reference
             game.currentPlayer = game.players[0];
@@ -350,7 +372,6 @@ const useGame = (socket, link, user) => {
             game.started = true;
             return true;
           });
-          console.log("startGame", game);
           startGame(game);
         }, 400);
       })

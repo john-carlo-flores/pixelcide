@@ -38,7 +38,6 @@ const Game = (props) => {
   // initial game set up
   useEffect(() => {
     if (game.started) {
-      console.log("started", game);
       setGame(game);
     }
     if (user.host && !started) {

@@ -11,29 +11,6 @@ import { SocketContext } from "../../context/socket";
 
 import styles from "../../styles/GameRoom/GameRoom.module.scss";
 
-const fakePlayers = [
-  {
-    id: 1,
-    username: "picklerick",
-    avatar_id: 1,
-  },
-  {
-    id: 2,
-    username: "hyrule",
-    avatar_id: 2,
-  },
-  {
-    id: 3,
-    username: "gagan420",
-    avatar_id: 3,
-  },
-  {
-    id: 4,
-    username: "momotrq94",
-    avatar_id: 4,
-  },
-];
-
 const GameRoom = (props) => {
   const { user, userAuth, logout, updateUserAvatar } = props;
 
@@ -49,6 +26,7 @@ const GameRoom = (props) => {
     setupGame,
     updateGame,
     updateLocalLobby,
+    cancelLobby,
     mode,
     seats,
     game,
@@ -58,7 +36,7 @@ const GameRoom = (props) => {
   const leaveRoom = () => {
     // If user leaves lobby, cancel it
     if (user.host) {
-      socket.emit("Cancel Lobby", lobby);
+      cancelLobby();
     }
 
     // leave lobby room listener and join lobbies listener
@@ -73,8 +51,9 @@ const GameRoom = (props) => {
       // Request lobby object based on url parameter
       socket.emit("Request Lobby", id);
     } else {
+      const newMode = lobby.game.started ? "Game" : "Room";
       // Update state to Room
-      updateLocalLobby(lobby, "Room");
+      updateLocalLobby(lobby, newMode);
     }
 
     // Check and assign if user is host
@@ -102,16 +81,21 @@ const GameRoom = (props) => {
       }
 
       // Set lobby based on recieved lobby from listener and update mode
-      updateLocalLobby(newLobby, "Room");
+      const newMode = lobby.game.started ? "Game" : "Room";
+      updateLocalLobby(newLobby, newMode);
     });
 
     // Listens for all update lobby broadcasts
     socket.on("Update Lobby", (lobby) => {
-      updateLocalLobby(lobby);
+      const newMode = lobby.game.started ? "Game" : "Room";
+
+      updateLocalLobby(lobby, newMode);
     });
 
     // eslint-disable-next-line
-  }, [socket]);
+  }, []);
+
+  console.log("GameRoom mode:", lobby);
 
   return (
     <>

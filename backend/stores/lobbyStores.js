@@ -63,8 +63,6 @@ class LobbyStore {
 
   updateGame(link, key, data) {
     const updatedLobby = this.lobbies.get(link);
-    console.log("updateGame", updatedLobby);
-
     updatedLobby.game[key] = data;
 
     // Store updated lobby and return
