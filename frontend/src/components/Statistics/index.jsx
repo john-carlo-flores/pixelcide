@@ -3,9 +3,22 @@ import Navbar from "../Navbar";
 import backBtn from "../../assets/icons/back.svg";
 import "../../styles/Statistics/statistics.scss";
 import Avatar from "../Games/Avatar";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Statistics = (props) => {
   const { userAuth, user, logout, updateUserAvatar } = props;
+
+  const navigate = useNavigate();
+
+  // If user not logged in redirect to root
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+      return;
+    }
+  }, []);
+
   return (
     <div className="Statspage">
       <Navbar
@@ -21,9 +34,9 @@ const Statistics = (props) => {
         </div>
       </Link>
       <div className="Stats-container">
-        <h1 className="Stats-title">{user.username} stats</h1>
+        <h1 className="Stats-title">{user?.username} stats</h1>
         <div className="avatar-container">
-          <Avatar id={user.avatar_id} />
+          <Avatar id={user?.avatar_id} />
         </div>
         <div className="nes-container is-rounded general-stats">
           <div className="one-stat">

@@ -5,11 +5,20 @@ import axios from "axios";
 import backBtn from "../../assets/icons/back.svg";
 import { useEffect, useState } from "react";
 import Avatar from "../Games/Avatar";
+import { useNavigate } from "react-router-dom";
 
 const Leaderboard = (props) => {
   const { userAuth, user, logout, updateUserAvatar } = props;
   const [fetchComplete, setFetchComplete] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState([]);
+  const navigate = useNavigate();
+
+  // If user not logged in redirect to root
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, []);
 
   useEffect(() => {
     axios.get("/leaderboard").then((response) => {
@@ -20,7 +29,12 @@ const Leaderboard = (props) => {
 
   return (
     <div className="Leaderboard">
-      <Navbar updateUserAvatar={updateUserAvatar} userAuth={userAuth} user={user} logout={logout} />
+      <Navbar
+        updateUserAvatar={updateUserAvatar}
+        userAuth={userAuth}
+        user={user}
+        logout={logout}
+      />
       <div className="Homepage"></div>
       <Link to="/">
         <div className="back">
@@ -50,7 +64,9 @@ const Leaderboard = (props) => {
                       {user.username}
                     </div>
                     <div className="col">{user.total_wins}</div>
-                    <div className="col">{`${user.win_percentage.toFixed(2)}%`}</div>
+                    <div className="col">{`${user.win_percentage.toFixed(
+                      2
+                    )}%`}</div>
                     <div className="col">{user.total_moves}</div>
                   </div>
                 ))}
