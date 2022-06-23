@@ -599,8 +599,18 @@ const useGame = (socket, link, user) => {
     }
   };
 
+  const isAPlayer = () => {
+    players.forEach((player) => {
+      if (player.id === user.id) {
+        return false;
+      }
+    });
+
+    return false;
+  };
+
   const handleLeaver = () => {
-    let playerFound = false;
+    let playerFound = isAPlayer();
 
     // Only close the lobby if user who left is a player
     players.forEach((player) => {
@@ -609,12 +619,14 @@ const useGame = (socket, link, user) => {
       }
     });
 
+    if (playerFound) {
+      socket.emit("Leaver", link, user.id);
+    }
     socket.emit("Leave Room", link);
-    if (playerFound) socket.emit("Game Over", link, user.id);
   };
 
   const handleCommands = (command, condition = false) => {
-    if (currentPlayer.id !== user.id) return;
+    if (!isAPlayer) return;
 
     switch (command) {
       case "Yield":
