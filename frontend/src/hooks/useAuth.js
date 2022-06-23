@@ -95,11 +95,18 @@ const useAuth = (socket) => {
   };
 
   const register = (user) => {
-    if (user.username && user.name && user.email && user.password && user.avatar_id) {
+    if (
+      user.username &&
+      user.name &&
+      user.email &&
+      user.password &&
+      user.avatar_id
+    ) {
       return axios
         .post(`/users`, { user })
         .then((response) => {
           setUser({ ...response.data });
+          setupSocketSession(response.data);
           sessionStorage.setItem("user", JSON.stringify({ ...response.data }));
           return true;
         })
