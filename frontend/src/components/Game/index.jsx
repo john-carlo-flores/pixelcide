@@ -46,7 +46,6 @@ const Game = (props) => {
   // initial game set up
   useEffect(() => {
     if (game.started) {
-      console.log("started", game);
       setGame(game);
     }
     if (user.host && !started) {
@@ -70,6 +69,14 @@ const Game = (props) => {
   const leaveRoom = () => {
     socket.emit("Leave Room", link);
   };
+
+  // console.log("started", started);
+  // console.log("currentPlayer", currentPlayer);
+  // console.log("boss", boss);
+  // console.log("status", status);
+  // console.log("validate", validate);
+  // console.log("decks", decks);
+  // console.log("messages", messages);
 
   return (
     <>
