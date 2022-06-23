@@ -70,7 +70,6 @@ const Game = (props) => {
 
   const onConfirm = () => {
     handleCommands("Leave Lobby");
-    leaveRoom();
   };
 
   const onBackToMenu = () => {
