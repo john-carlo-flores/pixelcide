@@ -13,7 +13,7 @@ import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 
 export default function Homepage(props) {
   const { user, userAuth, logout, updateUserAvatar } = props;
-  const { hostGame, lobby, assignLobbyTitle, cancelLobby, updateLobby } =
+  const { hostGame, lobby, assignLobbyTitle, cancelLobby, updateLocalLobby } =
     props.state;
   const [createLobby, setCreateLobby] = useState({ create: false });
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ export default function Homepage(props) {
 
       // Allow lobby creation
       setCreateLobby({ create: true });
-      updateLobby(createdLobby);
+      updateLocalLobby(createdLobby);
     });
   }, []);
 
@@ -136,36 +136,51 @@ export default function Homepage(props) {
               <div className="the-creators">
                 <div className="one-creator">
                   <span>Mo Tariq</span>
-                  <a target="_blank" href="https://github.com/momotrq94">
+                  <a
+                    target="_blank"
+                    href="https://github.com/momotrq94"
+                    rel="noreferrer"
+                  >
                     <GoMarkGithub />
                   </a>
                   <a
                     target="_blank"
                     href="https://www.linkedin.com/in/mo-tariq/"
+                    rel="noreferrer"
                   >
                     <TiSocialLinkedinCircular />
                   </a>
                 </div>
                 <div className="one-creator">
                   <span>Gagandeep Singh</span>
-                  <a target="_blank" href="https://github.com/GSingh1994">
+                  <a
+                    target="_blank"
+                    href="https://github.com/GSingh1994"
+                    rel="noreferrer"
+                  >
                     <GoMarkGithub />
                   </a>
                   <a
                     target="_blank"
                     href="https://www.linkedin.com/in/gagandeep-singh1994/"
+                    rel="noreferrer"
                   >
                     <TiSocialLinkedinCircular />
                   </a>
                 </div>
                 <div className="one-creator">
                   <span>JC Flores</span>
-                  <a target="_blank" href="https://github.com/tothenextcode">
+                  <a
+                    target="_blank"
+                    href="https://github.com/tothenextcode"
+                    rel="noreferrer"
+                  >
                     <GoMarkGithub />
                   </a>
                   <a
                     target="_blank"
                     href="https://www.linkedin.com/in/john-carlo-flores/"
+                    rel="noreferrer"
                   >
                     <TiSocialLinkedinCircular />
                   </a>

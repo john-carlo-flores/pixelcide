@@ -90,7 +90,8 @@ module.exports = (sessionMiddleware, httpServer) => {
       console.log("Cancel Lobby");
       ls.cancelLobby(lobby);
 
-      ls.listLobbies();
+      const lobbies = ls.listLobbies();
+      socket.broadcast.to("lobbies").emit("Get Lobbies", lobbies);
     });
 
     socket.on("Request Lobby", (link) => {
@@ -107,7 +108,10 @@ module.exports = (sessionMiddleware, httpServer) => {
       console.log("Updated Lobby");
       console.log(updatedLobby);
 
+      const lobbies = ls.listLobbies();
+
       socket.broadcast.to(updatedLobby.link).emit("Update Lobby", updatedLobby);
+      socket.broadcast.to("lobbies").emit("Get Lobbies", lobbies);
     });
 
     /* ------------- ROOMS ------------- */
@@ -117,6 +121,15 @@ module.exports = (sessionMiddleware, httpServer) => {
 
     socket.on("Leave Room", (link) => {
       socket.leave(link);
+    });
+
+    /* ------------- GAME ------------- */
+    socket.on("Update Game", (link, key, data) => {
+      console.log("Update Game");
+      console.log(link, key, data);
+      ls.updateGame(link, key, data);
+
+      socket.broadcast.to(link).emit("Update Game", key, data);
     });
   });
 };

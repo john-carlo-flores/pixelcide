@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import styles from "../../styles/Games/Lobby.module.scss";
 
 const Lobby = (props) => {
-  const { lobby, seats } = props;
+  const { lobby, seats, onClick } = props;
 
   // Get number of seats and maxSeats from lobby.game.players
   const { seatCount, maxSeats } = seats.reduce(
@@ -48,12 +48,16 @@ const Lobby = (props) => {
           <AvatarList avatars={avatars} />
           {full && mode === "Game" && (
             <Link to={`/games/${lobby.link}`}>
-              <Button success>Spectate</Button>
+              <Button onClick={onClick} success>
+                Spectate
+              </Button>
             </Link>
           )}
           {!full && mode !== "Game" && (
             <Link to={`/games/${lobby.link}`}>
-              <Button success>Join Game</Button>
+              <Button onClick={onClick} success>
+                Join Game
+              </Button>
             </Link>
           )}
           {full && mode !== "Game" && <span className={styles.empty}></span>}

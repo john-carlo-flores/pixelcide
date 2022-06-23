@@ -27,7 +27,7 @@ export function makeTavern(cardsArray, numPlayers) {
   );
 
   // Shuffle and return
-  return shuffle(finalDeck);
+  return [...shuffle(finalDeck)];
 }
 
 export function makeHand(cardsArray, maxHand) {

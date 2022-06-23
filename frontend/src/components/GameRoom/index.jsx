@@ -11,6 +11,29 @@ import { SocketContext } from "../../context/socket";
 
 import styles from "../../styles/GameRoom/GameRoom.module.scss";
 
+const fakePlayers = [
+  {
+    id: 1,
+    username: "picklerick",
+    avatar_id: 1,
+  },
+  {
+    id: 2,
+    username: "hyrule",
+    avatar_id: 2,
+  },
+  {
+    id: 3,
+    username: "gagan420",
+    avatar_id: 3,
+  },
+  {
+    id: 4,
+    username: "momotrq94",
+    avatar_id: 4,
+  },
+];
+
 const GameRoom = (props) => {
   const { user, userAuth, logout, updateUserAvatar } = props;
 
@@ -23,12 +46,25 @@ const GameRoom = (props) => {
     takeSeat,
     updateSeats,
     startGame,
-    updateLobby,
+    setupGame,
+    updateGame,
+    updateLocalLobby,
     mode,
     seats,
     game,
     error,
   } = props.state;
+
+  const leaveRoom = () => {
+    // If user leaves lobby, cancel it
+    if (user.host) {
+      socket.emit("Cancel Lobby", lobby);
+    }
+
+    // leave lobby room listener and join lobbies listener
+    socket.emit("Leave Room", id);
+    socket.emit("Join Room", "lobbies");
+  };
 
   useEffect(() => {
     // Only reload lobby data if not created by host
@@ -38,7 +74,7 @@ const GameRoom = (props) => {
       socket.emit("Request Lobby", id);
     } else {
       // Update state to Room
-      updateLobby(lobby, "Room");
+      updateLocalLobby(lobby, "Room");
     }
 
     // Check and assign if user is host
@@ -66,46 +102,28 @@ const GameRoom = (props) => {
       }
 
       // Set lobby based on recieved lobby from listener and update mode
-      updateLobby(newLobby, "Room");
+      updateLocalLobby(newLobby, "Room");
     });
 
     // Listens for all update lobby broadcasts
     socket.on("Update Lobby", (lobby) => {
-      updateLobby(lobby);
+      updateLocalLobby(lobby);
     });
 
     // eslint-disable-next-line
   }, [socket]);
-
-  // const fakePlayers = [
-  //   {
-  //     id: 1,
-  //     username: "picklerick",
-  //     avatar_id: 1,
-  //   },
-  //   {
-  //     id: 2,
-  //     username: "hyrule",
-  //     avatar_id: 2,
-  //   },
-  //   {
-  //     id: 3,
-  //     username: "gagan420",
-  //     avatar_id: 3,
-  //   },
-  //   {
-  //     id: 4,
-  //     username: "momotrq94",
-  //     avatar_id: 4,
-  //   },
-  // ];
 
   return (
     <>
       {(mode === "Room" || mode === "Loading") && (
         <>
           <div className={styles.Homepage}></div>
-          <Navbar userAuth={userAuth} user={user} logout={logout} />
+          <Navbar
+            userAuth={userAuth}
+            user={user}
+            logout={logout}
+            updateUserAvatar={updateUserAvatar}
+          />
         </>
       )}
       {mode === "Room" && (
@@ -113,16 +131,25 @@ const GameRoom = (props) => {
           <h1 className={styles.Title}>{`<${lobby.title}>`}</h1>
           <Room
             user={user}
-            handleStartGame={startGame}
+            handleSetupGame={setupGame}
             seats={seats}
             updateSeats={updateSeats}
             takeSeat={takeSeat}
             error={error}
+            leaveRoom={leaveRoom}
           />
         </>
       )}
       {mode === "Loading" && <Loading />}
-      {mode === "Game" && <Game user={user} game={game} />}
+      {((mode === "Setup" && user.host) || mode === "Game") && (
+        <Game
+          user={user}
+          game={game}
+          link={id}
+          startGame={startGame}
+          updateGame={updateGame}
+        />
+      )}
     </>
   );
 };

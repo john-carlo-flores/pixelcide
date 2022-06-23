@@ -5,7 +5,15 @@ import { playable } from "../../helpers/player-helpers";
 import { motion, AnimatePresence } from "framer-motion";
 
 const PlayerHand = (props) => {
-  const { playerHand, playerField, status, moveCardTo, playOn, playerTurn } = props;
+  const {
+    playerHand,
+    playerField,
+    status,
+    moveCardTo,
+    playOn,
+    playerTurn,
+    owner,
+  } = props;
 
   const playableStatus = (card) => {
     if (status === "player_attack") {
@@ -38,9 +46,14 @@ const PlayerHand = (props) => {
         }}
         key={card.id}
         onClick={() => onClick(card)}
-        className={(status === "player_attack" && playable(card, playerField)) || status === "boss_attack" ? "player-card highlight nes-pointer" : "player-card dull"}
+        className={
+          (status === "player_attack" && playable(card, playerField)) ||
+          status === "boss_attack"
+            ? "player-card highlight nes-pointer"
+            : "player-card dull"
+        }
       >
-        <Card image={card.image_front} />
+        <Card image={owner ? card.image_front : card.image_back} />
       </motion.div>
     </AnimatePresence>
   ));

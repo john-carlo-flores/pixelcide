@@ -60,6 +60,17 @@ class LobbyStore {
   addUserToLobby(lobby, seat, user) {
     lobby.game.players[seat] = user;
   }
+
+  updateGame(link, key, data) {
+    const updatedLobby = this.lobbies.get(link);
+    console.log("updateGame", updatedLobby);
+
+    updatedLobby.game[key] = data;
+
+    // Store updated lobby and return
+    this.lobbies.set(link, updatedLobby);
+    return updatedLobby;
+  }
 }
 
 module.exports = { LobbyStore };

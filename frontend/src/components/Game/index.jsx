@@ -5,7 +5,8 @@ import PlayerAid from "./PlayerAid";
 import Chat from "./Chat";
 import Loading from "../Loading";
 
-import { useEffect, useState } from "react";
+import { SocketContext } from "../../context/socket";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import useGame from "../../hooks/useGame";
 
@@ -19,10 +20,14 @@ import helpIcon from "../../assets/icons/help.png";
 import styles from "../../styles/GameRoom/GameRoom.module.scss";
 
 const Game = (props) => {
+  const { user, link, game, startGame } = props;
+  const socket = useContext(SocketContext);
+
   // Initializing Game States
   const {
     setup,
     setGame,
+    updateGame,
     started,
     handleCommands,
     moveCardTo,
@@ -32,18 +37,25 @@ const Game = (props) => {
     status,
     validate,
     decks,
-  } = useGame();
-  const { user, game, gamePlayers, updateGame } = props;
+    messages,
+    sendMessage,
+  } = useGame(socket, link, user);
 
   const [animation, SetAnimation] = useState(true);
 
   // initial game set up
   useEffect(() => {
     if (game.started) {
+      console.log("started", game);
       setGame(game);
-    } else {
-      setup(game.players);
     }
+    if (user.host && !started) {
+      setup(game.players, startGame);
+    }
+
+    socket.on("Update Game", (key, data) => {
+      updateGame(key, data, false);
+    });
   }, []);
 
   useEffect(() => {
@@ -54,6 +66,10 @@ const Game = (props) => {
       SetAnimation(false);
     }, 2000);
   }, [started]);
+
+  const leaveRoom = () => {
+    socket.emit("Leave Room", link);
+  };
 
   return (
     <>
@@ -75,7 +91,7 @@ const Game = (props) => {
         <Confetti width={1900} height={950} />
       )}
       <AnimatePresence>
-        {!animation && (
+        {!animation && started && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -112,7 +128,7 @@ const Game = (props) => {
             />
             <motion.div className="close-icon">
               <Link to={"/"}>
-                <img src={closeIcon} alt="" />
+                <img src={closeIcon} alt="" onClick={leaveRoom} />
               </Link>
             </motion.div>
 
@@ -128,7 +144,7 @@ const Game = (props) => {
                 <img src={helpIcon} alt="" />
               </a>
             </motion.div>
-            <Chat />
+            <Chat messages={messages} sendMessage={sendMessage} user={user} />
           </motion.div>
         )}
       </AnimatePresence>
