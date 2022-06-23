@@ -600,7 +600,16 @@ const useGame = (socket, link, user) => {
   };
 
   const handleLeaver = () => {
-    socket.emit("Game Over", link, user.id);
+    let playerFound = false;
+
+    // Only close the lobby if user who left is a player
+    players.forEach((player) => {
+      if (player.id === user.id) {
+        playerFound = true;
+      }
+    });
+
+    if (playerFound) socket.emit("Game Over", link, user.id);
   };
 
   const handleCommands = (command, condition = false) => {
