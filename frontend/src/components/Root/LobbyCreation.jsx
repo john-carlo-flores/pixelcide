@@ -2,6 +2,9 @@ import Button from "../Button";
 
 import styles from "../../styles/Root/LobbyCreation.module.scss";
 import { motion, AnimatePresence } from "framer-motion";
+import useOnClickOutside from "../../hooks/useOnClickOutside";
+
+import { useRef } from "react";
 
 const LobbyCreation = (props) => {
   const { onCancel, onCreate } = props;
@@ -11,10 +14,13 @@ const LobbyCreation = (props) => {
     onCreate(event.target.title.value);
   };
 
+  const ref = useRef();
+  useOnClickOutside(ref, onCancel);
+
   return (
     <AnimatePresence>
-      <div className={styles.background}>
-        <div className={styles.form}>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className={styles.background}>
+        <div className={styles.form} ref={ref}>
           <form className="nes-container is-rounded" onSubmit={onSubmit}>
             <motion.div initial={{ zoom: -1 }} animate={{ zoom: 1 }} exit={{ zoom: -1 }} className="nes-field">
               <label>Room Name:</label>
@@ -28,7 +34,7 @@ const LobbyCreation = (props) => {
             </div>
           </form>
         </div>
-      </div>
+      </motion.div>
     </AnimatePresence>
   );
 };
