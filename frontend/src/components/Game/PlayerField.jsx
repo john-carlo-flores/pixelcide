@@ -8,6 +8,7 @@ const PlayerField = (props) => {
     bossSuit,
     jesterActive,
     playerTurn,
+    owner,
   } = props;
 
   const onClick = (card) => {
@@ -25,7 +26,7 @@ const PlayerField = (props) => {
       className="player-field-card nes-pointer"
     >
       <Card
-        image={card.image_front}
+        image={owner ? card.image_front : card.image_back}
         warning={
           card.suit === bossSuit && !jesterActive && status !== "boss_attack"
             ? "warning"
