@@ -87,6 +87,8 @@ class LobbyStore {
 
     // Get lobby and setup users
     const latestLobby = this.lobbies.get(link);
+    if (!latestLobby) return null;
+
     const users = latestLobby.game.players.map((player) => player.id);
 
     // Return Post Data

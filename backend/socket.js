@@ -142,7 +142,8 @@ module.exports = (sessionMiddleware, httpServer, db) => {
       console.log("Game Over:", state);
       const game = ls.endGameTimerAndPost(link, state);
       console.log(game);
-      postGameResults(game, db);
+
+      if (game) postGameResults(game, db);
     });
 
     socket.on("Leaver", (link, id) => {
