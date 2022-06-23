@@ -28,7 +28,10 @@ const PlayerField = (props) => {
       <Card
         image={owner ? card.image_front : card.image_back}
         warning={
-          card.suit === bossSuit && !jesterActive && status !== "boss_attack"
+          card.suit === bossSuit &&
+          owner &&
+          !jesterActive &&
+          status !== "boss_attack"
             ? "warning"
             : ""
         }

@@ -35,7 +35,7 @@ const sessionMiddleware = session({
 });
 
 app.use(sessionMiddleware);
-socket(sessionMiddleware, server);
+socket(sessionMiddleware, server, db);
 
 app.use("/", indexRouter(db));
 app.use("/users", usersRouter(db));

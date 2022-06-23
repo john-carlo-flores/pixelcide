@@ -2,8 +2,9 @@ const { Server } = require("socket.io");
 const { generateSessionID } = require("./helpers/authentication");
 const { LobbyStore } = require("./stores/lobbyStores");
 const { SessionStore } = require("./stores/sessionStores");
+const postGameResults = require("./helpers/socketDb");
 
-module.exports = (sessionMiddleware, httpServer) => {
+module.exports = (sessionMiddleware, httpServer, db) => {
   const io = new Server(httpServer);
 
   // convert a connect middleware to a Socket.IO middleware
@@ -130,6 +131,25 @@ module.exports = (sessionMiddleware, httpServer) => {
       ls.updateGame(link, key, data);
 
       socket.broadcast.to(link).emit("Update Game", key, data);
+    });
+    /* ----------- LOGS --------------*/
+    socket.on("Start Game", (link) => {
+      console.log("Start Game");
+      ls.startGameTimer(link);
+    });
+
+    socket.on("Game Over", (link, state) => {
+      console.log("Game Over:", state);
+      const game = ls.endGameTimerAndPost(link, state);
+      console.log(game);
+      postGameResults(game, db);
+    });
+
+    socket.on("Leaver", (link, id) => {
+      console.log("Game Over LEAVE");
+      const game = ls.endGameTimerAndPost(link, "LEAVE", id);
+      console.log(game);
+      postGameResults(game, db);
     });
   });
 };
