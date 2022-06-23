@@ -61,13 +61,43 @@ class LobbyStore {
     lobby.game.players[seat] = user;
   }
 
+  /*-------------- GAME --------------*/
   updateGame(link, key, data) {
     const updatedLobby = this.lobbies.get(link);
     updatedLobby.game[key] = data;
 
+    if (key === "player_turn") {
+      updatedLobby.number_of_moves++;
+    }
+
     // Store updated lobby and return
     this.lobbies.set(link, updatedLobby);
     return updatedLobby;
+  }
+
+  startGameTimer(link) {
+    const startTime = new Date().toISOString();
+    this.updateLobby({ startTime, number_of_moves: 0 });
+  }
+
+  endGameTimerAndPost(link, status, id = null) {
+    // Set end time
+    const endTime = new Date().toISOString();
+    this.updateLobby({ endTime });
+
+    // Get lobby
+    const latestLobby = this.lobbies.get(link);
+
+    const users = latestLobby.game.players.map((player) => player.id);
+
+    // Return Post Data
+    return {
+      status,
+      number_of_moves: latestLobby.number_of_moves,
+      started_at: latestLobby.startTime,
+      finished_at: latestLobby.endTime,
+      users: id || users,
+    };
   }
 }
 
