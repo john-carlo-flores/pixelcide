@@ -18,7 +18,20 @@ const GameRoom = (props) => {
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
 
-  const { lobby, takeSeat, updateSeats, startGame, setupGame, updateGame, updateLocalLobby, cancelLobby, mode, seats, game, error } = props.state;
+  const {
+    lobby,
+    takeSeat,
+    updateSeats,
+    startGame,
+    setupGame,
+    updateGame,
+    updateLocalLobby,
+    cancelLobby,
+    mode,
+    seats,
+    game,
+    error,
+  } = props.state;
 
   const leaveRoom = () => {
     // If user leaves lobby, cancel it
@@ -32,6 +45,11 @@ const GameRoom = (props) => {
   };
 
   useEffect(() => {
+    // Redirect not logged in user
+    if (!user) {
+      navigate("/");
+      return;
+    }
     // Only reload lobby data if not created by host
     // Prevents issue with title updated after request
     if (user.username !== lobby?.host && !lobby?.title) {
@@ -89,17 +107,39 @@ const GameRoom = (props) => {
       {(mode === "Room" || mode === "Loading") && (
         <>
           <div className={styles.Homepage}></div>
-          <Navbar userAuth={userAuth} user={user} logout={logout} updateUserAvatar={updateUserAvatar} />
+          <Navbar
+            userAuth={userAuth}
+            user={user}
+            logout={logout}
+            updateUserAvatar={updateUserAvatar}
+          />
         </>
       )}
       {mode === "Room" && (
         <>
           <h1 className={styles.Title}>{`<${lobby.title}>`}</h1>
-          <Room user={user} handleSetupGame={setupGame} seats={seats} updateSeats={updateSeats} takeSeat={takeSeat} error={error} leaveRoom={leaveRoom} />
+          <Room
+            user={user}
+            handleSetupGame={setupGame}
+            seats={seats}
+            updateSeats={updateSeats}
+            takeSeat={takeSeat}
+            error={error}
+            leaveRoom={leaveRoom}
+          />
         </>
       )}
       {mode === "Loading" && <Loading />}
-      {((mode === "Setup" && user.host) || mode === "Game") && <Game user={user} game={game} link={id} startGame={startGame} updateGame={updateGame} leaveRoom={cancelLobby} />}
+      {((mode === "Setup" && user.host) || mode === "Game") && (
+        <Game
+          user={user}
+          game={game}
+          link={id}
+          startGame={startGame}
+          updateGame={updateGame}
+          leaveRoom={cancelLobby}
+        />
+      )}
     </>
   );
 };

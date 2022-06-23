@@ -4,7 +4,7 @@ import FilterLobby from "./FilterLobby";
 
 import { SocketContext } from "../../context/socket";
 import { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import backBtn from "../../assets/icons/back.svg";
 
@@ -15,6 +15,14 @@ const Games = (props) => {
   const [lobbies, setLobbies] = useState();
   const [filteredLobbies, setFilteredLobbies] = useState();
   const socket = useContext(SocketContext);
+  const navigate = useNavigate();
+
+  // If user not logged in redirect to root
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, []);
 
   useEffect(() => {
     // Request list of lobbies to render
