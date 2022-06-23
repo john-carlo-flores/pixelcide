@@ -33,6 +33,34 @@
       filter: invert(30%) sepia(40%) saturate(4503%) hue-rotate(339deg) brightness(81%) contrast(94%);
     }
   }
+
+  .close-dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    z-index: 10000;
+    margin-top: -8rem;
+    p {
+      font-size: 1.5rem;
+    }
+    .confirm-btns {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+  }
+  .backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(59, 50, 74, 0.7);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+  }
   .help-icon {
     position: absolute;
     bottom: 2rem;
