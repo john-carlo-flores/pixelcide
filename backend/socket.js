@@ -122,5 +122,14 @@ module.exports = (sessionMiddleware, httpServer) => {
     socket.on("Leave Room", (link) => {
       socket.leave(link);
     });
+
+    /* ------------- GAME ------------- */
+    socket.on("Update Game", (link, key, data) => {
+      console.log("Update Game");
+      console.log(link, key, data);
+      ls.updateGame(link, key, data);
+
+      socket.broadcast.to(link).emit("Update Game", key, data);
+    });
   });
 };
