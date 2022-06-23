@@ -18,10 +18,9 @@ import "../../styles/Game/Game.scss";
 import closeIcon from "../../assets/icons/close-icon.svg";
 import helpIcon from "../../assets/icons/help.png";
 import styles from "../../styles/GameRoom/GameRoom.module.scss";
-import Button from "../Button";
 
 const Game = (props) => {
-  const { user, link, game, startGame } = props;
+  const { user, link, game, startGame, leaveRoom } = props;
   const socket = useContext(SocketContext);
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -58,10 +57,6 @@ const Game = (props) => {
     }, 1000);
   }, [started]);
 
-  const leaveRoom = () => {
-    socket.emit("Leave Room", link);
-  };
-
   return (
     <>
       <AnimatePresence>
@@ -82,18 +77,13 @@ const Game = (props) => {
             <DeckList tavern={decks.tavern} discard={decks.discard} castle={decks.castle} boss={boss} />
             <Status status={status} handleCommands={handleCommands} validate={validate} currentPlayer={currentPlayer} />
             <PlayerList players={players} user={user} moveCardTo={moveCardTo} status={status} boss={boss} currentPlayer={currentPlayer} handleCommands={handleCommands} />
-            {/* <motion.div className="close-icon">
-              <Link to={"/"}>
-                <img src={closeIcon} alt="" onClick={leaveRoom} />
-              </Link>
-            </motion.div> */}
 
-            <div className="close-icon">
+            <div className="close-icon nes-pointer">
               <img src={closeIcon} alt="" onClick={() => setOpenDialog((pre) => !pre)} />
             </div>
 
             {openDialog && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="close-dialog">
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="close-dialog ">
                 <p>Are you sure you wanna exit ?</p>
                 <div className="confirm-btns">
                   <Link to={"/"}>
