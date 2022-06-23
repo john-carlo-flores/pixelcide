@@ -134,16 +134,21 @@ module.exports = (sessionMiddleware, httpServer, db) => {
     });
     /* ----------- LOGS --------------*/
     socket.on("Start Game", (link) => {
+      console.log("Start Game");
       ls.startGameTimer(link);
     });
 
     socket.on("Game Over", (link, state) => {
+      console.log("Game Over:", state);
       const game = ls.endGameTimerAndPost(link, state);
+      console.log(game);
       postGameResults(game, db);
     });
 
     socket.on("Leaver", (link, id) => {
+      console.log("Game Over LEAVE");
       const game = ls.endGameTimerAndPost(link, "LEAVE", id);
+      console.log(game);
       postGameResults(game, db);
     });
   });
