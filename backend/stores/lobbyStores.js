@@ -66,7 +66,7 @@ class LobbyStore {
     const updatedLobby = this.lobbies.get(link);
     updatedLobby.game[key] = data;
 
-    if (key === "player_turn") {
+    if (data === "player_turn") {
       updatedLobby.number_of_moves++;
     }
 
@@ -77,17 +77,16 @@ class LobbyStore {
 
   startGameTimer(link) {
     const startTime = new Date().toISOString();
-    this.updateLobby({ startTime, number_of_moves: 0 });
+    this.updateLobby({ startTime, number_of_moves: 0, link });
   }
 
   endGameTimerAndPost(link, status, id = null) {
     // Set end time
     const endTime = new Date().toISOString();
-    this.updateLobby({ endTime });
+    this.updateLobby({ endTime, link });
 
-    // Get lobby
+    // Get lobby and setup users
     const latestLobby = this.lobbies.get(link);
-
     const users = latestLobby.game.players.map((player) => player.id);
 
     // Return Post Data
