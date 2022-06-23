@@ -70,14 +70,6 @@ const Game = (props) => {
     socket.emit("Leave Room", link);
   };
 
-  // console.log("started", started);
-  // console.log("currentPlayer", currentPlayer);
-  // console.log("boss", boss);
-  // console.log("status", status);
-  // console.log("validate", validate);
-  // console.log("decks", decks);
-  // console.log("messages", messages);
-
   return (
     <>
       <AnimatePresence>
