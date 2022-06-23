@@ -97,7 +97,7 @@ class LobbyStore {
       number_of_moves: latestLobby.number_of_moves,
       started_at: latestLobby.startTime,
       finished_at: latestLobby.endTime,
-      users: id || users,
+      users: [id] || users,
     };
   }
 }

@@ -7,7 +7,7 @@ import Loading from "../Loading";
 
 import { SocketContext } from "../../context/socket";
 import { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useGame from "../../hooks/useGame";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,6 +22,7 @@ import styles from "../../styles/GameRoom/GameRoom.module.scss";
 const Game = (props) => {
   const { user, link, game, startGame, leaveRoom } = props;
   const socket = useContext(SocketContext);
+  const navigate = useNavigate();
 
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -57,6 +58,12 @@ const Game = (props) => {
     socket.on("Update Game", (key, data) => {
       updateGame(key, data, false);
     });
+
+    socket.on("Game Over", () => {
+      console.log("Im here!");
+      leaveRoom();
+      navigate("/");
+    });
   }, []);
 
   useEffect(() => {
@@ -70,11 +77,13 @@ const Game = (props) => {
 
   const onConfirm = () => {
     handleCommands("Leave Lobby");
+    if (user.host) user.host = false;
   };
 
   const onBackToMenu = () => {
     handleCommands("Game Over");
     leaveRoom();
+    if (user.host) user.host = false;
   };
 
   return (

@@ -151,6 +151,7 @@ module.exports = (sessionMiddleware, httpServer, db) => {
       const game = ls.endGameTimerAndPost(link, "LEAVE", id);
       console.log(game);
       postGameResults(game, db);
+      socket.broadcast.to(link).emit("Game Over");
     });
   });
 };

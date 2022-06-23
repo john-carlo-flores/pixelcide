@@ -25,6 +25,5 @@ module.exports = (game, db) => {
     })
     .catch((err) => {
       console.log("Game session failed to save!\nError:", err.stack);
-      s;
     });
 };

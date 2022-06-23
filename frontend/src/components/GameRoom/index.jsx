@@ -22,6 +22,7 @@ const GameRoom = (props) => {
     lobby,
     takeSeat,
     updateSeats,
+    leaveSeat,
     startGame,
     setupGame,
     updateGame,
@@ -34,9 +35,14 @@ const GameRoom = (props) => {
   } = props.state;
 
   const leaveRoom = () => {
+    if (!user.host) leaveSeat(user);
+
+    console.log("Am I host?", user);
+
     // If user leaves lobby, cancel it
     if (user.host) {
       cancelLobby();
+      user.host = false;
     }
 
     // leave lobby room listener and join lobbies listener
@@ -52,7 +58,7 @@ const GameRoom = (props) => {
     }
     // Only reload lobby data if not created by host
     // Prevents issue with title updated after request
-    if (user.username !== lobby?.host && !lobby?.title) {
+    if (user.username !== lobby?.host || !lobby?.title) {
       // Request lobby object based on url parameter
       socket.emit("Request Lobby", id);
     } else {
@@ -99,8 +105,6 @@ const GameRoom = (props) => {
 
     // eslint-disable-next-line
   }, []);
-
-  console.log("GameRoom mode:", lobby);
 
   return (
     <>

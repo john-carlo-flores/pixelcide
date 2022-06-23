@@ -105,29 +105,39 @@ const useLobby = (socket) => {
     setLobby({});
   };
 
+  const leaveSeat = (player) => {
+    const game = _.cloneDeep(lobby.game);
+
+    // Check if existing user previously had a seat
+    const existingSeat = game.players.findIndex(
+      (seat) => seat.username === player.username
+    );
+
+    // Empty out old seat
+    if (existingSeat > -1) {
+      game.players[existingSeat] = { empty: true };
+    }
+
+    updateLobby({ game });
+  };
+
   // Either removes or adds a seat based on update parameter
   const updateSeats = (update, seat) => {
+    let game = null;
+
     switch (update) {
       //Add new seat with empty: true
       case "+":
-        setLobby((prev) => {
-          const updatedLobby = { ...prev, localChange: true };
-          updatedLobby.game.players[seat] = { empty: true };
-          publishChanges(updatedLobby);
-
-          return updatedLobby;
-        });
+        game = _.cloneDeep(lobby.game);
+        game.players[seat] = { empty: true };
+        updateLobby({ game });
         break;
 
       // Remove seat based on number location
       case "-":
-        setLobby((prev) => {
-          const updatedLobby = { ...prev, localChange: true };
-          updatedLobby.game.players[seat] = "none";
-          publishChanges(updatedLobby);
-
-          return updatedLobby;
-        });
+        game = _.cloneDeep(lobby.game);
+        game.players[seat] = "none";
+        updateLobby({ game });
         break;
 
       default:
@@ -136,39 +146,35 @@ const useLobby = (socket) => {
   };
 
   const takeSeat = (player, seat) => {
-    setLobby((prev) => {
-      const updatedLobby = { ...prev, localChange: true };
-      const seats = updatedLobby.game.players;
+    const game = _.cloneDeep(lobby.game);
 
-      // Check if existing user previously had a seat
-      const existingSeat = seats.findIndex(
-        (seat) => seat.username === player.username
-      );
+    // Check if existing user previously had a seat
+    const existingSeat = game.players.findIndex(
+      (seat) => seat.username === player.username
+    );
 
-      // Empty out old seat
-      if (existingSeat > -1) {
-        seats[existingSeat] = { empty: true };
-      }
+    // Empty out old seat
+    if (existingSeat > -1) {
+      game.players[existingSeat] = { empty: true };
+    }
 
-      // Fill new empty seat
-      seats[seat] = {
-        id: player.id,
-        name: player.name,
-        username: player.username,
-        avatar_id: player.avatar_id,
-        empty: false,
-      };
+    // Fill new empty seat
+    game.players[seat] = {
+      id: player.id,
+      name: player.name,
+      username: player.username,
+      avatar_id: player.avatar_id,
+      empty: false,
+    };
 
-      publishChanges(updatedLobby);
-
-      return updatedLobby;
-    });
+    updateLobby({ game });
   };
 
   return {
     lobby,
     takeSeat,
     updateSeats,
+    leaveSeat,
     hostGame,
     setupGame,
     startGame,
