@@ -372,6 +372,8 @@ const useGame = (socket, link, user) => {
             game.started = true;
             return true;
           });
+
+          socket.emit("Start Game", link);
           startGame(game);
         }, 400);
       })
@@ -590,14 +592,15 @@ const useGame = (socket, link, user) => {
     updateGame("status", "player_turn");
   };
 
-  const handleGameOver = (condition) => {
-    // condition = true or false
-    // Leave game
-    // Axios request to update game table with new state
+  const handleGameOver = () => {
+    if (user.host) {
+      const state = status === "game_over_win" ? "WIN" : "LOSS";
+      socket.emit("Game Over", link, state);
+    }
   };
 
   const handleLeaver = () => {
-    // set user_games status to leaver for specific user
+    socket.emit("Game Over", link, user.id);
   };
 
   const handleCommands = (command, condition = false) => {

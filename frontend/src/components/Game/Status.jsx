@@ -7,13 +7,20 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaRegFlag } from "react-icons/fa";
 
 const Status = (props) => {
-  const { status, handleCommands, validate, currentPlayer } = props;
+  const { status, handleCommands, validate, currentPlayer, onBackToMenu } =
+    props;
 
   return (
     <div className="Status">
       <AnimatePresence>
         {status === "player_turn" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ ease: "easeOut", duration: 0.2 }} className="player-turn center">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ ease: "easeOut", duration: 0.2 }}
+            className="player-turn center"
+          >
             {`-- ${currentPlayer.username}'s TURN --`}
           </motion.div>
         )}
@@ -21,7 +28,13 @@ const Status = (props) => {
 
       <AnimatePresence>
         {status === "boss_turn" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ ease: "easeOut", duration: 0.2 }} className="player-turn center red">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ ease: "easeOut", duration: 0.2 }}
+            className="player-turn center red"
+          >
             -- Enemy TURN --
           </motion.div>
         )}
@@ -29,9 +42,18 @@ const Status = (props) => {
 
       <AnimatePresence>
         {status === "player_attack" && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="attack-div center">
-              <Button onClick={() => handleCommands("Attack")} error disabled={!validate.attackButton}>
+              <Button
+                onClick={() => handleCommands("Attack")}
+                error
+                disabled={!validate.attackButton}
+              >
                 ATTACK
               </Button>
               <Button onClick={() => handleCommands("Yield")}>
@@ -52,9 +74,16 @@ const Status = (props) => {
             transition={{ ease: "easeInOut", duration: 0.5 }}
             className="center"
           >
-            <Button onClick={() => handleCommands("Discard")} error disabled={!validate.discardButton}>
+            <Button
+              onClick={() => handleCommands("Discard")}
+              error
+              disabled={!validate.discardButton}
+            >
               DISCARD
-              <span className="count"> {validate.discardValue > 0 ? validate.discardValue : ""}</span>
+              <span className="count">
+                {" "}
+                {validate.discardValue > 0 ? validate.discardValue : ""}
+              </span>
             </Button>
           </motion.div>
         )}
@@ -64,7 +93,9 @@ const Status = (props) => {
         <div className="center">
           <div className="game-over">YOU WON</div>
           <Link to="/">
-            <Button error>BACK TO MENU</Button>
+            <Button onClick={onBackToMenu} error>
+              BACK TO MENU
+            </Button>
           </Link>
         </div>
       )}
@@ -73,7 +104,9 @@ const Status = (props) => {
         <div className="loser">
           <div>
             <Link to="/">
-              <Button error>BACK TO MENU</Button>
+              <Button onClick={onBackToMenu} error>
+                BACK TO MENU
+              </Button>
             </Link>
           </div>
           <div className="game-over">YOU LOSE</div>
