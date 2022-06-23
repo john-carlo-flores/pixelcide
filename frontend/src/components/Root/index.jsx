@@ -2,6 +2,8 @@ import Button from "../Button";
 import Navbar from "../Navbar";
 import LobbyCreation from "./LobbyCreation";
 import "../../styles/Root/Homepage.scss";
+import { GoMarkGithub } from "react-icons/go";
+import { TiSocialLinkedinCircular } from "react-icons/ti";
 
 import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -127,6 +129,65 @@ export default function Homepage(props) {
               )}
             </AnimatePresence>
           </LayoutGroup>
+        </div>
+        <div className="aboutus-footer">
+          <footer>
+            <div className="creator-info">
+              <div className="the-creators">
+                <div className="one-creator">
+                  <span>Mo Tariq</span>
+                  <a
+                    target="_blank"
+                    href="https://github.com/momotrq94"
+                    rel="noreferrer"
+                  >
+                    <GoMarkGithub />
+                  </a>
+                  <a
+                    target="_blank"
+                    href="https://www.linkedin.com/in/mo-tariq/"
+                    rel="noreferrer"
+                  >
+                    <TiSocialLinkedinCircular />
+                  </a>
+                </div>
+                <div className="one-creator">
+                  <span>Gagandeep Singh</span>
+                  <a
+                    target="_blank"
+                    href="https://github.com/GSingh1994"
+                    rel="noreferrer"
+                  >
+                    <GoMarkGithub />
+                  </a>
+                  <a
+                    target="_blank"
+                    href="https://www.linkedin.com/in/gagandeep-singh1994/"
+                    rel="noreferrer"
+                  >
+                    <TiSocialLinkedinCircular />
+                  </a>
+                </div>
+                <div className="one-creator">
+                  <span>JC Flores</span>
+                  <a
+                    target="_blank"
+                    href="https://github.com/tothenextcode"
+                    rel="noreferrer"
+                  >
+                    <GoMarkGithub />
+                  </a>
+                  <a
+                    target="_blank"
+                    href="https://www.linkedin.com/in/john-carlo-flores/"
+                    rel="noreferrer"
+                  >
+                    <TiSocialLinkedinCircular />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </footer>
         </div>
       </div>
       {createLobby.create && (
