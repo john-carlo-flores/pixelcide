@@ -43,6 +43,7 @@
         padding-bottom: 0.5rem;
         text-align: center;
         height: auto;
+        word-break: break-word;
         &:after {
           content: "";
           position: absolute;
@@ -72,6 +73,7 @@
         padding: 9px 9px;
         padding-bottom: 0.5rem;
         height: auto;
+        word-break: break-word;
         &:after {
           content: "";
           position: absolute;
@@ -95,8 +97,7 @@
     right: 0;
     bottom: 0.01rem;
     width: 3rem;
-    filter: invert(100%) sepia(2%) saturate(4371%) hue-rotate(322deg)
-      brightness(96%) contrast(92%);
+    filter: invert(100%) sepia(2%) saturate(4371%) hue-rotate(322deg) brightness(96%) contrast(92%);
   }
 
   .outer-div {
@@ -130,7 +131,6 @@
   }
 
   .glow {
-    filter: invert(34%) sepia(14%) saturate(2223%) hue-rotate(252deg)
-      brightness(95%) contrast(87%);
+    filter: invert(34%) sepia(14%) saturate(2223%) hue-rotate(252deg) brightness(95%) contrast(87%);
   }
 }
