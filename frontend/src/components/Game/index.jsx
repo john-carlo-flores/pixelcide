@@ -20,10 +20,14 @@ import helpIcon from "../../assets/icons/help.png";
 import styles from "../../styles/GameRoom/GameRoom.module.scss";
 
 const Game = (props) => {
+  const { user, link, game, startGame } = props;
+  const socket = useContext(SocketContext);
+
   // Initializing Game States
   const {
     setup,
     setGame,
+    updateGame,
     started,
     handleCommands,
     moveCardTo,
@@ -33,41 +37,26 @@ const Game = (props) => {
     status,
     validate,
     decks,
-    cycle,
-    maxHand,
-  } = useGame();
-  const { user, link, game, updateGame } = props;
+    messages,
+    sendMessage,
+  } = useGame(socket, link, user);
 
-  const socket = useContext(SocketContext);
   const [animation, SetAnimation] = useState(true);
 
   // initial game set up
   useEffect(() => {
     if (game.started) {
+      console.log("started", game);
       setGame(game);
-    } else {
-      setup(game.players);
     }
+    if (user.host && !started) {
+      setup(game.players, startGame);
+    }
+
+    socket.on("Update Game", (key, data) => {
+      updateGame(key, data, false);
+    });
   }, []);
-
-  useEffect(() => {
-    if (started && currentPlayer.id === user.id) {
-      const gameUpdates = {
-        started,
-        players,
-        currentPlayer,
-        boss,
-        status,
-        validate,
-        decks,
-      };
-
-      updateGame(gameUpdates);
-    }
-    if (started && currentPlayer !== user.id) {
-      setGame(game);
-    }
-  }, [started, players, boss, status, validate, decks]);
 
   useEffect(() => {
     if (started) {
@@ -102,7 +91,7 @@ const Game = (props) => {
         <Confetti width={1900} height={950} />
       )}
       <AnimatePresence>
-        {!animation && (
+        {!animation && started && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -155,7 +144,7 @@ const Game = (props) => {
                 <img src={helpIcon} alt="" />
               </a>
             </motion.div>
-            <Chat />
+            <Chat messages={messages} sendMessage={sendMessage} user={user} />
           </motion.div>
         )}
       </AnimatePresence>
